@@ -1,0 +1,96 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer
+               [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+               [mode]="'side'"
+               [opened]="true"
+               [fixedInViewport]="true"
+               class="sidenav"
+  >
+    <div style="width: 100%; height: 100%; position: absolute;" (swipeleft)="closeDialog()" (click)="closeDialog()"></div>
+    <div>
+
+      <mat-toolbar  style="background-color: #ba1b21; color: white;cursor: pointer;">
+        <mat-icon >person</mat-icon>
+        <p style="font-weight: 400; font-size: 14px">&nbsp;</p>
+        <span class="spacer"></span>
+        <mat-icon (click)="CloseNavBar()">close</mat-icon>
+      </mat-toolbar>
+
+      <p style="font-weight: 200; text-align: center; margin-bottom: 1px; padding-bottom: 0"><mat-icon style="padding-right: 1em;">info</mat-icon> INFO DOMANDA</p>
+      <mat-nav-list>
+
+
+        <a mat-list-item style="font-size: 14px">
+          <b>Data invio:&nbsp;</b></a>
+
+        <a mat-list-item style="font-size: 14px">
+          <b>Ultima modifica:&nbsp;</b></a>
+
+        <a mat-list-item style="font-size: 14px">
+          <b>Stato:&nbsp;</b></a>
+      </mat-nav-list>
+
+      <mat-divider style="margin: 10px"></mat-divider>
+
+      <p style="font-weight: 200; text-align: center; margin-bottom: 1px; padding-bottom: 0">Azioni Domanda</p>
+      <mat-nav-list>
+        <a [routerLink]="['/domanda/visualizza']" mat-list-item style="font-size: 14px">
+          <mat-icon style="padding-right: 1em;">notes</mat-icon>
+          Visualizza domanda</a>
+        <a [routerLink]="['/domanda/edit']" mat-list-item style="font-size: 14px">
+          <mat-icon style="padding-right: 1em;">edit</mat-icon>
+        </a>
+        <a [routerLink]="['/domanda/info']" mat-list-item style="font-size: 14px">
+          <mat-icon style="padding-right: 1em;">info</mat-icon>
+          Info domanda
+        </a>
+
+        <a  mat-list-item style="font-size: 14px">
+          <mat-icon style="padding-right: 1em;">print</mat-icon>
+          Stampa domanda</a>
+      </mat-nav-list>
+
+      <mat-divider style="margin: 10px"></mat-divider>
+
+      <p style="font-weight: 200; text-align: center; margin-bottom: 1px; padding-bottom: 0">Altro</p>
+      <mat-nav-list>
+        <div style="">
+          <a  mat-list-item style="font-size: 14px">
+            <mat-icon style="padding-right: 1em;">help</mat-icon>
+            Faq </a>
+          <a mat-list-item style="font-size: 14px">
+            <mat-icon style="padding-right: 1em;">comment</mat-icon>
+            Assistenza </a>
+        </div>
+      </mat-nav-list>
+
+    </div>
+
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar class="toolbar" (swiperight)="closeDialog()">
+      <button
+        (click)="drawer.toggle()"
+        aria-label="Toggle sidenav"
+        mat-icon-button
+        type="button">
+        <mat-icon aria-label="Side nav toggle icon" style="color:white">
+          {{MenuIconState()}}
+        </mat-icon>
+      </button>
+      <h1 id="title">ILG</h1>
+
+      <span class="spacer"></span>
+      <button Click mat-flat-button mat-button style="background-color: transparent; color: white;">ESCI
+        <mat-icon>exit_to_app</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <div class="container">
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </mat-sidenav-content>
+
+</mat-sidenav-container>

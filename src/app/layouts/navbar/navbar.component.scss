@@ -1,0 +1,7 @@
+@import "~src/assets/scss/colors";
+
+mat-toolbar {
+  background-color: $primary-color;
+  color: white;
+  height: 60px;
+}
