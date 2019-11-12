@@ -1,0 +1,78 @@
+<ng-template matStepLabel><h3 class="stepper-title">Anagrafica</h3></ng-template>
+
+<mat-panel-title>
+  <img id="spid-logo" src="../../../../../../assets/spid2/img/spid-logo.png" />
+</mat-panel-title>
+
+
+<form>
+
+
+  <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column" [formGroup]="anagraficaForm">
+
+    <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="1 0 auto">
+      <mat-label>Cognome</mat-label>
+      <label>
+        <input [formControl]="Cognome" name="cognome"
+               matInput
+               placeholder="Cognome"
+               readonly>
+      </label>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="1 0 auto">
+      <mat-label>Nome</mat-label>
+      <label>
+        <input [formControl]="Nome" name="nome"
+               matInput
+               placeholder="Nome"
+               readonly>
+      </label>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="" fxFlex.sm="grow">
+      <mat-label>Codice fiscale</mat-label>
+      <label>
+        <input [formControl]='CodiceFiscale' name="codiceFiscale"
+               matInput
+               placeholder="Codice Fiscale"
+               readonly>
+      </label>
+    </mat-form-field>
+
+  </div>
+
+  <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
+
+    <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="">
+      <mat-label>Residenza</mat-label>
+      <label>
+        <input [formControl]="Residenza" name="residenza"
+               matInput
+               placeholder="Residenza"
+               readonly>
+      </label>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="">
+      <mat-label>Via</mat-label>
+      <label>
+        <input [formControl]="Via" name="via"
+               matInput
+               placeholder="Via"
+               readonly>
+      </label>
+    </mat-form-field>
+
+  </div>
+
+  <div fxLayout="column" style="margin-top: 10px;">
+    <div fxFlex="row" fxLayoutGap="15px">
+      <span fxFill fxFlex="1 1 0"></span>
+      <button class="material-button" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
+      <button class="material-button" color="primary" mat-flat-button matStepperNext>Avanti</button>
+    </div>
+  </div>
+
+
+</form>

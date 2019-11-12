@@ -1,0 +1,47 @@
+<div [formGroup]="parent" fxLayout="column">
+
+  <p>Disponi di riserve</p>
+  <div fxFlex.sm="100" fxFlex.xs="100" fxFlex="50" style="margin-bottom: 20px">
+
+    <mat-button-toggle-group fxLayout="row" [formControl]="aventeRiserve" [value]="aventeRiserve.value" >
+      <mat-button-toggle value="NO" style="width: 50%;">NO</mat-button-toggle>
+      <mat-button-toggle value="SI" style="width: 50%;">SI</mat-button-toggle>
+    </mat-button-toggle-group>
+
+  </div>
+
+  <mat-error *ngIf="aventeRiserve.invalid && clicker">Campo Obbligatorio</mat-error>
+
+
+  <div *ngIf="aventeRiserve.value === 'SI'" fxLayout="column">
+   <mat-form-field appearance="outline" fxFlex="grow">
+     <mat-select [formControl]="riserveSelezionate"
+                 class="mat-list-item-word-wrap"
+                 multiple
+                 placeholder="Seleziona Riserve">
+
+
+       <mat-select-trigger>
+         Riserve selezionate
+       </mat-select-trigger>
+
+       <mat-option *ngFor="let i of elencoRiserve"  [value]="i">
+         {{i.Descrizione}}
+       </mat-option>
+
+     </mat-select>
+   </mat-form-field>
+   <ul *ngFor="let i of riserveSelezionate.value" fxFlex="grow">
+     <li>{{i.Descrizione}}</li>
+   </ul>
+ </div>
+
+</div>
+
+<div fxLayout="column" style="margin-top: 10px;">
+  <div fxFlex="row" fxLayoutGap="15px">
+    <span fxFill fxFlex="1 1 0"></span>
+    <button class="material-button" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
+    <button class="material-button" (click)="ParseRiserve()" color="primary" mat-flat-button matStepperNext>Avanti</button>
+  </div>
+</div>

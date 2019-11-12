@@ -1,0 +1,70 @@
+<div [formGroup]="parent" fxLayout="column">
+
+  <p>Disponi di titoli preferenziali</p>
+  <div fxFlex.sm="100" fxFlex.xs="100" fxFlex="50" style="margin-bottom: 20px">
+
+    <mat-button-toggle-group fxLayout="row" [formControl]="aventeTitoli" [value]="aventeTitoli.value">
+      <mat-button-toggle value="NO" style="width: 50%;">NO</mat-button-toggle>
+      <mat-button-toggle value="SI" style="width: 50%;">SI</mat-button-toggle>
+    </mat-button-toggle-group>
+
+  </div>
+
+  <mat-error *ngIf="aventeTitoli.invalid && clicker">Campo Obbligatorio</mat-error>
+
+
+  <div *ngIf="aventeTitoli.value === 'SI'" fxLayout="column">
+    <mat-form-field appearance="outline">
+      <mat-select [formControl]="titoliSelezionati"
+                  class="mat-list-item-word-wrap"
+                  multiple
+                  placeholder="Seleziona Titoli">
+
+
+        <mat-select-trigger>
+          TITOLI SELEZIONATI
+        </mat-select-trigger>
+
+        <mat-option *ngFor="let i of elencoTitoliPreferenziali" [value]="i">
+          {{i.Descrizione}}
+        </mat-option>
+
+
+      </mat-select>
+
+    </mat-form-field>
+
+    <ul *ngFor="let i of titoliSelezionati.value">
+      <li style="margin-bottom: 10px;">{{i.Descrizione}}</li>
+      <div *ngIf="i.Id === 17"  fxLayout="column" style="margin-top: 10px;">
+        <p>Scegli il numero dei figli</p>
+        <div fxFlex.sm="100" fxFlex.xs="100" fxFlex="50" style="margin-bottom: 20px" >
+          <mat-button-toggle-group fxLayout.sm="column"
+                                   fxLayout.xs="column"
+                                   fxLayout="row" [formControl]="numeroFigliSelezionati" [value]="numeroFigliSelezionati.value" >
+
+            <mat-button-toggle [value]="'1'" fxFlex="25" fxFlex.sm="100" fxFlex.xs="100" >1</mat-button-toggle>
+            <mat-button-toggle [value]="'2'" fxFlex="25" fxFlex.sm="100" fxFlex.xs="100" >2</mat-button-toggle>
+            <mat-button-toggle [value]="'3'" fxFlex="25" fxFlex.sm="100" fxFlex.xs="100" >3</mat-button-toggle>
+            <mat-button-toggle [value]="'4'" fxFlex="25" fxFlex.sm="100" fxFlex.xs="100" >4</mat-button-toggle>
+            <mat-button-toggle [value]="'5'" fxFlex="25" fxFlex.sm="100" fxFlex.xs="100" >5</mat-button-toggle>
+          </mat-button-toggle-group>
+
+        </div>
+      </div>
+
+      <mat-divider></mat-divider>
+    </ul>
+
+  </div>
+
+
+</div>
+
+<div fxLayout="column" style="margin-top: 10px;">
+  <div fxFlex="row" fxLayoutGap="15px">
+    <span fxFill fxFlex="1 1 0"></span>
+    <button class="material-button" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
+    <button class="material-button" (click)="ParseTitoliPreferenziali()" color="primary" mat-flat-button matStepperNext>Avanti</button>
+  </div>
+</div>

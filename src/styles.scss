@@ -1,1 +1,72 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "~src/assets/scss/colors";
+@import "./assets/spid2/css/spid-sp-access-button.min.css";
+
+
+html {
+  height: 100%;
+  color: rgba(0, 0, 0, 0.87);
+
+}
+
+
+body {
+  margin: 0 auto;
+  height: 100%;
+  font-family: Raleway, sans-serif;
+  background-color: #fafafa;
+}
+
+
+.light {
+  color: gray;
+  font-size: 80%;
+}
+
+mat-form-field {
+  margin-right: 8px;
+}
+
+.input-long {
+  width: 340px;
+}
+
+.input-short {
+  width: 150px;
+}
+
+.mb-small {
+  margin-bottom: 20px;
+}
+
+.mt-large {
+  margin-top: 50px;
+}
+
+.center {
+  text-align: center;
+}
+
+.field-val {
+  font-weight: bold;
+}
+
+.right-aligned-header > .mat-content {
+  justify-content: space-between;
+}
+
+.mat-content > mat-panel-title, .mat-content > mat-panel-description {
+  flex: 0 0 auto;
+}
+
+.example-fill-remaining-space {
+  /* This fills the remaining space, by using flexbox.
+     Every toolbar row uses a flexbox row layout. */
+  flex: 1 1 auto;
+}
+
+.mat-checkbox:not(.mat-checkbox-disabled).mat-accent .mat-checkbox-ripple .mat-ripple-element {
+  background-color: #e91e63;
+}
+
