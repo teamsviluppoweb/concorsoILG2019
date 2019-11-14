@@ -6,32 +6,35 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import {Observable} from 'rxjs';
-// import { AuthService } from './auth/auth.service';
+import {tap} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-  constructor() {}
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  constructor(private router: Router) {}
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    const jwtToken = localStorage.getItem('jwtToken');
-    const tempJWT = localStorage.getItem('tempJWT');
+    const token = localStorage.getItem('token');
+    const cloned = request.clone({
+      headers: request.headers.set('Authorization',
+        'Bearer ' + token)
+    });
 
-    if (tempJWT) {
-      const cloned = req.clone({
-        headers: req.headers.set('Authorization',
-          'Bearer ' + tempJWT)
-      });
-      return next.handle(cloned);
-    }
-    if (jwtToken && !tempJWT) {
-      const cloned = req.clone({
-        headers: req.headers.set('Authorization',
-          'Bearer ' + jwtToken)
-      });
-      return next.handle(cloned);
-    } else {
-      return next.handle(req);
-    }
 
+    return next.handle(cloned).pipe(
+      tap(
+        succ => {
+        },
+        err => {
+          if (err.status === 401) {
+            this.router.navigateByUrl('/guest/login');
+          }
+          if (err.status === 500) {
+            console.log(err);
+            this.router.navigateByUrl('/guest/error');
+          }
+        }
+      )
+    );
   }
 }
