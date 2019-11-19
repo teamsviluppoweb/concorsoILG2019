@@ -1,11 +1,11 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 
 @Component({
   selector: 'app-step-dichiarazione',
   templateUrl: './step-dichiarazione.component.html',
-  styleUrls: ['./step-dichiarazione.component.scss']
+  styleUrls: ['./step-dichiarazione.component.scss'],
 })
 export class StepDichiarazioneComponent implements OnInit{
 

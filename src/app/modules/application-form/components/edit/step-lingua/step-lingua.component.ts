@@ -18,8 +18,9 @@ import {concatMap} from 'rxjs/operators';
   styleUrls: ['./step-lingua.component.scss']
 })
 export class StepLinguaComponent implements OnInit {
-/* Lo uso per triggerare l'errore in caso l'utente vada avanti senza aver scelto la lingua, mat-error non funziona
- su mat toggle button perchè non è 2 way binding,  */
+
+  /* Lo uso per triggerare l'errore in caso l'utente vada avanti senza aver scelto la lingua, mat-error non funziona
+   su mat toggle button perchè non è 2 way binding,  */
   clicker;
   @Input() parent: FormGroup;
   elencoLingue:  Lingue[];

@@ -1,8 +1,7 @@
 <form [formGroup]="moduloDomanda">
 
-
-  <div class="stepper">
-    <mat-vertical-stepper #stepper [linear]="true" style="border-radius: 15px">
+  <div class="container">
+    <mat-vertical-stepper #stepper [linear]="false">
 
       <mat-step label="Anagrafica">
         <ng-template matStepLabel><h3 class="stepper-title">Anagrafica</h3></ng-template>

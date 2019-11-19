@@ -1,5 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "assets/scss/vvf-material";
 @import "~src/assets/scss/colors";
 @import "./assets/spid2/css/spid-sp-access-button.min.css";
 
@@ -10,31 +10,23 @@ html {
     margin: 0 auto;
   }
 
-}
-/*
-Set global margin because flex delete it, to avoid setting fxLayoutGap on all elements
-*/
-mat-form-field {
-  margin-right: 8px;
+  body::-webkit-scrollbar
+  {
+    height: 6px;
+    width: 6px
+  }
+
+  body::-webkit-scrollbar-track
+  {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
+  }
+
+  body::-webkit-scrollbar-thumb {
+    background-color: #6e6e6e;
+    outline: #444 solid 1px
+  }
+
 }
 
 
-.mat-sidenav-content::-webkit-scrollbar,
-body::-webkit-scrollbar,
-mat-sidenav.sidenav::-webkit-scrollbar {
-  height: 6px;
-  width: 6px
-}
 
-.mat-sidenav-content::-webkit-scrollbar-track,
-body::-webkit-scrollbar-track,
-mat-sidenav.sidenav::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3)
-}
-
-.mat-sidenav-content::-webkit-scrollbar-thumb,
-body::-webkit-scrollbar-thumb,
-mat-sidenav.sidenav::-webkit-scrollbar-thumb {
-  background-color: #6e6e6e;
-  outline: #444 solid 1px
-}

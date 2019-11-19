@@ -1,18 +1,5 @@
 <div [formGroup]="parent" fxLayout="column">
 
-
-  <!-- <mat-form-field appearance="outline">
-     <mat-label>Appertenente alle categorie protette</mat-label>
-     <mat-select [formControl]="appartenenza"
-                 placeholder="SI / NO">
-
-       <mat-option value="NO">NO</mat-option>
-       <mat-option value="SI">SI</mat-option>
-     </mat-select>
-
-   </mat-form-field>
- -->
-
   <p>Appartenente alle categorie protette ?</p>
   <div fxFlex.sm="100" fxFlex.xs="100" fxFlex="50" style="margin-bottom: 20px">
 
@@ -64,16 +51,16 @@
 
   <div *ngIf="appartenenza.value === 'SI'" fxLayout="column" fxLayoutGap="15px" style="margin-top: 10px;">
 
-    <mat-checkbox [formControl]="ausiliProva" color="accent">Dichiaro di avere diritto ad usufruire di ausili per lo
+    <mat-checkbox [formControl]="ausiliProva" color="primary">Dichiaro di avere diritto ad usufruire di ausili per lo
       svolgimento delle prove d'esame
     </mat-checkbox>
 
-    <mat-checkbox [formControl]="tempiAggiuntiviProva" color="accent"> Dichiaro di avere diritto ad usufruire di
+    <mat-checkbox [formControl]="tempiAggiuntiviProva" color="primary"> Dichiaro di avere diritto ad usufruire di
       eventuali
       tempi aggiuntivi
     </mat-checkbox>
 
-    <mat-checkbox [formControl]="esenzioneProvaSelettiva" color="accent">Dichiaro di avere diritto, in quanto affetto da
+    <mat-checkbox [formControl]="esenzioneProvaSelettiva" color="primary">Dichiaro di avere diritto, in quanto affetto da
       invalità uguale o superiore all'80%, a non effettuare l'eventuale prova preselettiva
     </mat-checkbox>
   </div>
@@ -81,8 +68,8 @@
   <div fxLayout="column" style="margin-top: 10px;">
     <div fxFlex="row" fxLayoutGap="15px">
       <span fxFill fxFlex="1 1 0"></span>
-      <button class="material-button" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
-      <button class="material-button" color="primary" mat-flat-button matStepperNext>Avanti</button>
+      <button color="primary" mat-flat-button matStepperPrevious>Indietro</button>
+      <button color="primary" mat-flat-button matStepperNext>Avanti</button>
     </div>
   </div>
 

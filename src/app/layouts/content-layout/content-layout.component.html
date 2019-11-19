@@ -9,7 +9,7 @@
 <!--    Create a div to trigger touch gesture on the entire sidenav-->
     <div class="sidenav_touch" (swipeleft)="closeDialog()" (click)="closeDialog()"></div>
 
-    <mat-toolbar class="toolbar">
+    <mat-toolbar class="toolbar" color="accent">
       <mat-icon>person</mat-icon>
       <p class="sidenav_name_displayed"> GIANLUCA MARCIANO&nbsp;</p>
       <span class="spacer"></span>
@@ -24,7 +24,7 @@
   <mat-sidenav-content class="sidenav_content">
 
 
-    <mat-toolbar class="toolbar sidenav_content_toolbar" (swiperight)="closeDialog()">
+    <mat-toolbar class="toolbar sidenav_content_toolbar"  color="accent" (swiperight)="closeDialog()">
       <button
         (click)="drawer.toggle()"
         mat-icon-button
