@@ -10,6 +10,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NavbarComponent} from './layouts/navbar/navbar.component';
 import {NotFoundComponent} from './layouts/not-found/not-found.component';
 import {DateAdapter} from '@angular/material';
+import {SessionCheckServiceService} from './core/services/session-check-service.service';
+import { MenuSidenavComponent } from './shared/components/menu-sidenav/menu-sidenav.component';
 
 
 @NgModule({
@@ -18,23 +20,19 @@ import {DateAdapter} from '@angular/material';
     NavbarComponent,
     ContentLayoutComponent,
     AuthLayoutComponent,
-    NotFoundComponent
+    NotFoundComponent,
   ],
   imports: [
     BrowserAnimationsModule,
-
     // Authentication module
     AuthModule,
-
     // Core e Shared
     SharedModule,
     CoreModule,
-
-
     //  app
     AppRoutingModule
   ],
-  providers: [],
+  providers: [SessionCheckServiceService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
