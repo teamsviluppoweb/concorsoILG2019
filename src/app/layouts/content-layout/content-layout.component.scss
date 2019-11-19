@@ -1,13 +1,26 @@
 @import "~src/assets/scss/colors";
 
+.spacer {
+  flex: 1 1 auto;
+}
+
+
+.toolbar {
+  background-color: #ba1b21;
+  color: white;
+  cursor: pointer;
+  top: 0;
+  z-index: 999;
+}
+
+.sidenav_container {
+  // Serve per rendere la toolbar sticky
+  // https://stackoverflow.com/questions/43707076/position-sticky-not-working-css-and-html/47878455#47878455
+  overflow: visible;
+}
+
 .sidenav {
   width: 350px;
-
-  .sidenav_toolbar {
-    background-color: #ba1b21;
-    color: white;
-    cursor: pointer;
-  }
 
   .sidenav_touch {
     position: absolute;
@@ -22,132 +35,23 @@
 
 }
 
-.spacer {
-  flex: 1 1 auto;
-}
 
+.sidenav_content {
+  // Serve per rendere la toolbar sticky
+  // https://stackoverflow.com/questions/43707076/position-sticky-not-working-css-and-html/47878455#47878455
+  overflow: visible;
 
-
-.container {
-  background-color: white;
-  border-radius: 15px;
-  padding-top: 10px;
-  height: 100%;
-  min-width: 300px;
-}
-
-.content {
-  margin: 0 auto;
-  max-width: 1500px;
-}
-
-
-.mat-elevation-z5 {
-  position: relative;
-  z-index: 2;
-}
-
-
-
-
-.router-container {
-  padding-bottom: 20px;
-  border-top-right-radius: 15px;
-  border-top-left-radius: 15px;
-  background-color: #fafafa;
-  min-height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-}
-
-.toolbar {
-  background-color: #ba1b21;
-  color: white;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-}
-
-#title {
-  font-weight: 500;
-}
-
-/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
-
-/* Portrait */
-
-@media only screen
-
-and (min-device-width: 375px)
-
-and (max-device-width: 667px)
-
-and (-webkit-min-device-pixel-ratio: 2)
-
-and (orientation: portrait) {
-  .sidenav {
-    width: 100%;
+  .sidenav_content_toolbar {
+    position: sticky;
   }
-  .router-container {
-    padding-bottom: 20px;
-    border-top-right-radius: 15px;
-    border-top-left-radius: 15px;
+
+  .sidenav_content_container{
     background-color: white;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
+    border-radius: 15px;
+    padding-top: 10px;
+    height: 100%;
+    min-width: 300px;
   }
+
+
 }
-
-/* ----------- Google Pixel ----------- */
-
-/* Portrait */
-
-@media screen
-
-and (device-width: 360px)
-
-and (device-height: 640px)
-
-and (-webkit-device-pixel-ratio: 3)
-
-and (orientation: portrait) {
-  .sidenav {
-    width: 100%;
-  }
-  .router-container {
-    padding-bottom: 20px;
-    border-top-right-radius: 15px;
-    border-top-left-radius: 15px;
-    background-color: white;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-
-/* ----------- Galaxy S7 and S8 e altri telefoni ----------- */
-
-
-@media only screen and (min-device-width : 360px) and (max-device-width : 640px){
-  .sidenav {
-    width: 100%;
-  }
-  .router-container {
-    padding-bottom: 20px;
-    border-top-right-radius: 15px;
-    border-top-left-radius: 15px;
-    background-color: white;
-    min-height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-  }
-}
-
-
-
-
