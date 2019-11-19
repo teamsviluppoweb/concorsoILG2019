@@ -3,7 +3,6 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
 import {catchError, map, tap} from 'rxjs/operators';
 import {forkJoin, Observable, of, Subject} from 'rxjs';
-import {AuthService} from './auth.service';
 import {environment} from '../../../environments/environment';
 import {Comuni, Domanda, Lingue, Province, Riserve, Titoli} from '../models';
 
@@ -32,7 +31,7 @@ export class DomandaService {
   private testoMenuDomanda = new Subject<any>();
   private statoMiaDomanda = new Subject<any>();
 
-  constructor(private http: HttpClient, private authService: AuthService, private d: Domanda) {
+  constructor(private http: HttpClient, private d: Domanda) {
     this.domanda = d;
     this.statoDomanda = false;
   }
@@ -67,7 +66,6 @@ export class DomandaService {
         catchError((err) => {
           console.log(err);
           if (err.status === 401) {
-            this.authService.logout();
             return of(false);
           }
         }),
