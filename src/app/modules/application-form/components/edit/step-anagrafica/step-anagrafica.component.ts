@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {DomandaService} from '../../../../../core/services/domanda.service';
-import {FormBuilder, FormGroup } from '@angular/forms';
+import {FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   // tslint:disable-next-line:component-selector
