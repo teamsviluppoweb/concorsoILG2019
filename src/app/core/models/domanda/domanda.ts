@@ -20,7 +20,7 @@ export class DomandaObj implements IntDomandaObj{
 @Injectable({
   providedIn: 'root',
 })
-export class Domanda implements IntDomanda{
+export class Domanda implements IntDomanda {
   id: string;
   idDomanda: string;
   versione: number;
@@ -33,6 +33,7 @@ export class Domanda implements IntDomanda{
   lingua: LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua;
   lstRiserve?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
+  numFigli: string;
   invaliditaCivile: InvaliditaCivile;
 }
 export class AnagCandidato implements IntAnagCandidato{

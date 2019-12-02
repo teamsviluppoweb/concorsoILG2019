@@ -16,6 +16,7 @@ export interface IntDomanda {
   lingua: IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua;
   lstRiserve?: (IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
+  numFigli: string;
   invaliditaCivile: IntInvaliditaCivile;
 }
 export interface IntAnagCandidato {

@@ -1,2 +1,2 @@
-export * from './domanda';
-export * from './interfaces';
+export * from './domanda/domanda';
+export * from './domanda/interfaces';
