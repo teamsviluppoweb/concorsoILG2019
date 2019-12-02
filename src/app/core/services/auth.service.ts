@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
-import {catchError, first, map} from 'rxjs/operators';
+import {catchError, first, map, tap} from 'rxjs/operators';
 import {DomandaService} from './domanda.service';
 
 @Injectable({

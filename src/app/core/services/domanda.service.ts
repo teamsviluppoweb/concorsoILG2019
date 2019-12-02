@@ -117,7 +117,6 @@ export class DomandaService {
           this.domanda.Riserve = response.Riserve;
           this.domanda.Invalidita = response.Invalidita;
           this.domanda.NumeroFigli = response.NumeroFigli;
-          console.log('response', response);
 
           if (response.DomandaConcorso.Stato === 1) {
             this.statoDomanda = true;

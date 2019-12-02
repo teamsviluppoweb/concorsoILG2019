@@ -11,7 +11,7 @@ export class Domanda {
   Riserve?: Riserva[] | null;
   TitoliPreferenziali?: Titolo[] | null;
   Invalidita?: Invalidita;
-  NumeroFigli: String;
+  NumeroFigli: string;
 
 
   constructor() {

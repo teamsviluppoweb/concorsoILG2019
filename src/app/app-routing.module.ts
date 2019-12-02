@@ -20,7 +20,6 @@ const routes: Routes = [
   {
     path: '',
     component: ContentLayoutComponent,
-    canActivate: [AuthGuard],
     children: CONTENT_ROUTES
   },
   {

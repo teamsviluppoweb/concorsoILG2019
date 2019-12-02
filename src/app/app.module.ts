@@ -24,13 +24,13 @@ import { MenuSidenavComponent } from './shared/components/menu-sidenav/menu-side
   ],
   imports: [
     BrowserAnimationsModule,
+    AppRoutingModule,
     // Authentication module
     AuthModule,
     // Core e Shared
     SharedModule,
     CoreModule,
     //  app
-    AppRoutingModule
   ],
   providers: [SessionCheckServiceService],
   bootstrap: [AppComponent]
