@@ -88,26 +88,19 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       () => this.domandaService.domandaobj.domanda.titoliStudioPosseduti.via = this.viaIstituto.value
     );
 
-    this.istitutoFrequentato.valueChanges.subscribe(
-      () => this.domandaService.domanda.TitoloDiploma.Istituto = this.istitutoFrequentato.value
-    );
-
-    this.tipoDiploma.valueChanges.subscribe(
-      () => this.domandaService.domanda.TitoloDiploma.TipoDiploma = this.tipoDiploma.value
-    );
 
     // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei comuni
     this.comuniDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
       .subscribe(() => {
-        this.filterList(this.listaNomiComuni, this.comuniDropdown, this.filteredComuni);
+        this.filtraRicerca(this.listaComuni, this.comuniDropdown, this.filtroComuni);
       });
 
     // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search delle province
     this.provinceDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
       .subscribe(() => {
-        this.filterList(this.listaNomiProvince, this.provinceDropdown, this.filteredBanks);
+        this.filtraRicerca(this.listaProvince, this.provinceDropdown, this.filtroProvince);
       });
   }
 
