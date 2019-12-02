@@ -59,7 +59,7 @@ export class DomandaService {
     return this.statoMiaDomanda.asObservable();
   }
 
-  getTitoliPreferenziali(): Observable<boolean | Titoli[]> {
+  getTitoliPreferenziali(): Observable<boolean | Titolo[]> {
     return this.http.get<Titoli[]>(this.api.endpoint.titoli)
       .pipe(
         catchError((err) => {
