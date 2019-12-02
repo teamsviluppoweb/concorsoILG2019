@@ -14,25 +14,15 @@ export class StepAnagraficaComponent implements OnInit {
 
   constructor(private domandaService: DomandaService, private formBuilder: FormBuilder) {
 
+    const agf = this.domandaService.domandaobj.domanda.anagCandidato;
 
     this.anagraficaForm = this.formBuilder.group({
-      Cognome: [''],
-      Nome: [''],
-      CodiceFiscale: [''],
-      Residenza: [''],
-      Via: [''],
+      Cognome: [agf.cognome],
+      Nome: [agf.nome],
+      CodiceFiscale: [agf.codiceFiscale],
+      Residenza: [agf.residenza],
     });
 
-
-    this.domandaService.getDomanda().subscribe((data: any) => {
-        this.anagraficaForm.patchValue({
-          Cognome : data.Anagrafica.Cognome,
-          Nome: data.Anagrafica.Nome,
-          CodiceFiscale: data.Anagrafica.CodiceFiscale,
-          Residenza: data.Anagrafica.ProvinciaNascita,
-          Via: data.Anagrafica.Residenza
-        });
-      });
   }
 
   ngOnInit() {
@@ -58,10 +48,6 @@ export class StepAnagraficaComponent implements OnInit {
     return this.anagraficaForm.get('Residenza');
   }
 
-
-  get Via() {
-    return this.anagraficaForm.get('Via');
-  }
 
 
 }

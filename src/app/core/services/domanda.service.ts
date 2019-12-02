@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
-import {catchError, map, tap} from 'rxjs/operators';
-import {forkJoin, Observable, of, Subject} from 'rxjs';
+import { map, tap} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {Domanda, DomandaObj, IntDomandaObj} from '../models';
+import {DomandaObj, IntDomandaObj} from '../models';
 
 
 export const searchUrl = 'http://localhost:8080/';
@@ -24,15 +24,12 @@ function createHttpOptions(refresh = false) {
 export class DomandaService {
 
   domandaobj: DomandaObj;
-  api = environment;
-  statoDomanda;
 
   private testoMenuDomanda = new Subject<any>();
   private statoMiaDomanda = new Subject<any>();
 
   constructor(private http: HttpClient, private d: DomandaObj) {
     this.domandaobj = d;
-    this.statoDomanda = false;
   }
 
   sendMessage(message: string) {
@@ -49,7 +46,7 @@ export class DomandaService {
 
 
     const options = createHttpOptions(true);
-    return this.http.get<DomandaObj | Response>(this.api.endpoint.domanda, options)
+    return this.http.get<DomandaObj | Response>(environment.endpoint.domanda, options)
       .pipe(
         tap((response: IntDomandaObj) => {
 
@@ -67,22 +64,11 @@ export class DomandaService {
 
   putDomanda(domanda) {
     this.domandaobj.domanda.stato = 1;
-    return this.http.put(this.api.endpoint.domanda, domanda).pipe(
+    return this.http.put(environment.endpoint.domanda, domanda).pipe(
       tap(() => console.log('domanda puttata'))
     );
   }
 
-
-  forkJoin() {
-    return forkJoin(
-      [
-        this.getProvince(),
-        this.getLingueStraniere(),
-        this.getTitoliPreferenziali(),
-        this.getRiserve(),
-        this.getDomanda(),
-      ]);
-  }
 
 }
 
