@@ -43,62 +43,6 @@ export class DomandaService {
     this.statoMiaDomanda.next({ text: message });
   }
 
-  clearMessages() {
-    this.testoMenuDomanda.next();
-  }
-
-  clearStato() {
-    this.statoMiaDomanda.next();
-  }
-
-  getMessage(): Observable<any> {
-    return this.testoMenuDomanda.asObservable();
-  }
-
-  getStato(): Observable<any> {
-    return this.statoMiaDomanda.asObservable();
-  }
-
-  getTitoliPreferenziali(): Observable<boolean | Titolo[]> {
-    return this.http.get<Titoli[]>(this.api.endpoint.titoli)
-      .pipe(
-        catchError((err) => {
-          console.log(err);
-          if (err.status === 401) {
-            return of(false);
-          }
-        }),
-      );
-  }
-
-  getLingueStraniere(): Observable<Lingue[]> {
-    return this.http.get<Lingue[]>(this.api.endpoint.lingue);
-  }
-
-  getRiserve(): Observable<Riserve[]> {
-    return this.http.get<Riserve[]>(this.api.endpoint.riserve);
-  }
-
-
-  getProvince() {
-    return this.http.get(this.api.endpoint.province)
-      .pipe(map((value: Province) => {
-        return value.table.map(ogg => ogg);
-      }));
-  }
-
-  // Mappo i comuni e li riordino, in modo che durante la ricerca i comuni minori appaiano per primi
-
-  getComuni(provincia: string) {
-    return this.http.get(this.api.endpoint.comuni)
-      .pipe(map((value: Comuni) => {
-        return value.table
-          .map(nome => nome.comune)
-          .sort((a, b) => {
-            return a.length - b.length;
-          });
-      }));
-  }
 
 
   getDomanda(): Observable<DomandaObj> {
