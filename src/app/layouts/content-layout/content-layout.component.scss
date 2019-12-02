@@ -9,16 +9,19 @@
   cursor: pointer;
   top: 0;
   z-index: 999;
+  position: fixed;
 }
 
 .sidenav_container {
   // Serve per rendere la toolbar sticky
   // https://stackoverflow.com/questions/43707076/position-sticky-not-working-css-and-html/47878455#47878455
   overflow: visible;
+  margin-top: 64px;
 }
 
 .sidenav {
-  width: 350px;
+  width: 300px;
+  margin-top: 64px;
 
   .sidenav_touch {
     position: absolute;
@@ -27,13 +30,18 @@
   }
 
   .sidenav_name_displayed {
-    font-weight: 400;
-    font-size: 14px
+    margin-left: 15px;
+    font-size: 24px;
+    font-weight: 300;
   }
 
 }
 
-
+.mat-list-base {
+  padding-top: 5px;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+}
 
 
 

@@ -6,6 +6,10 @@
     font-weight: 300;
   }
 
+  .menu_info {
+    padding: 0;
+  }
+
   .menu_item {
     margin-left: 10px;
   }
@@ -14,8 +18,28 @@
     padding-right: 3px;
   }
 
+  .router-link-active {
+    border-left: 2px solid rgb(2, 103, 204);
+  }
+
+  .menu_style:hover{
+    border-left: 2px solid rgb(2, 103, 204);
+  }
+
+  .menu_info_text {
+    font-size: 14px;
+  }
+
+  .value {
+    margin-right: 16px;
+  }
+
   .divider {
     margin: 10px;
+  }
+
+  mat-icon {
+    margin-right: 10px;
   }
 
 }
