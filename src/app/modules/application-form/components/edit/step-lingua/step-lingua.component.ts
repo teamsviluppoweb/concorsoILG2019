@@ -1,11 +1,10 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormGroup} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import { DomandaService} from '../../../../../core/services/domanda.service';
 import {HttpClient} from '@angular/common/http';
-import {Lingue} from '../../../../../core/models';
-import {Domanda} from '../../../../../core/models';
-import {concatMap} from 'rxjs/operators';
+import {Lingua} from '../../../../../core/models/rest/rest-interface';
+import {RestService} from '../../../../../core/services/rest.service';
 
 /* TODO: BUG: Mat toggle button una volta che è stato poopolato non accetta il primo input, si deve cliccare due volte*/
 
@@ -23,11 +22,11 @@ export class StepLinguaComponent implements OnInit {
    su mat toggle button perchè non è 2 way binding,  */
   clicker;
   @Input() parent: FormGroup;
-  elencoLingue:  Lingue[];
+  elencoLingue: Lingua[];
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
 
-  constructor(private domandaService: DomandaService, private hc: HttpClient, private _formBuilder: FormBuilder) {
+  constructor(private domandaService: DomandaService, private hc: HttpClient, private rest: RestService) {
     this.clicker = false;
   }
 
@@ -38,18 +37,14 @@ export class StepLinguaComponent implements OnInit {
 
 // TODO: Check perchè lingua non si mostra in invia domanda
   ngOnInit() {
-    this.domandaService.getLingueStraniere()
-      .pipe(
-        concatMap( (lingue: Lingue[]) => {
-          this.elencoLingue = lingue;
-          return this.domandaService.getDomanda();
-        })
-      )
-      .subscribe((domanda: Domanda) => {
-        if (domanda.DomandaConcorso.Stato === 1) {
+    this.rest.getLingueStraniere().subscribe((lingua: Lingua[]) => {
+
+        this.elencoLingue = lingua;
+
+        if (this.domandaService.domandaobj.domanda.stato === 1) {
 
           const linguaSelezionata = this.elencoLingue.filter((x) => {
-              if (x.Id === domanda.Lingua.Id) {
+              if (x.id === this.domandaService.domandaobj.domanda.lingua.id) {
                 return x;
               }
           }).reduce(z => z);
@@ -58,15 +53,9 @@ export class StepLinguaComponent implements OnInit {
         }
       });
 
-    this.domandaService.getDomanda().subscribe(
-      (domanda: Domanda) => {
-        if (domanda.DomandaConcorso.Stato === 1) {
-          this.linguaSelezionata.patchValue(domanda.Lingua.Descrizione);
-        }
-      }
-    );
 
-    this.linguaSelezionata.valueChanges.subscribe( () => this.domandaService.domanda.Lingua = this.linguaSelezionata.value);
+
+    this.linguaSelezionata.valueChanges.subscribe( () => this.domandaService.domandaobj.domanda.lingua = this.linguaSelezionata.value);
 
   }
 

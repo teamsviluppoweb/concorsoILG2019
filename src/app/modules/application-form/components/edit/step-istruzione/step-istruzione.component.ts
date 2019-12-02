@@ -40,9 +40,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
   private onDetroy = new Subject<void>();
 
 
-
-  // TODO: Condividere chiamata http dai form child
-
   constructor(private formbuilder: FormBuilder,
               private rest: RestService,
               private domandaService: DomandaService) {
@@ -50,7 +47,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-
     this.rest.getProvince().subscribe(
         (data: Provincia[]) => {
            this.listaProvince = data;
@@ -156,7 +152,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.onDetroy.next();
     this.onDetroy.complete();
-
   }
 
 
