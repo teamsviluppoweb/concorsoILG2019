@@ -77,15 +77,15 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
 
     this.comuneIstituto.valueChanges.subscribe( () => {
-      this.domandaService.domandaobj.domanda.titoliStudioPosseduti = this.comuneIstituto.value;
+      this.domandaService.domandaobj.domanda.titoliStudioPosseduti.luogoIstituto = this.comuneIstituto.value;
     });
 
     this.annoDiploma.valueChanges.subscribe(
-      () => this.domandaService.domanda.TitoloDiploma.AnnoConseguimento = this.annoDiploma.value
+      () => this.domandaService.domandaobj.domanda.titoliStudioPosseduti.durataAnni = this.annoDiploma.value
     );
 
     this.viaIstituto.valueChanges.subscribe(
-      () => this.domandaService.domanda.TitoloDiploma.Indirizzo = this.viaIstituto.value
+      () => this.domandaService.domandaobj.domanda.titoliStudioPosseduti.via = this.viaIstituto.value
     );
 
     this.istitutoFrequentato.valueChanges.subscribe(

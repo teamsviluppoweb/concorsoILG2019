@@ -58,6 +58,7 @@ export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEnti
   dataConseguimento: string;
   istituto: string;
   luogoIstituto: ComuneNascitaOrLuogoIstituto;
+  via: string;
   durataAnni: string;
 }
 export class TipologiaOrTitoloOrIndirizzo implements  IntTipologiaOrTitoloOrIndirizzo{
