@@ -2,9 +2,8 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
-import {Domanda} from '../../../../../core/models';
-import {Riserve} from '../../../../../core/models';
-import {concatMap} from 'rxjs/operators';
+import {RestService} from '../../../../../core/services/rest.service';
+import {Riserva} from '../../../../../core/models/rest/rest-interface';
 
 /* TODO: Cambiare mat toggle button con butotn per poter usare 2 way binding */
 
@@ -17,34 +16,33 @@ import {concatMap} from 'rxjs/operators';
 export class StepRiserveComponent implements OnInit {
   clicker: boolean;
   @Input() parent: FormGroup;
-  elencoRiserve: Riserve[];
+  elencoRiserve: Riserva[];
 
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
-  constructor(private domandaService: DomandaService) {
+  constructor(private domandaService: DomandaService, private rest: RestService) {
     this.clicker = false;
   }
 
   ngOnInit() {
 
-     this.domandaService.getRiserve()
-      .pipe(
-        concatMap( (riserve: Riserve[]) => {
-          this.elencoRiserve = riserve;
-          return this.domandaService.getDomanda();
-        })
-      )
-      .subscribe(
-      (domanda: Domanda) => {
-        if (domanda.DomandaConcorso.Stato === 1) {
-          if (domanda.Riserve.length > 0) {
+     this.rest.getRiserve().subscribe(
+      (data: Riserva[]) => {
+        this.elencoRiserve = data;
+
+        if (this.domandaService.domandaobj.domanda.stato === 1) {
+          if (this.domandaService.domandaobj.domanda.lstRiserve.length > 0) {
             this.aventeRiserve.patchValue('SI');
 
             const test = this.elencoRiserve.filter((x) => {
-              for (let i = 0; i < domanda.Riserve.length; i++) {
-                if (x.Id === domanda.Riserve[i].Id) {
-                  return x;
-                }
+
+              if (this.domandaService.domandaobj.domanda.lstRiserve.length > 0) {
+                this.domandaService.domandaobj.domanda.lstRiserve.forEach((z) => {
+                  if (x.id === z.id) {
+                    return x;
+                  }
+                });
+
               }
             });
             this.riserveSelezionate.patchValue(test);
@@ -56,8 +54,7 @@ export class StepRiserveComponent implements OnInit {
       }
     );
 
-
-    this.onChanges();
+     this.onChanges();
   }
 
   onChanges() {
@@ -73,7 +70,7 @@ export class StepRiserveComponent implements OnInit {
     });
 
     this.riserveSelezionate.valueChanges.subscribe( (x) => {
-      this.domandaService.domanda.Riserve = x;
+      this.domandaService.domandaobj.domanda.lstRiserve = x;
     });
 
   }

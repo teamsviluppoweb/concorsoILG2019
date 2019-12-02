@@ -2,10 +2,11 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 
-import {Domanda} from '../../../../../core/models';
-import {Titolo, Titoli} from '../../../../../core/models';
+import {Domanda, IntTipologiaOrTitoloOrIndirizzo, LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua} from '../../../../../core/models';
 import {MatStepper} from '@angular/material';
 import {concatMap} from 'rxjs/operators';
+import {TitoloPreferenziale} from '../../../../../core/models/rest/rest-interface';
+import {RestService} from '../../../../../core/services/rest.service';
 
 /* TODO: Cambiare mat toggle button con butotn per poter usare 2 way binding */
 
@@ -21,12 +22,12 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
   clicker: boolean;
   @Input() parent: FormGroup;
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
-  elencoTitoliPreferenziali: Titoli[];
+  elencoTitoliPreferenziali: TitoloPreferenziale[];
 
 
 
 
-  constructor(private domandaService: DomandaService,
+  constructor(private domandaService: DomandaService, private rest: RestService
   ) {
     this.clicker = false;
   }
@@ -36,33 +37,27 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
     this.numeroFigliSelezionati.patchValue('');
 
     this.onChanges();
-    this.domandaService.getTitoliPreferenziali()
-      .pipe(
-        concatMap( (titoli: Titoli[]) => {
-          this.elencoTitoliPreferenziali = titoli;
-          return this.domandaService.getDomanda();
-          }
-        )
-      ).subscribe( (domanda: Domanda) => {
-      if (domanda.DomandaConcorso.Stato === 1) {
-          if (domanda.TitoliPreferenziali.length > 0) {
+    this.rest.getTitoliPreferenziali().subscribe( (data: TitoloPreferenziale[]) => {
+      if (this.domandaService.domandaobj.domanda.stato === 1) {
+        this.elencoTitoliPreferenziali = data;
+        if (this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.length > 0) {
             this.aventeTitoli.patchValue('SI');
 
             const test = this.elencoTitoliPreferenziali.filter((x) => {
               // tslint:disable-next-line:prefer-for-of
-              for (let i = 0; i < domanda.TitoliPreferenziali.length; i++) {
-                if (x.Id === domanda.TitoliPreferenziali[i].Id) {
+
+              this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.forEach((z) => {
+                if (x.id === z.id) {
                   return x;
                 }
-              }
+              });
+
             });
 
-            console.log('numero figli', this.domandaService.domanda);
 
 
-            this.numeroFigliSelezionati.patchValue(this.domandaService.domanda.NumeroFigli);
+            this.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numFigli);
 
-            console.log('test', test);
 
             this.titoliSelezionati.patchValue(test);
 
@@ -88,11 +83,11 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
       this.titoliSelezionati.updateValueAndValidity();
     });
 
-    this.titoliSelezionati.valueChanges.subscribe((x: Titolo[]) => {
+    this.titoliSelezionati.valueChanges.subscribe((x: TitoloPreferenziale[]) => {
 
       // @ts-ignore
       if (x !== null && x !== 'undefined') {
-        if (x.map(k => k.Id).includes(17)) {
+        if (x.map(k => k.id).includes(17)) {
           this.numeroFigliSelezionati.setValidators(Validators.required);
         } else {
           this.numeroFigliSelezionati.clearValidators();
@@ -101,7 +96,7 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
         this.numeroFigliSelezionati.updateValueAndValidity();
       }
 
-      this.domandaService.domanda.TitoliPreferenziali = this.titoliSelezionati.value;
+      this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = this.titoliSelezionati.value;
 
     });
 
@@ -109,7 +104,7 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
       (x) => {
         if (this.titoliSelezionati.value !== null && this.titoliSelezionati.value !== 'undefined') {
           if (this.titoliSelezionati.value.map(k => k.Id).includes(17)) {
-            this.domandaService.domanda.NumeroFigli = x;
+            this.domandaService.domandaobj.domanda.numFigli = x;
           }
         }
       }
