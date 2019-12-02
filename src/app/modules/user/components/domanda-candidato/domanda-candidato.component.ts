@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {DomandaService} from '../../../../core/services/domanda.service';
-import {Domanda} from '../../../../core/models';
+import {Domanda, DomandaObj} from '../../../../core/models';
 
 @Component({
   selector: 'app-submission-result',
@@ -19,23 +19,25 @@ export class DomandaCandidatoComponent implements OnInit {
   aventeFigli = false;
 
   ngOnInit() {
-    this.domandaService.getDomanda().subscribe(
-      (domanda: Domanda) => {
+    /*this.domandaService.getDomanda().subscribe(
+      (domanda: DomandaObj) => {
+
+        let d = domanda.domanda;
 
         this.md.get('fi').patchValue(
           {
-            istitutoFrequentato: domanda.TitoloDiploma.TipoDiploma,
-            tipoDiploma: domanda.TitoloDiploma.TipoDiploma,
-            provinciaIstituto: domanda.TitoloDiploma.Provincia,
-            comuneIstituto: domanda.TitoloDiploma.Comune,
-            viaIstituto: domanda.TitoloDiploma.Indirizzo,
-            annoDiploma: domanda.TitoloDiploma.AnnoConseguimento
+            istitutoFrequentato: '',
+            tipoDiploma: '',
+            provinciaIstituto: '',
+            comuneIstituto: '',
+            viaIstituto: '',
+            annoDiploma: '',
           }
         );
 
         this.md.get('fl').patchValue(
           {
-            linguaSelezionata: domanda.Lingua.Descrizione
+            linguaSelezionata: ''
           }
         );
 
@@ -87,7 +89,7 @@ export class DomandaCandidatoComponent implements OnInit {
         }
 
       }
-    );
+    );*/
 
   }
 

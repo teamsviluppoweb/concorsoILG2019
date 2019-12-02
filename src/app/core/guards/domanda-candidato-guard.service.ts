@@ -5,7 +5,7 @@ import {catchError, first, map} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {AuthService} from '../services';
 import {DomandaService} from '../services/domanda.service';
-import {Domanda} from '../models';
+import {Domanda, DomandaObj} from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -18,8 +18,8 @@ export class DomandaCandidatoGuardService implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.domanda.getDomanda().pipe(
-        map((domanda: Domanda) => {
-            if (domanda.DomandaConcorso.Stato === 1) {
+        map((domanda: DomandaObj) => {
+            if (domanda.domanda.stato === 1) {
               console.log('true');
               return true;
 

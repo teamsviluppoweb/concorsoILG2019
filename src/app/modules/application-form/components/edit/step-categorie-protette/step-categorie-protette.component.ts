@@ -21,33 +21,31 @@ export class StepCategorieProtetteComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.domandaService.domandaobj.domanda.stato === 1) {
+      if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale.toString() !== '') {
+        this.appartenenza.patchValue('SI');
+
+        const inv = this.domandaService.domandaobj.domanda.invaliditaCivile;
+
+        this.ausiliProva.patchValue(inv.ausili);
+        this.dataCertificazione.patchValue(inv.dataCertificazione);
+        this.invaliditaEnte.patchValue(inv.enteCertificatore);
+        this.esenzioneProvaSelettiva.patchValue(inv.esenteProvaPreselettiva);
+        this.percInvalidita.patchValue(inv.percentuale);
+        this.tempiAggiuntiviProva.patchValue(inv.tempiAggiuntivi);
+
+      } else {
+        this.appartenenza.patchValue('NO');
+      }
+    }
+
+
     this.onChanges();
   }
 
   onChanges() {
 
-    this.domandaService.getDomanda().subscribe(
-      (domanda: Domanda) => {
-        if (domanda.DomandaConcorso.Stato === 1) {
-          if (domanda.Invalidita.prcInvalidita !== '' && domanda.Invalidita.prcInvalidita !== null) {
-            this.appartenenza.patchValue('SI');
 
-            console.clear();
-            console.log('domanda categorie ', domanda);
-
-            this.ausiliProva.patchValue(domanda.Invalidita.ausProva);
-            this.dataCertificazione.patchValue(domanda.Invalidita.dataInvalidita);
-            this.invaliditaEnte.patchValue(domanda.Invalidita.enteInvalidita);
-            this.esenzioneProvaSelettiva.patchValue(domanda.Invalidita.eszProva);
-            this.percInvalidita.patchValue(domanda.Invalidita.prcInvalidita);
-            this.tempiAggiuntiviProva.patchValue(domanda.Invalidita.tmpAggiuntivi);
-
-          } else {
-            this.appartenenza.patchValue('NO');
-          }
-        }
-      }
-    );
 
     this.appartenenza.valueChanges.subscribe((x) => {
 
@@ -74,47 +72,47 @@ export class StepCategorieProtetteComponent implements OnInit {
 
     this.dataCertificazione.valueChanges.subscribe(
       (x) => {
-        if(x !== ""){
-          this.domandaService.domanda.Invalidita.dataInvalidita = x;
+        if (x !== '') {
+          this.domandaService.domandaobj.domanda.invaliditaCivile.dataCertificazione = x;
         }
       }
     );
 
     this.ausiliProva.valueChanges.subscribe(
       (x) => {
-        if(x !== ""){
-          this.domandaService.domanda.Invalidita.ausProva = x;
+        if (x !== '') {
+          this.domandaService.domandaobj.domanda.invaliditaCivile.ausili = x;
         }
       }
     );
 
     this.invaliditaEnte.valueChanges.subscribe(
       (x) => {
-        if(x !== ""){
-          this.domandaService.domanda.Invalidita.enteInvalidita = x;
+        if (x !== '') {
+          this.domandaService.domandaobj.domanda.invaliditaCivile.enteCertificatore = x;
         }
       }
     );
     this.esenzioneProvaSelettiva.valueChanges.subscribe(
       (x) => {
-        if(x !== ""){
-          this.domandaService.domanda.Invalidita.eszProva = x;
+        if (x !== '') {
+          this.domandaService.domandaobj.domanda.invaliditaCivile.esenteProvaPreselettiva = x;
         }
       }
     );
 
     this.percInvalidita.valueChanges.subscribe(
       (x) => {
-        if(x !== ""){
-          this.domandaService.domanda.Invalidita.prcInvalidita = x;
+        if (x !== '') {
+          this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale = x;
         }
       }
     );
 
     this.tempiAggiuntiviProva.valueChanges.subscribe(
       (x) => {
-        if(x !== ""){
-          this.domandaService.domanda.Invalidita.tmpAggiuntivi = x;
+        if (x !== '') {
+          this.domandaService.domandaobj.domanda.invaliditaCivile.tempiAggiuntivi = x;
         }
       }
     );
