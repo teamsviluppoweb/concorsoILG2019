@@ -29,7 +29,7 @@ export class Domanda implements IntDomanda {
   dataInvio: string;
   dataModifica: string;
   anagCandidato: AnagCandidato;
-  titoliStudioPosseduti?: (TitoliStudioPossedutiEntity)[] | null;
+  titoliStudioPosseduti?: TitoliStudioPossedutiEntity | null;
   lingua: LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua;
   lstRiserve?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;

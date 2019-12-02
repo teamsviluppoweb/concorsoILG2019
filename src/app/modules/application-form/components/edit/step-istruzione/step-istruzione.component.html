@@ -60,15 +60,15 @@
     <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
 
       <mat-form-field appearance="outline" fxFlex="40">
-        <mat-select #singleSelect
+        <mat-select #provinceSelect
                     [formControl]="provinciaIstituto"
                     placeholder="Seleziona Provincia istituto">
 
           <ngx-mat-select-search [formControl]="provinceDropdown"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
                                  [placeholderLabel]="'Cerca provincia . . '"></ngx-mat-select-search>
-          <mat-option *ngFor="let prov of (filteredBanks | async)" [value]="prov">
-            {{prov}}
+          <mat-option *ngFor="let prov of (filtroProvince | async)" [value]="prov">
+            {{prov.nome}}
           </mat-option>
         </mat-select>
         <mat-hint>&emsp;* Required</mat-hint>
@@ -77,14 +77,14 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" fxFlex="40">
-        <mat-select #singleSelect
+        <mat-select #comuneSelect
                     [formControl]="comuneIstituto"
                     placeholder="Seleziona Comune istituto">
           <ngx-mat-select-search [formControl]="comuniDropdown"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
                                  [placeholderLabel]="'Cerca comune . . '"></ngx-mat-select-search>
-          <mat-option *ngFor="let prov of (filteredComuni | async)" [value]="prov">
-            {{prov}}
+          <mat-option *ngFor="let prov of (filtroComuni | async)" [value]="prov">
+            {{prov.nome}}
           </mat-option>
         </mat-select>
         <mat-hint>&emsp;* Required</mat-hint>
