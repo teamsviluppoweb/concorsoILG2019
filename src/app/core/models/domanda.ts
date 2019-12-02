@@ -1,76 +1,78 @@
 import { Injectable } from '@angular/core';
+import {
+  IntAnagCandidato,
+  IntComuneNascitaOrLuogoIstituto,
+  IntDomanda,
+  IntDomandaObj, IntInvaliditaCivile, IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua,
+  IntTipologiaOrTitoloOrIndirizzo,
+  IntTitoliStudioPossedutiEntity
+} from './interfaces';
 
 @Injectable({
   providedIn: 'root',
 })
-export class Domanda {
-  DomandaConcorso: DomandaConcorso;
-  Anagrafica: Anagrafica;
-  TitoloDiploma: TitoloDiploma;
-  Lingua: Lingua;
-  Riserve?: Riserva[] | null;
-  TitoliPreferenziali?: Titolo[] | null;
-  Invalidita?: Invalidita;
-  NumeroFigli: string;
-
-
-  constructor() {
-    this.DomandaConcorso = new DomandaConcorso();
-    this.Anagrafica = new Anagrafica();
-    this.TitoloDiploma = new TitoloDiploma();
-    this.Lingua = new Lingua();
-    this.Invalidita = new Invalidita();
-  }
+export class DomandaObj implements IntDomandaObj{
+  domanda: Domanda;
+  errore: string;
+  operazione: number;
 }
 
-export class DomandaConcorso {
-  IdDomanda: string;
-  Versione: string;
-  Stato: number;
-  IstanzaJSON: string;
-  DataInvio: string;
-  DataModifica: string;
+@Injectable({
+  providedIn: 'root',
+})
+export class Domanda implements IntDomanda{
+  id: string;
+  idDomanda: string;
+  versione: number;
+  stato: number;
+  istanzaJSON: string;
+  dataInvio: string;
+  dataModifica: string;
+  anagCandidato: AnagCandidato;
+  titoliStudioPosseduti?: (TitoliStudioPossedutiEntity)[] | null;
+  lingua: LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua;
+  lstRiserve?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
+  lstTitoliPreferenziali?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
+  invaliditaCivile: InvaliditaCivile;
 }
-export class Anagrafica {
-  CodiceFiscale: string;
-  Cognome: string;
-  Nome: string;
-  ProvinciaNascita: string;
-  ComuneNascita: string;
-  DataNascita: string;
-  Sesso: string;
-  Residenza: string;
-  Cellulare: string;
-  Email: string;
-  DomicilioDigitale: string;
+export class AnagCandidato implements IntAnagCandidato{
+  codiceFiscale: string;
+  cognome: string;
+  nome: string;
+  dataNascita: string;
+  comuneNascita: ComuneNascitaOrLuogoIstituto;
+  residenza: string;
+  telefono: string;
+  email: string;
 }
-export class TitoloDiploma {
-  TipoDiploma: string;
-  Istituto: string;
-  AnnoConseguimento: string;
-  Provincia: string;
-  Comune: string;
-  Indirizzo: string;
+export class ComuneNascitaOrLuogoIstituto implements  IntComuneNascitaOrLuogoIstituto{
+  codice: string;
+  nome: string;
+  codiceProvincia: string;
 }
-export class Lingua {
-  Id: string;
-  Descrizione: string;
+export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEntity{
+  tipologia: TipologiaOrTitoloOrIndirizzo;
+  titolo: TipologiaOrTitoloOrIndirizzo;
+  indirizzo: TipologiaOrTitoloOrIndirizzo;
+  dataConseguimento: string;
+  istituto: string;
+  luogoIstituto: ComuneNascitaOrLuogoIstituto;
+  durataAnni: string;
 }
-export class Invalidita {
-  prcInvalidita: string;
-  enteInvalidita: string;
-  dataInvalidita: string;
-  eszProva: string;
-  ausProva: string;
-  tmpAggiuntivi: string;
+export class TipologiaOrTitoloOrIndirizzo implements  IntTipologiaOrTitoloOrIndirizzo{
+  id: string;
+  desc: string;
 }
-
-export class Riserva {
-  Id: number;
-  Descrizione: string;
+export class LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua implements IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua{
+  id: number;
+  descrizione: string;
 }
-
-export class Titolo {
-  Id: number;
-  Descrizione: string;
+export class InvaliditaCivile implements IntInvaliditaCivile{
+  percentuale: number;
+  dataCertificazione: string;
+  enteCertificatore: string;
+  provincia: string;
+  ausili: boolean;
+  tempiAggiuntivi: boolean;
+  esenteProvaPreselettiva: boolean;
 }
