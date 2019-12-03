@@ -15,10 +15,6 @@ export class DomandaObj implements IntDomandaObj{
   domanda: DomandaModel;
   errore: string;
   operazione: number;
-
-  constructor() {
-    this.domanda = new DomandaModel();
-  }
 }
 
 

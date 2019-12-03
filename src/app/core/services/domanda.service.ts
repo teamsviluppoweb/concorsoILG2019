@@ -4,7 +4,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { map, tap} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {DomandaObj} from '../models/domanda/domanda.model';
+import {DomandaObj} from '../models';
 
 
 export const searchUrl = 'http://localhost:8080/';
@@ -49,18 +49,9 @@ export class DomandaService {
     return this.http.get<DomandaObj | Response>(environment.endpoint.domanda, options)
       .pipe(
         map( (response: DomandaObj) => {
+         this.domandaobj = response;
 
-          console.log(this.domandaobj);
-
-     /*     this.domandaobj.domanda.anagCandidato = response.domanda.anagCandidato;
-          this.domandaobj.domanda.titoliStudioPosseduti = response.domanda.titoliStudioPosseduti;
-          this.domandaobj.domanda.lingua = response.domanda.lingua;
-          this.domandaobj.domanda.lstTitoliPreferenziali = response.domanda.lstTitoliPreferenziali;
-          this.domandaobj.domanda.lstRiserve = response.domanda.lstRiserve;
-          this.domandaobj.domanda.invaliditaCivile = response.domanda.invaliditaCivile;
-          this.domandaobj.domanda.numFigli = response.domanda.numFigli;*/
-
-          return response;
+         return response;
         }  ),
       );
   }
