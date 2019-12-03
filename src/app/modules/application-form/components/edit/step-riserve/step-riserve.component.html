@@ -26,13 +26,13 @@
        </mat-select-trigger>
 
        <mat-option *ngFor="let i of elencoRiserve"  [value]="i">
-         {{i.desc}}
+         {{i.descrizione}}
        </mat-option>
 
      </mat-select>
    </mat-form-field>
    <ul *ngFor="let i of riserveSelezionate.value" fxFlex="grow">
-     <li>{{i.Descrizione}}</li>
+     <li>{{i.descrizione}}</li>
    </ul>
  </div>
 

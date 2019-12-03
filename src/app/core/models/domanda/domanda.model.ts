@@ -63,7 +63,7 @@ export class ComuneNascitaOrLuogoIstituto implements  IntComuneNascitaOrLuogoIst
 @Injectable({
   providedIn: 'root',
 })
-export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEntity{
+export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEntity {
   tipologia: TipologiaOrTitoloOrIndirizzo;
   titolo: TipologiaOrTitoloOrIndirizzo;
   indirizzo: TipologiaOrTitoloOrIndirizzo;

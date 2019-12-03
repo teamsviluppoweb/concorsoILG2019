@@ -42,11 +42,15 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   constructor(private formbuilder: FormBuilder,
               private rest: RestService,
-              private domandaService: DomandaService) {
-  }
+              private domandaService: DomandaService) {}
 
 
   ngOnInit() {
+
+    if (this.domandaService.domandaobj.domanda.stato === 1) {
+      this.annoDiploma.patchValue(this.domandaService.domandaobj.domanda.titoliStudioPosseduti.durataAnni);
+    }
+
     this.rest.getProvince().subscribe(
         (data: Provincia[]) => {
            this.listaProvince = data;
