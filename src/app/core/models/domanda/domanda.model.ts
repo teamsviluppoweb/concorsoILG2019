@@ -12,15 +12,17 @@ import {
   providedIn: 'root',
 })
 export class DomandaObj implements IntDomandaObj{
-  domanda: Domanda;
+  domanda: DomandaModel;
   errore: string;
   operazione: number;
+
+  constructor() {
+    this.domanda = new DomandaModel();
+  }
 }
 
-@Injectable({
-  providedIn: 'root',
-})
-export class Domanda implements IntDomanda {
+
+export class DomandaModel implements IntDomanda {
   id: string;
   idDomanda: string;
   versione: number;
@@ -36,6 +38,10 @@ export class Domanda implements IntDomanda {
   numFigli: string;
   invaliditaCivile: InvaliditaCivile;
 }
+
+@Injectable({
+  providedIn: 'root',
+})
 export class AnagCandidato implements IntAnagCandidato{
   codiceFiscale: string;
   cognome: string;
@@ -46,11 +52,21 @@ export class AnagCandidato implements IntAnagCandidato{
   telefono: string;
   email: string;
 }
+
+@Injectable({
+  providedIn: 'root',
+})
 export class ComuneNascitaOrLuogoIstituto implements  IntComuneNascitaOrLuogoIstituto{
   codice: string;
   nome: string;
   codiceProvincia: string;
+
+  constructor() {}
 }
+
+@Injectable({
+  providedIn: 'root',
+})
 export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEntity{
   tipologia: TipologiaOrTitoloOrIndirizzo;
   titolo: TipologiaOrTitoloOrIndirizzo;
@@ -60,15 +76,36 @@ export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEnti
   luogoIstituto: ComuneNascitaOrLuogoIstituto;
   via: string;
   durataAnni: string;
+
+  constructor() {}
+
 }
+
+@Injectable({
+  providedIn: 'root',
+})
 export class TipologiaOrTitoloOrIndirizzo implements  IntTipologiaOrTitoloOrIndirizzo{
   id: string;
   desc: string;
+
+  constructor() {}
+
 }
+
+@Injectable({
+  providedIn: 'root',
+})
 export class LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua implements IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua{
   id: number;
   descrizione: string;
+
+  constructor() {}
+
 }
+
+@Injectable({
+  providedIn: 'root',
+})
 export class InvaliditaCivile implements IntInvaliditaCivile{
   percentuale: number;
   dataCertificazione: string;
@@ -77,4 +114,7 @@ export class InvaliditaCivile implements IntInvaliditaCivile{
   ausili: boolean;
   tempiAggiuntivi: boolean;
   esenteProvaPreselettiva: boolean;
+
+  constructor() {}
+
 }

@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {DomandaService} from '../../../../core/services/domanda.service';
-import {Domanda, DomandaObj} from '../../../../core/models';
 
 @Component({
   selector: 'app-submission-result',

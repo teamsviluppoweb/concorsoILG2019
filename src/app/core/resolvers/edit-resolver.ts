@@ -14,7 +14,7 @@ export class EditResolver implements Resolve<any> {
   constructor(private http: DomandaService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Observable<never> {
-    return this.http.forkJoin();
+    return this.http.getDomanda();
   }
 
 }

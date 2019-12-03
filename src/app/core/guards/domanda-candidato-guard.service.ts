@@ -5,7 +5,7 @@ import {catchError, first, map} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {AuthService} from '../services';
 import {DomandaService} from '../services/domanda.service';
-import {Domanda, DomandaObj} from '../models';
+import {DomandaObj} from '../models';
 
 @Injectable({
   providedIn: 'root'

@@ -27,7 +27,7 @@ export class StepInviaDomandaComponent implements OnInit {
     this.domandaService.putDomanda(this.domandaService.domandaobj.domanda).subscribe(
       () => {
         localStorage.setItem('domanda', JSON.stringify(this.domandaService.domandaobj.domanda));
-        this.domandaService.sendMessage('Modifica Domanda');
+        this.domandaService.sendMessage('Modifica DomandaModel');
         this.domandaService.sendStato(true);
 
         this.router.navigate(['/user']);

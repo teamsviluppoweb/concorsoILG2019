@@ -3,7 +3,6 @@ import {FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {CustomValidators} from '../../../../../shared/validators/customValidators';
 import {DomandaService} from '../../../../../core/services/domanda.service';
-import {Domanda} from '../../../../../core/models';
 
 @Component({
   // tslint:disable-next-line:component-selector

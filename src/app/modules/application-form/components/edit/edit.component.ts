@@ -51,11 +51,6 @@ export class EditComponent implements OnInit, OnDestroy {
     this.riserveValid = this.moduloDomanda.controls.formRiserve;
     this.categorieProtetteValid = this.moduloDomanda.controls.formCategorieProtette;
     this.accettazioneValid = this.moduloDomanda.controls.formDichiarazione;
-
-    this.http.forkJoin().subscribe(
-      ([province, lingue, titoli, riserve, domanda]) => {
-
-      });
   }
 
   inizializzaDomanda() {

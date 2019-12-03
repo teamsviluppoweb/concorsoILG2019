@@ -2,9 +2,7 @@ import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 
-import {Domanda, IntTipologiaOrTitoloOrIndirizzo, LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua} from '../../../../../core/models';
 import {MatStepper} from '@angular/material';
-import {concatMap} from 'rxjs/operators';
 import {TitoloPreferenziale} from '../../../../../core/models/rest/rest-interface';
 import {RestService} from '../../../../../core/services/rest.service';
 
