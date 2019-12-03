@@ -63,10 +63,11 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       .pipe(
         // Mi assicuro che il valore nel form sia valido
         filter(() => this.provinciaIstituto.valid),
-        concatMap((data: Provincia) => this.rest.getComuni(data.codice))
+        concatMap((data: Comune) => this.rest.getComuni(data.codice))
       )
       .subscribe((data: Comune[]) => {
         this.listaComuni = data;
+        console.log(this.listaComuni);
         this.filtroComuni.next(this.listaComuni.slice());
         this.setInitialComuneValue(this.filtroComuni);
       });

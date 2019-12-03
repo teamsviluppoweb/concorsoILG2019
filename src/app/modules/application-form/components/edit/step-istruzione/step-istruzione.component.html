@@ -1,4 +1,6 @@
-<div [formGroup]="parent">
+<div [formGroup]="parent" >
+
+  <div formGroupName="formIstruzione">
 
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
 
@@ -61,10 +63,10 @@
 
       <mat-form-field appearance="outline" fxFlex="40">
         <mat-select #provinceSelect
-                    [formControl]="provinciaIstituto"
+                    formControlName="provinciaIstituto"
                     placeholder="Seleziona Provincia istituto">
 
-          <ngx-mat-select-search [formControl]="provinceDropdown"
+          <ngx-mat-select-search formControlName="provinceDropdown"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
                                  [placeholderLabel]="'Cerca provincia . . '"></ngx-mat-select-search>
           <mat-option *ngFor="let prov of (filtroProvince | async)" [value]="prov">
@@ -78,13 +80,13 @@
 
       <mat-form-field appearance="outline" fxFlex="40">
         <mat-select #comuneSelect
-                    [formControl]="comuneIstituto"
+                    formControlName="comuneIstituto"
                     placeholder="Seleziona Comune istituto">
-          <ngx-mat-select-search [formControl]="comuniDropdown"
+          <ngx-mat-select-search formControlName="comuniDropdown"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
                                  [placeholderLabel]="'Cerca comune . . '"></ngx-mat-select-search>
-          <mat-option *ngFor="let prov of (filtroComuni | async)" [value]="prov">
-            {{prov.nome}}
+          <mat-option *ngFor="let com of (filtroComuni | async)" [value]="com">
+            {{com.nome}}
           </mat-option>
         </mat-select>
         <mat-hint>&emsp;* Required</mat-hint>
@@ -117,5 +119,5 @@
     </div>
   </div>
 
-
+  </div>
 </div>
