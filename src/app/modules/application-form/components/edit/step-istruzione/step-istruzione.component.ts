@@ -4,7 +4,13 @@ import { MatSelect} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
 import {concatMap, filter, map, take, takeUntil, tap} from 'rxjs/operators';
-import {Comune, Provincia, TipologiaTitoloStudio, TitoliTitoloStudio} from '../../../../../core/models/rest/rest-interface';
+import {
+  Comune,
+  Provincia,
+  TipologiaTitoloStudio,
+  TitoliTitoloIndirizzo,
+  TitoliTitoloStudio
+} from '../../../../../core/models/rest/rest-interface';
 import {RestService} from '../../../../../core/services/rest.service';
 
 /* ## Disabilita il required di istruzione */
@@ -41,6 +47,10 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
   @ViewChild('titoliSelect', { static: true }) titoliSelect: MatSelect;
   public filtroTitolo: ReplaySubject<TitoliTitoloStudio[]> = new ReplaySubject<TitoliTitoloStudio[]>(1);
   listaTitoli: TitoliTitoloStudio[];
+
+  @ViewChild('indirizziSelect', { static: true }) indirizziSelect: MatSelect;
+  public filtroIndirizzi: ReplaySubject<TitoliTitoloIndirizzo[]> = new ReplaySubject<TitoliTitoloIndirizzo[]>(1);
+  listaIndirizzi: TitoliTitoloIndirizzo[];
 
 
   private onDetroy = new Subject<void>();
@@ -118,6 +128,16 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       this.setInitialTitoliValue(this.filtroTitolo);
     });
 
+    this.titolo.valueChanges.pipe(
+      map((titolo: TitoliTitoloIndirizzo) => titolo.id),
+      tap((x) =>  console.log(x)),
+      concatMap(id => this.rest.getIndirizziTitoliStudio(id))
+    ).subscribe((data: TitoliTitoloIndirizzo[]) => {
+      this.listaIndirizzi = data;
+      this.filtroIndirizzi.next(this.listaIndirizzi.slice());
+      this.setInitialTitoliValue(this.filtroIndirizzi);
+    });
+
     // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei comuni
     this.comuniDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
@@ -137,10 +157,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     });
 
   }
-
-
-
-
 
   private setInitialTipologieValue(data: Observable<TipologiaTitoloStudio[]>) {
     data
@@ -166,6 +182,19 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
         this.titoliSelect.compareWith = (a: string, b: string) => a && b && a === b;
+      });
+  }
+
+  private setInitialIndirizziValue(data: Observable<TitoliTitoloIndirizzo[]>) {
+    data
+      .pipe(take(1), takeUntil(this.onDetroy))
+      .subscribe(() => {
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredBanks are loaded initially
+        // and after the mat-option elements are available
+        this.indirizziSelect.compareWith = (a: string, b: string) => a && b && a === b;
       });
   }
 

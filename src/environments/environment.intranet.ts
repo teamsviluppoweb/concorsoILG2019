@@ -19,5 +19,7 @@ export const environment = {
     comuni: 'http://webpc.dipvvf.it:8020/Province',
     tipologia: 'http://webpc.dipvvf.it:8020//TitoliStudio/Tipologie',
     titolo: 'http://webpc.dipvvf.it:8020//TitoliStudio/titoli/',
+    indirizzi: 'http://webpc.dipvvf.it:8020//TitoliStudio/indirizzi/',
+
   }
 };

@@ -39,10 +39,33 @@
       </mat-select>
       <mat-hint>&emsp;* Required</mat-hint>
 
-      <mat-error *ngIf="tipologia.hasError('required')">Campo Obbligatorio</mat-error>
+      <mat-error *ngIf="titoloDropdown.hasError('required')">Campo Obbligatorio</mat-error>
     </mat-form-field>
 
    </div>
+
+
+    <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
+
+      <mat-form-field appearance="outline" fxFlex="100">
+        <mat-select #indirizziSelect
+                    formControlName="indirizzo"
+                    placeholder="Seleziona indirizzo studio">
+
+          <ngx-mat-select-search  formControlName="indirizzoDropdown"
+                                  [noEntriesFoundLabel]="'Nessun risultato'"
+                                  [placeholderLabel]="'Cerca tipologia . . '"></ngx-mat-select-search>
+          <mat-option *ngFor="let ind of (filtroIndirizzi | async)" [value]="ind">
+            {{ind.desc}}
+          </mat-option>
+        </mat-select>
+        <mat-hint>&emsp;* Required</mat-hint>
+
+        <mat-error *ngIf="indirizzo.hasError('required')">Campo Obbligatorio</mat-error>
+      </mat-form-field>
+
+    </div>
+
 
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
 

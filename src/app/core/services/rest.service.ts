@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Comune, Lingua, Riserva, TipologiaTitoloStudio, TitoliTitoloStudio, TitoloPreferenziale} from '../models/rest/rest-interface';
+import {
+  Comune,
+  Lingua,
+  Riserva,
+  TipologiaTitoloStudio,
+  TitoliTitoloIndirizzo,
+  TitoliTitoloStudio,
+  TitoloPreferenziale
+} from '../models/rest/rest-interface';
 import {environment} from '../../../environments/environment';
 
 @Injectable({
@@ -38,6 +46,10 @@ export class RestService {
 
   getTitoliTitoloStudio(id: string): Observable<TitoliTitoloStudio[]>  {
     return this.http.get<TitoliTitoloStudio[]>(environment.endpoint.titolo + id);
+  }
+
+  getIndirizziTitoliStudio(id: string): Observable<TitoliTitoloIndirizzo[]>  {
+    return this.http.get<TitoliTitoloIndirizzo[]>(environment.endpoint.indirizzi + id);
   }
 
 }
