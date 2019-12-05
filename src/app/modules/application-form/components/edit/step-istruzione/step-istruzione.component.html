@@ -23,6 +23,27 @@
 
     </div>
 
+   <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
+
+    <mat-form-field appearance="outline" fxFlex="100">
+      <mat-select #titoliSelect
+                  formControlName="titolo"
+                  placeholder="Seleziona titolo di studio">
+
+        <ngx-mat-select-search  formControlName="titoloDropdown"
+                                [noEntriesFoundLabel]="'Nessun risultato'"
+                                [placeholderLabel]="'Cerca tipologia . . '"></ngx-mat-select-search>
+        <mat-option *ngFor="let titl of (filtroTitolo | async)" [value]="titl">
+          {{titl.desc}}
+        </mat-option>
+      </mat-select>
+      <mat-hint>&emsp;* Required</mat-hint>
+
+      <mat-error *ngIf="tipologia.hasError('required')">Campo Obbligatorio</mat-error>
+    </mat-form-field>
+
+   </div>
+
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
 
 

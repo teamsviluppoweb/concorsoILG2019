@@ -3,8 +3,8 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import { MatSelect} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
-import {concatMap, filter, map, take, takeUntil} from 'rxjs/operators';
-import {Comune, Provincia, TipologiaTitoloStudio} from '../../../../../core/models/rest/rest-interface';
+import {concatMap, filter, map, take, takeUntil, tap} from 'rxjs/operators';
+import {Comune, Provincia, TipologiaTitoloStudio, TitoliTitoloStudio} from '../../../../../core/models/rest/rest-interface';
 import {RestService} from '../../../../../core/services/rest.service';
 
 /* ## Disabilita il required di istruzione */
@@ -24,20 +24,23 @@ import {RestService} from '../../../../../core/services/rest.service';
 export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   @Input() parent: FormGroup;
+
+
   @ViewChild('provinceSelect', { static: true }) provinceSelect: MatSelect;
-  @ViewChild('comuneSelect', { static: true }) comuneSelect: MatSelect;
-  @ViewChild('tipologiaSelect', { static: true }) tipologiaSelect: MatSelect;
-
-
   public filtroProvince: ReplaySubject<Provincia[]> = new ReplaySubject<Provincia[]>(1);
   listaProvince: Provincia[];
 
-
+  @ViewChild('comuneSelect', { static: true }) comuneSelect: MatSelect;
   public filtroComuni: ReplaySubject<Comune[]> = new ReplaySubject<Comune[]>(1);
   listaComuni: Comune[];
 
+  @ViewChild('tipologiaSelect', { static: true }) tipologiaSelect: MatSelect;
   public filtroTipologie: ReplaySubject<TipologiaTitoloStudio[]> = new ReplaySubject<TipologiaTitoloStudio[]>(1);
   listaTipologie: TipologiaTitoloStudio[];
+
+  @ViewChild('titoliSelect', { static: true }) titoliSelect: MatSelect;
+  public filtroTitolo: ReplaySubject<TitoliTitoloStudio[]> = new ReplaySubject<TitoliTitoloStudio[]>(1);
+  listaTitoli: TitoliTitoloStudio[];
 
 
   private onDetroy = new Subject<void>();
@@ -105,6 +108,16 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       });
 
 
+    this.tipologia.valueChanges.pipe(
+      map((tipologia: TipologiaTitoloStudio) => tipologia.id),
+      tap((x) =>  console.log(x)),
+      concatMap(id => this.rest.getTitoliTitoloStudio(id))
+    ).subscribe((data: TitoliTitoloStudio[]) => {
+      this.listaTitoli = data;
+      this.filtroTitolo.next(this.listaTitoli.slice());
+      this.setInitialTitoliValue(this.filtroTitolo);
+    });
+
     // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei comuni
     this.comuniDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
@@ -138,7 +151,21 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        this.tipologiaSelect.compareWith = (a: string, b: string) => a && b && a === b;
+      });
+  }
+
+
+  private setInitialTitoliValue(data: Observable<TitoliTitoloStudio[]>) {
+    data
+      .pipe(take(1), takeUntil(this.onDetroy))
+      .subscribe(() => {
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredBanks are loaded initially
+        // and after the mat-option elements are available
+        this.titoliSelect.compareWith = (a: string, b: string) => a && b && a === b;
       });
   }
 
