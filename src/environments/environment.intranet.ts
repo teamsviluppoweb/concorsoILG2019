@@ -11,11 +11,11 @@ export const environment = {
   localIp: 'pc39548.dipvvf.it',
   hostredirect: 'https://pc39548.dipvvf.it:4200/',
   endpoint: {
-    domanda: 'http://localhost:8080/domanda',
-    titoli: 'http://localhost:8080/titoli',
-    riserve: 'http://localhost:8080/riserve',
-    lingue: 'http://localhost:8080/lingue',
-    province: 'http://localhost:8080/province',
-    comuni: 'http://localhost:8080/comuni',
+    domanda: 'http://webpc.dipvvf.it:8020/GetDomanda',
+    titoli: 'http://webpc.dipvvf.it:8020/TitoliPreferenziali',
+    riserve: 'http://webpc.dipvvf.it:8020/Riserve',
+    lingue: 'http://webpc.dipvvf.it:8020/Lingue',
+    province: 'http://webpc.dipvvf.it:8020/Province',
+    comuni: 'http://webpc.dipvvf.it:8020/Province',
   }
 };

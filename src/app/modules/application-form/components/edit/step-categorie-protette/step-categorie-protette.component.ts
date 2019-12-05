@@ -21,7 +21,7 @@ export class StepCategorieProtetteComponent implements OnInit {
 
   ngOnInit() {
     if (this.domandaService.domandaobj.domanda.stato === 1) {
-      if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale.toString() !== '') {
+      if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale) {
         this.appartenenza.patchValue('SI');
 
         const inv = this.domandaService.domandaobj.domanda.invaliditaCivile;
