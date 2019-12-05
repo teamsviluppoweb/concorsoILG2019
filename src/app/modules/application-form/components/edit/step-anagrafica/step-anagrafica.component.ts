@@ -13,42 +13,20 @@ export class StepAnagraficaComponent implements OnInit {
   anagraficaForm: FormGroup;
 
   constructor(private domandaService: DomandaService, private formBuilder: FormBuilder) {
+  }
 
-    console.log(this.domandaService.domandaobj);
-
-
+  ngOnInit() {
     const agf = this.domandaService.domandaobj.domanda.anagCandidato;
     this.anagraficaForm = this.formBuilder.group({
       Cognome: [agf.cognome],
       Nome: [agf.nome],
       CodiceFiscale: [agf.codiceFiscale],
       Residenza: [agf.residenza],
+      DataNascita: [agf.dataNascita],
+      LuogoNascita: [agf.comuneNascita.nome + ' (' + [agf.comuneNascita.codiceProvincia] + ')'],
+      Telefono: [agf.telefono],
+      Email: [agf.email],
     });
-
-
-  }
-
-  ngOnInit() {
-  }
-
-
-  get Cognome() {
-    return this.anagraficaForm.get('Cognome');
-  }
-
-
-  get Nome() {
-    return this.anagraficaForm.get('Nome');
-  }
-
-
-  get CodiceFiscale() {
-    return this.anagraficaForm.get('CodiceFiscale');
-  }
-
-
-  get Residenza() {
-    return this.anagraficaForm.get('Residenza');
   }
 
 

@@ -7,13 +7,13 @@
 </mat-panel-title>
 
 
-<form>
+<form [formGroup]="anagraficaForm">
   <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column" [formGroup]="anagraficaForm">
 
     <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="1 0 auto">
       <mat-label>Cognome</mat-label>
       <label>
-        <input [formControl]="Cognome" name="cognome"
+        <input formControlName="Cognome" name="cognome"
                matInput
                placeholder="Cognome"
                readonly>
@@ -23,7 +23,7 @@
     <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="1 0 auto">
       <mat-label>Nome</mat-label>
       <label>
-        <input [formControl]="Nome" name="nome"
+        <input formControlName="Nome" name="nome"
                matInput
                placeholder="Nome"
                readonly>
@@ -33,7 +33,7 @@
     <mat-form-field appearance="outline" fxFlex="" fxFlex.sm="grow">
       <mat-label>Codice fiscale</mat-label>
       <label>
-        <input [formControl]='CodiceFiscale' name="codiceFiscale"
+        <input formControlName='CodiceFiscale' name="codiceFiscale"
                matInput
                placeholder="Codice Fiscale"
                readonly>
@@ -47,12 +47,63 @@
     <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="">
       <mat-label>Residenza</mat-label>
       <label>
-        <input [formControl]="Residenza" name="residenza"
+        <input formControlName="Residenza" name="residenza"
                matInput
                placeholder="Residenza"
                readonly>
       </label>
     </mat-form-field>
+
+
+
+    <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="">
+      <mat-label>Data Nascita</mat-label>
+      <label>
+        <input formControlName="DataNascita" name="dataNascita"
+               matInput
+               placeholder="Data Nascita"
+               readonly>
+      </label>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" fxFlex="" fxFlex.sm="grow">
+      <mat-label>Luogo Di Nascita</mat-label>
+      <label>
+        <input formControlName='LuogoNascita' name="LuogoNascita"
+               matInput
+               placeholder="Luogo Nascita"
+               readonly>
+      </label>
+    </mat-form-field>
+
+  </div>
+
+
+
+  <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
+
+    <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="">
+      <mat-label>Telefono</mat-label>
+      <label>
+        <input formControlName="Telefono" name="Telefono"
+               matInput
+               placeholder="Telefono"
+               readonly>
+      </label>
+    </mat-form-field>
+
+
+
+    <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="">
+      <mat-label>Email</mat-label>
+      <label>
+        <input formControlName="Email" name="Email"
+               matInput
+               placeholder="Email"
+               readonly>
+      </label>
+    </mat-form-field>
+
 
 
   </div>
