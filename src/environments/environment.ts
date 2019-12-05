@@ -17,5 +17,6 @@ export const environment = {
     lingue: 'http://192.168.1.228:8080/lingue',
     province: 'http://192.168.1.228:8080/province',
     comuni: 'http://192.168.1.228:8080/comuni',
+    tipologia: 'http://192.168.1.228:8080/comuni',
   }
 };

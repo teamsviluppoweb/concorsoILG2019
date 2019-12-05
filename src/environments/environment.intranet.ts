@@ -17,5 +17,6 @@ export const environment = {
     lingue: 'http://webpc.dipvvf.it:8020/Lingue',
     province: 'http://webpc.dipvvf.it:8020/Province',
     comuni: 'http://webpc.dipvvf.it:8020/Province',
+    tipologia: 'http://webpc.dipvvf.it:8020//TitoliStudio/Tipologie',
   }
 };

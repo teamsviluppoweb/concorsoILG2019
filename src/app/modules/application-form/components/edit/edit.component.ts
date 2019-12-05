@@ -56,19 +56,25 @@ export class EditComponent implements OnInit, OnDestroy {
   inizializzaDomanda() {
     this.moduloDomanda = this.formBuilder.group({
       formIstruzione: this.formBuilder.group({
-        istitutoFrequentato: ['', [Validators.required, Validators.maxLength(255)]],
-        tipoDiploma: ['', [Validators.required, Validators.maxLength(255)]],
-        provinciaIstituto: ['', [Validators.required]],
-        provinceDropdown: ['', ],
-        comuneIstituto: ['', [Validators.required]],
-        comuniDropdown: ['', ],
-        viaIstituto: ['', [Validators.required, Validators.maxLength(255)]],
-        annoDiploma: ['', [
+        tipologia: ['', [Validators.required]],
+        titolo: ['', [Validators.required]],
+        indirizzo: ['', []],
+        luogoIstituto: ['', [Validators.required]],
+        indirizzoIstituto: ['', [Validators.required, Validators.maxLength(255)]],
+        dataConseguimento: ['', [
           Validators.required,
           Validators.minLength(4),
           Validators.maxLength(4),
           Validators.max(new Date().getFullYear()),
           CustomValidators.onlyNumber]],
+          // DROPDOWN
+          provinciaIstituto: [],
+          comuneIstituto: [],
+          comuniDropdown: [],
+          provinceDropdown: [],
+          tipologiaDropdown: [],
+          titoloDropdown: [],
+          indirizzoDropdown: [],
       }),
       formLingua: this.formBuilder.group({
         linguaSelezionata: ['', [Validators.required]],

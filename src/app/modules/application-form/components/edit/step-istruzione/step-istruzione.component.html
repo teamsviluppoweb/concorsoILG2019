@@ -2,47 +2,34 @@
 
   <div formGroupName="formIstruzione">
 
-    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+    <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
 
-<!--      <mat-form-field appearance="outline" fxFlex="40">
-        <mat-label>Istituto frequentato</mat-label>
-        <input [formControl]="istitutoFrequentato"
-               matInput
-               maxLength="255"
-               placeholder="Es: Istituto Tecnico Commerciale">
+      <mat-form-field appearance="outline" fxFlex="100">
+        <mat-select #tipologiaSelect
+                    formControlName="tipologia"
+                    placeholder="Seleziona tipologia titolo di studio">
 
-        <mat-hint align="end">{{istitutoFrequentato.value?.length || 0}}/255</mat-hint>
+          <ngx-mat-select-search  formControlName="tipologiaDropdown"
+                                  [noEntriesFoundLabel]="'Nessun risultato'"
+                                  [placeholderLabel]="'Cerca tipologia . . '"></ngx-mat-select-search>
+          <mat-option *ngFor="let tipo of (filtroTipologie | async)" [value]="tipo">
+            {{tipo.desc}}
+          </mat-option>
+        </mat-select>
         <mat-hint>&emsp;* Required</mat-hint>
 
-        <mat-error *ngIf="istitutoFrequentato.hasError('required')">
-          Campo Obbligatorio
-        </mat-error>
-        <mat-error *ngIf="istitutoFrequentato.hasError('maxlength')">
-          I caratteri massimi sono 255
-        </mat-error>
-        <mat-error *ngIf="istitutoFrequentato.hasError('minlength')">
-          I caratteri minimi sono 2
-        </mat-error>
-
+        <mat-error *ngIf="tipologia.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" fxFlex="40">
-        <mat-label>Tipo diploma</mat-label>
-        <input [formControl]="tipoDiploma"
-               matInput
-               maxLength="255"
-               placeholder="Tipo di diploma conseguito">
+    </div>
 
-        <mat-hint align="end">{{tipoDiploma.value?.length || 0}}/255</mat-hint>
-        <mat-hint>&emsp;* Required</mat-hint>
+    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
 
-        <mat-error *ngIf="tipoDiploma.hasError('required')">Campo Obbligatorio</mat-error>
-        <mat-error *ngIf="tipoDiploma.hasError('maxlength')">Hai superato il limite dei caratteri</mat-error>
-      </mat-form-field>-->
+
 
       <mat-form-field appearance="outline" fxFlex="18">
         <mat-label>Anno diploma</mat-label>
-        <input [formControl]="annoDiploma"
+        <input formControlName="dataConseguimento"
                matInput
                maxlength="4"
                minlength="4"
@@ -50,11 +37,11 @@
 
         <mat-hint>&emsp;* Required</mat-hint>
 
-        <mat-error *ngIf="annoDiploma.hasError('required')">Campo Obbligatorio</mat-error>
-        <mat-error *ngIf="annoDiploma.hasError('onlyNumber')">Inserire nel campo solo numberi</mat-error>
-        <mat-error *ngIf="annoDiploma.hasError('max')">L'anno è superiore all'anno corrente</mat-error>
-        <mat-error *ngIf="annoDiploma.hasError('minlength')">L'anno deve avere solo 4 numeri</mat-error>
-        <mat-error *ngIf="annoDiploma.hasError('maxlength')">L'anno deve avere solo 4 numeri</mat-error>
+        <mat-error *ngIf="dataConseguimento.hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="dataConseguimento.hasError('onlyNumber')">Inserire nel campo solo numberi</mat-error>
+        <mat-error *ngIf="dataConseguimento.hasError('max')">L'anno è superiore all'anno corrente</mat-error>
+        <mat-error *ngIf="dataConseguimento.hasError('minlength')">L'anno deve avere solo 4 numeri</mat-error>
+        <mat-error *ngIf="dataConseguimento.hasError('maxlength')">L'anno deve avere solo 4 numeri</mat-error>
       </mat-form-field>
 
     </div>
@@ -66,7 +53,7 @@
                     formControlName="provinciaIstituto"
                     placeholder="Seleziona Provincia istituto">
 
-          <ngx-mat-select-search formControlName="provinceDropdown"
+          <ngx-mat-select-search  formControlName="provinceDropdown"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
                                  [placeholderLabel]="'Cerca provincia . . '"></ngx-mat-select-search>
           <mat-option *ngFor="let prov of (filtroProvince | async)" [value]="prov">
@@ -82,7 +69,7 @@
         <mat-select #comuneSelect
                     formControlName="comuneIstituto"
                     placeholder="Seleziona Comune istituto">
-          <ngx-mat-select-search formControlName="comuniDropdown"
+          <ngx-mat-select-search  formControlName="comuniDropdown"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
                                  [placeholderLabel]="'Cerca comune . . '"></ngx-mat-select-search>
           <mat-option *ngFor="let com of (filtroComuni | async)" [value]="com">
@@ -98,14 +85,14 @@
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
       <mat-form-field appearance="outline" fxFlex="40">
         <mat-label>Sede Istituto</mat-label>
-        <input [formControl]="viaIstituto"
+        <input formControlName="indirizzo"
                matInput
                maxlength="255"
                placeholder="Inserire la via dell'istituto">
 
-        <mat-hint align="end">{{viaIstituto.value?.length || 0}}/255</mat-hint>
-        <mat-error *ngIf="viaIstituto.hasError('required')">Campo Obbligatorio</mat-error>
-        <mat-error *ngIf="viaIstituto.hasError('maxlength')">Hai superato il limite dei caratteri</mat-error>
+        <mat-hint align="end">{{indirizzo.value?.length || 0}}/255</mat-hint>
+        <mat-error *ngIf="indirizzo.hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="indirizzo.hasError('maxlength')">Hai superato il limite dei caratteri</mat-error>
 
       </mat-form-field>
     </div>

@@ -4,7 +4,7 @@ import { MatSelect} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
 import {concatMap, filter, map, take, takeUntil} from 'rxjs/operators';
-import {Comune, Provincia} from '../../../../../core/models/rest/rest-interface';
+import {Comune, Provincia, TipologiaTitoloStudio} from '../../../../../core/models/rest/rest-interface';
 import {RestService} from '../../../../../core/services/rest.service';
 
 /* ## Disabilita il required di istruzione */
@@ -26,6 +26,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
   @Input() parent: FormGroup;
   @ViewChild('provinceSelect', { static: true }) provinceSelect: MatSelect;
   @ViewChild('comuneSelect', { static: true }) comuneSelect: MatSelect;
+  @ViewChild('tipologiaSelect', { static: true }) tipologiaSelect: MatSelect;
 
 
   public filtroProvince: ReplaySubject<Provincia[]> = new ReplaySubject<Provincia[]>(1);
@@ -35,6 +36,8 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
   public filtroComuni: ReplaySubject<Comune[]> = new ReplaySubject<Comune[]>(1);
   listaComuni: Comune[];
 
+  public filtroTipologie: ReplaySubject<TipologiaTitoloStudio[]> = new ReplaySubject<TipologiaTitoloStudio[]>(1);
+  listaTipologie: TipologiaTitoloStudio[];
 
 
   private onDetroy = new Subject<void>();
@@ -47,9 +50,13 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    if (this.domandaService.domandaobj.domanda.stato === 1) {
-      this.annoDiploma.patchValue(this.domandaService.domandaobj.domanda.titoliStudioPosseduti.durataAnni);
-    }
+    this.rest.getTipologiaTitoloStudio().subscribe(
+      (data: TipologiaTitoloStudio[]) => {
+        this.listaTipologie = data;
+        this.filtroTipologie.next(this.listaTipologie.slice());
+        this.setInitialTipologieValue(this.filtroTipologie);
+      }
+     );
 
     this.rest.getProvince().subscribe(
         (data: Provincia[]) => {
@@ -58,10 +65,31 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
            this.setInitialProvinceValue(this.filtroProvince);
         }
       );
+
     this.onChanges();
   }
 
   onChanges() {
+
+
+    this.tipologia.valueChanges.subscribe(
+      () => {}
+    );
+    this.titolo.valueChanges.subscribe(
+      () => {}
+    );
+    this.indirizzo.valueChanges.subscribe(
+      () => {}
+    );
+    this.luogoIstituto.valueChanges.subscribe(
+      () => {}
+    );
+    this.indirizzoIstituto.valueChanges.subscribe(
+      () => {}
+    );
+    this.dataConseguimento.valueChanges.subscribe(
+      () => {}
+    );
 
     this.provinciaIstituto.valueChanges
       .pipe(
@@ -77,19 +105,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       });
 
 
-    this.comuneIstituto.valueChanges.subscribe( () => {
-      this.domandaService.domandaobj.domanda.titoliStudioPosseduti.luogoIstituto = this.comuneIstituto.value;
-    });
-
-    this.annoDiploma.valueChanges.subscribe(
-      () => this.domandaService.domandaobj.domanda.titoliStudioPosseduti.durataAnni = this.annoDiploma.value
-    );
-
-    this.viaIstituto.valueChanges.subscribe(
-      () => this.domandaService.domandaobj.domanda.titoliStudioPosseduti.via = this.viaIstituto.value
-    );
-
-
     // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei comuni
     this.comuniDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
@@ -103,11 +118,29 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.filtraRicerca(this.listaProvince, this.provinceDropdown, this.filtroProvince);
       });
+
+    this.comuneIstituto.valueChanges.subscribe( () => {
+      this.domandaService.domandaobj.domanda.titoliStudioPosseduti.luogoIstituto = this.comuneIstituto.value;
+    });
+
   }
 
 
 
 
+
+  private setInitialTipologieValue(data: Observable<TipologiaTitoloStudio[]>) {
+    data
+      .pipe(take(1), takeUntil(this.onDetroy))
+      .subscribe(() => {
+        // setting the compareWith property to a comparison function
+        // triggers initializing the selection according to the initial value of
+        // the form control (i.e. _initializeSelection())
+        // this needs to be done after the filteredBanks are loaded initially
+        // and after the mat-option elements are available
+        this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
+      });
+  }
 
   private setInitialProvinceValue(data: Observable<Provincia[]>) {
     data
@@ -161,20 +194,35 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
 
 
-  get istitutoFrequentato() {
-    return this.parent.get('formIstruzione.istitutoFrequentato');
+  get tipologia() {
+    return this.parent.get('formIstruzione.tipologia');
   }
 
-  get tipoDiploma() {
-    return this.parent.get('formIstruzione.tipoDiploma');
+  get titolo() {
+    return this.parent.get('formIstruzione.titolo');
   }
+
+  get indirizzo() {
+    return this.parent.get('formIstruzione.indirizzo');
+  }
+
+  get luogoIstituto() {
+    return this.parent.get('formIstruzione.luogoIstituto');
+  }
+
+  get indirizzoIstituto() {
+    return this.parent.get('formIstruzione.indirizzoIstituto');
+  }
+
+  get dataConseguimento() {
+    return this.parent.get('formIstruzione.dataConseguimento');
+  }
+
+
+  // DROPDOWN
 
   get provinciaIstituto() {
     return this.parent.get('formIstruzione.provinciaIstituto');
-  }
-
-  get provinceDropdown() {
-    return this.parent.get('formIstruzione.provinceDropdown');
   }
 
   get comuneIstituto() {
@@ -185,12 +233,20 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     return this.parent.get('formIstruzione.comuniDropdown');
   }
 
-  get viaIstituto() {
-    return this.parent.get('formIstruzione.viaIstituto');
+  get provinceDropdown() {
+    return this.parent.get('formIstruzione.provinceDropdown');
   }
 
-  get annoDiploma() {
-    return this.parent.get('formIstruzione.annoDiploma');
+  get tipologiaDropdown() {
+    return this.parent.get('formIstruzione.tipologiaDropdown');
+  }
+
+  get titoloDropdown() {
+    return this.parent.get('formIstruzione.titoloDropdown');
+  }
+
+  get indirizzoDropdown() {
+    return this.parent.get('formIstruzione.indirizzoDropdown');
   }
 
 }
