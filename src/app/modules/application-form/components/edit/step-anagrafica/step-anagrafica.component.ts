@@ -1,6 +1,7 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
+import * as moment from 'moment';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -22,7 +23,7 @@ export class StepAnagraficaComponent implements OnInit {
       Nome: [agf.nome],
       CodiceFiscale: [agf.codiceFiscale],
       Residenza: [agf.residenza],
-      DataNascita: [agf.dataNascita],
+      DataNascita: [moment(agf.dataNascita).locale('it-IT').format('d MMMM YYYY')],
       LuogoNascita: [agf.comuneNascita.nome + ' (' + [agf.comuneNascita.codiceProvincia] + ')'],
       Telefono: [agf.telefono],
       Email: [agf.email],
