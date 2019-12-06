@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import { AppComponent } from './app.component';
 import { SharedModule} from './shared/models/shared.module';
 import { ContentLayoutComponent } from './layouts/content-layout/content-layout.component';
@@ -33,7 +33,8 @@ import { MenuSidenavComponent } from './shared/components/menu-sidenav/menu-side
     //  app
   ],
   providers: [SessionCheckServiceService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
 })
 export class AppModule {
   constructor(private dateAdapter: DateAdapter<Date>) {
