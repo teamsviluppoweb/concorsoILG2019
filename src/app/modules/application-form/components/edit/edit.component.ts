@@ -57,7 +57,7 @@ export class EditComponent implements OnInit, OnDestroy {
     this.moduloDomanda = this.formBuilder.group({
       formIstruzione: this.formBuilder.group({
         tipologia: ['', [Validators.required]],
-        titolo: ['', [Validators.required]],
+        titolo: [''],
         indirizzo: ['', []],
         luogoIstituto: ['', [Validators.required]],
         indirizzoIstituto: ['', [Validators.required, Validators.maxLength(255)]],

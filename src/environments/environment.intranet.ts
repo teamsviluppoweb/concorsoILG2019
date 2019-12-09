@@ -12,6 +12,7 @@ export const environment = {
   hostredirect: 'https://pc39548.dipvvf.it:4200/',
   endpoint: {
     domanda: 'http://webpc.dipvvf.it:8020/GetDomanda',
+    salvaDomanda: 'http://webpc.dipvvf.it:8020/SalveDomanda',
     titoli: 'http://webpc.dipvvf.it:8020/TitoliPreferenziali',
     riserve: 'http://webpc.dipvvf.it:8020/Riserve',
     lingue: 'http://webpc.dipvvf.it:8020/Lingue',
@@ -20,6 +21,5 @@ export const environment = {
     tipologia: 'http://webpc.dipvvf.it:8020//TitoliStudio/Tipologie',
     titolo: 'http://webpc.dipvvf.it:8020//TitoliStudio/titoli/',
     indirizzi: 'http://webpc.dipvvf.it:8020//TitoliStudio/indirizzi/',
-
   }
 };

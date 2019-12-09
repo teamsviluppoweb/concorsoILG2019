@@ -23,7 +23,7 @@
 
     </div>
 
-   <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
+   <div fxLayout="row wrap" *ngIf="displayTitoli" fxLayout.sm="column" fxLayout.xs="column">
 
     <mat-form-field appearance="outline" fxFlex="100">
       <mat-select #titoliSelect
@@ -45,7 +45,7 @@
    </div>
 
 
-    <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
+    <div fxLayout="row wrap" *ngIf="displayIndirizzi" fxLayout.sm="column" fxLayout.xs="column">
 
       <mat-form-field appearance="outline" fxFlex="100">
         <mat-select #indirizziSelect

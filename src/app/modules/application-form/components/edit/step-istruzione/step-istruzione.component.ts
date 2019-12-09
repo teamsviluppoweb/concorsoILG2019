@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MatSelect} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
@@ -30,6 +30,8 @@ import {RestService} from '../../../../../core/services/rest.service';
 export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   @Input() parent: FormGroup;
+  displayTitoli = false;
+  displayIndirizzi = false;
 
 
   @ViewChild('provinceSelect', { static: true }) provinceSelect: MatSelect;
@@ -123,6 +125,19 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       tap((x) =>  console.log(x)),
       concatMap(id => this.rest.getTitoliTitoloStudio(id))
     ).subscribe((data: TitoliTitoloStudio[]) => {
+
+
+      if (data.length > 0) {
+        this.displayTitoli = true;
+        this.displayIndirizzi = false;
+        this.indirizzo.setValidators(Validators.required);
+
+      } else {
+        this.displayTitoli = false;
+        this.displayIndirizzi = false;
+        this.indirizzo.clearValidators();
+      }
+
       this.listaTitoli = data;
       this.filtroTitolo.next(this.listaTitoli.slice());
       this.setInitialTitoliValue(this.filtroTitolo);
@@ -133,6 +148,16 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       tap((x) =>  console.log(x)),
       concatMap(id => this.rest.getIndirizziTitoliStudio(id))
     ).subscribe((data: TitoliTitoloIndirizzo[]) => {
+
+      if (data.length > 0) {
+        this.displayIndirizzi = true;
+        this.indirizzo.setValidators(Validators.required);
+
+      } else {
+        this.displayIndirizzi = false;
+        this.indirizzo.clearValidators();
+      }
+
       this.listaIndirizzi = data;
       this.filtroIndirizzi.next(this.listaIndirizzi.slice());
       this.setInitialTitoliValue(this.filtroIndirizzi);
