@@ -96,12 +96,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     this.indirizzo.valueChanges.subscribe(
       () => {}
     );
-    this.luogoIstituto.valueChanges.subscribe(
-      () => {}
-    );
-    this.indirizzoIstituto.valueChanges.subscribe(
-      () => {}
-    );
     this.dataConseguimento.valueChanges.subscribe(
       () => {}
     );
@@ -130,13 +124,15 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       if (data.length > 0) {
         this.displayTitoli = true;
         this.displayIndirizzi = false;
-        this.indirizzo.setValidators(Validators.required);
+        this.titolo.setValidators(Validators.required);
 
       } else {
         this.displayTitoli = false;
         this.displayIndirizzi = false;
-        this.indirizzo.clearValidators();
+        this.titolo.clearValidators();
       }
+
+      this.titolo.updateValueAndValidity();
 
       this.listaTitoli = data;
       this.filtroTitolo.next(this.listaTitoli.slice());
@@ -157,6 +153,8 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.displayIndirizzi = false;
         this.indirizzo.clearValidators();
       }
+
+      this.indirizzo.updateValueAndValidity();
 
       this.listaIndirizzi = data;
       this.filtroIndirizzi.next(this.listaIndirizzi.slice());
@@ -274,6 +272,10 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
   }
 
 
+  isFormValid() {
+    console.log(this.parent.get('formIstruzione'));
+  }
+
 
   get tipologia() {
     return this.parent.get('formIstruzione.tipologia');
@@ -285,14 +287,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   get indirizzo() {
     return this.parent.get('formIstruzione.indirizzo');
-  }
-
-  get luogoIstituto() {
-    return this.parent.get('formIstruzione.luogoIstituto');
-  }
-
-  get indirizzoIstituto() {
-    return this.parent.get('formIstruzione.indirizzoIstituto');
   }
 
   get dataConseguimento() {

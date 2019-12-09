@@ -19,6 +19,7 @@
         </mat-select>
 
         <mat-error *ngIf="tipologia.hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="tipologiaDropdown.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
     </div>
@@ -40,6 +41,7 @@
       </mat-select>
 
       <mat-error *ngIf="titolo.hasError('required')">Campo Obbligatorio</mat-error>
+      <mat-error *ngIf="titoloDropdown.hasError('required')">Campo Obbligatorio</mat-error>
     </mat-form-field>
 
    </div>
@@ -62,6 +64,7 @@
         </mat-select>
 
         <mat-error *ngIf="indirizzo.hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="indirizzoDropdown.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
     </div>
@@ -104,19 +107,6 @@
     </div>
 
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
-      <mat-form-field appearance="outline" fxFlex="50">
-        <mat-label>Sede Istituto</mat-label>
-        <input formControlName="luogoIstituto"
-               matInput
-               maxlength="255"
-               placeholder="Inserire la via dell'istituto">
-
-        <mat-hint align="end">{{indirizzo.value?.length || 0}}/255</mat-hint>
-        <mat-error *ngIf="luogoIstituto.hasError('required')">Campo Obbligatorio</mat-error>
-        <mat-error *ngIf="luogoIstituto.hasError('maxlength')">Hai superato il limite dei caratteri</mat-error>
-
-      </mat-form-field>
-
 
         <mat-form-field appearance="outline" fxFlex="18">
           <mat-label>Anno diploma</mat-label>
@@ -148,3 +138,6 @@
 
   </div>
 </div>
+
+
+{{isFormValid()}}
