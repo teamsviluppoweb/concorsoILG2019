@@ -58,7 +58,7 @@ export class EditComponent implements OnInit, OnDestroy {
       formIstruzione: this.formBuilder.group({
         tipologia: ['', [Validators.required]],
         titolo: [''],
-        indirizzo: ['', []],
+        indirizzo: [''],
         luogoIstituto: ['', [Validators.required]],
         indirizzoIstituto: ['', [Validators.required, Validators.maxLength(255)]],
         dataConseguimento: ['', [
@@ -68,8 +68,8 @@ export class EditComponent implements OnInit, OnDestroy {
           Validators.max(new Date().getFullYear()),
           CustomValidators.onlyNumber]],
           // DROPDOWN
-          provinciaIstituto: [],
-          comuneIstituto: [],
+          provinciaIstituto: ['', Validators.required],
+          comuneIstituto: ['', Validators.required],
           comuniDropdown: [],
           provinceDropdown: [],
           tipologiaDropdown: [],
