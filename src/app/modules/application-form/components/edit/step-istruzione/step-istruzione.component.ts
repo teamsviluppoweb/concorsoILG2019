@@ -99,9 +99,9 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     this.dataConseguimento.valueChanges.subscribe(
       (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = data);
 
-    this.nomeIstituto.valueChanges.subscribe(data => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
+    this.nomeIstituto.valueChanges.subscribe(data => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto = data);
 
-    this.indirizzoFisico.valueChanges.subscribe((data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto = data);
+    this.indirizzoFisico.valueChanges.subscribe((data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto = data);
 
     this.comuneIstituto.valueChanges.subscribe( (data) => {
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice = data.codice;
@@ -315,9 +315,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     this.onDetroy.complete();
   }
 
-  get nomeIstituto() {
-    return this.parent.get('formIstruzione.nomeIstituto');
-  }
+
 
   get tipologia() {
     return this.parent.get('formIstruzione.tipologia');
@@ -333,6 +331,14 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   get dataConseguimento() {
     return this.parent.get('formIstruzione.dataConseguimento');
+  }
+
+  get nomeIstituto() {
+    return this.parent.get('formIstruzione.nomeIstituto');
+  }
+
+  get indirizzoFisico() {
+    return this.parent.get('formIstruzione.indirizzoFisico');
   }
 
 
@@ -364,10 +370,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   get indirizzoDropdown() {
     return this.parent.get('formIstruzione.indirizzoDropdown');
-  }
-
-  get indirizzoFisico() {
-    return this.parent.get('formIstruzione.indirizzoFisico');
   }
 
 

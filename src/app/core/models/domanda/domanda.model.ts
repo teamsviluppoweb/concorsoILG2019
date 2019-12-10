@@ -75,8 +75,7 @@ export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEnti
   dataConseguimento: string;
   istituto: string;
   luogoIstituto: ComuneNascitaOrLuogoIstituto;
-  via: string;
-  durataAnni: string;
+  indirizzoIstituto: string;
 
   constructor() {}
 

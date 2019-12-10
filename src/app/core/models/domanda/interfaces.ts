@@ -41,8 +41,7 @@ export interface IntTitoliStudioPossedutiEntity {
   dataConseguimento: string;
   istituto: string;
   luogoIstituto: IntComuneNascitaOrLuogoIstituto;
-  via: string;
-  durataAnni: string;
+  indirizzoIstituto: string;
 }
 export interface IntTipologiaOrTitoloOrIndirizzo {
   id: string;
