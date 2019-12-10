@@ -101,7 +101,7 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
     this.numeroFigliSelezionati.valueChanges.subscribe(
       (x) => {
         if (this.titoliSelezionati.value !== null && this.titoliSelezionati.value !== 'undefined') {
-          if (this.titoliSelezionati.value.map(k => k.Id).includes(17)) {
+          if (this.titoliSelezionati.value.map(k => k.id).includes(17)) {
             this.domandaService.domandaobj.domanda.numFigli = x;
           }
         }
