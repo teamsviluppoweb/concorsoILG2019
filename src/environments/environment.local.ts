@@ -11,10 +11,15 @@ export const environment = {
 
   endpoint: {
     domanda: 'http://localhost:8080/domanda',
-    titoli: 'http://localhost:8080/titoli',
-    riserve: 'http://localhost:8080/riserve',
-    lingue: 'http://localhost:8080/lingue',
-    province: 'http://localhost:8080/province',
-    comuni: 'http://localhost:8080/comuni',
+    salvaDomanda: 'http://webpc.dipvvf.it:8020/SalveDomanda',
+    titoli: 'http://webpc.dipvvf.it:8020/TitoliPreferenziali',
+    riserve: 'http://webpc.dipvvf.it:8020/Riserve',
+    lingue: 'http://webpc.dipvvf.it:8020/Lingue',
+    province: 'http://webpc.dipvvf.it:8020/Province',
+    comuni: 'http://webpc.dipvvf.it:8020/Province',
+    tipologia: 'http://webpc.dipvvf.it:8020//TitoliStudio/Tipologie',
+    titolo: 'http://webpc.dipvvf.it:8020//TitoliStudio/titoli/',
+    indirizzi: 'http://webpc.dipvvf.it:8020//TitoliStudio/indirizzi/',
   }
 };
+

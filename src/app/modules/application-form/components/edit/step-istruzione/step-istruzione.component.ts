@@ -99,6 +99,8 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     this.dataConseguimento.valueChanges.subscribe(
       (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = data);
 
+    this.nomeIstituto.valueChanges.subscribe(data => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
+
     this.indirizzoFisico.valueChanges.subscribe((data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto = data);
 
     this.comuneIstituto.valueChanges.subscribe( (data) => {
@@ -313,6 +315,9 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     this.onDetroy.complete();
   }
 
+  get nomeIstituto() {
+    return this.parent.get('formIstruzione.nomeIstituto');
+  }
 
   get tipologia() {
     return this.parent.get('formIstruzione.tipologia');

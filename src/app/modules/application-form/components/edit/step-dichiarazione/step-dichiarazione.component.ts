@@ -1,6 +1,7 @@
 import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MatStepper} from '@angular/material';
+import {DomandaService} from '../../../../../core/services/domanda.service';
 
 @Component({
   selector: 'app-step-dichiarazione',
@@ -22,7 +23,7 @@ export class StepDichiarazioneComponent implements OnInit{
 
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
-  constructor() {
+  constructor(private domandaService: DomandaService) {
   }
 
 
@@ -34,5 +35,8 @@ export class StepDichiarazioneComponent implements OnInit{
     return this.parent.get('formDichiarazione.approvazione');
   }
 
+  showMeDataPls() {
+    console.log(this.domandaService.domandaobj.domanda);
+  }
 }
 
