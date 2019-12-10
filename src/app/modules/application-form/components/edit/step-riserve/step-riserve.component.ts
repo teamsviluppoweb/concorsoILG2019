@@ -78,6 +78,7 @@ export class StepRiserveComponent implements OnInit {
 
   ParseRiserve() {
     this.clicker = true;
+    console.log(this.domandaService.domandaobj.domanda);
   }
 
   get riserveSelezionate() {
