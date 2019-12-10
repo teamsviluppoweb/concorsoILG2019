@@ -37,7 +37,7 @@ export class RestService {
   }
 
   getComuni(provincia: string): Observable<Comune[]>  {
-    return this.http.get<Comune[]>(environment.endpoint.comuni);
+    return this.http.get<Comune[]>(environment.endpoint.comuni + provincia);
   }
 
   getTipologiaTitoloStudio() {
