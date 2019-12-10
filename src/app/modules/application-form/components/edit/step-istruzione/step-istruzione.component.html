@@ -148,7 +148,7 @@
     <div fxFlex="row" fxLayoutGap="15px">
       <span fxFill fxFlex="1 1 0"></span>
       <button class="stepper_button" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
-      <button class="stepper_button" color="primary" mat-flat-button matStepperNext (click)="statoDomanda()">Avanti</button>
+      <button class="stepper_button" color="primary" [disabled]="allowNextStep()" mat-flat-button matStepperNext>Avanti</button>
     </div>
   </div>
 

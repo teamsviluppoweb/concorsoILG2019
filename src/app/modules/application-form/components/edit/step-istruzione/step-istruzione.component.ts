@@ -371,7 +371,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
   }
 
 
-  statoDomanda() {
-   console.log(this.domandaService.domandaobj.domanda);
+  allowNextStep() {
+    return !this.parent.controls.formIstruzione.valid;
   }
 }
