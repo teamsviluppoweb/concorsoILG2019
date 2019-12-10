@@ -43,15 +43,13 @@ export class DomandaService {
 
 
   getDomanda(): Observable<DomandaObj> {
-
-
     const options = createHttpOptions(true);
-    return this.http.get<DomandaObj | Response>(environment.endpoint.domanda, options)
+    return this.http.get<DomandaObj>(environment.endpoint.domanda, options)
       .pipe(
         map( (response: DomandaObj) => {
-         this.domandaobj = response;
-
-         return response;
+          this.domandaobj = response;
+          console.log(this.domandaobj);
+          return response;
         }  ),
       );
   }

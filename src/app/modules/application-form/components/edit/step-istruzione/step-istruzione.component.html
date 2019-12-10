@@ -72,7 +72,7 @@
 
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
 
-      <mat-form-field appearance="outline" fxFlex="50">
+      <mat-form-field appearance="outline" fxFlex="45">
         <mat-label>Provincia Istituto</mat-label>
         <mat-select #provinceSelect
                     formControlName="provinciaIstituto"
@@ -89,7 +89,7 @@
         <mat-error *ngIf="provinciaIstituto.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" fxFlex>
+      <mat-form-field appearance="outline" fxFlex="45">
         <mat-label>Comune Istituto</mat-label>
         <mat-select #comuneSelect
                     formControlName="comuneIstituto"
@@ -104,35 +104,32 @@
         <mat-error *ngIf="comuneIstituto.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
-    </div>
-
-    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
-
-        <mat-form-field appearance="outline" fxFlex="18">
-          <mat-label>Anno diploma</mat-label>
-          <input formControlName="dataConseguimento"
-                 matInput
-                 maxlength="4"
-                 minlength="4"
-                 placeholder="Anno Diploma">
+      <mat-form-field appearance="outline" fxFlex>
+        <mat-label>Anno diploma</mat-label>
+        <input formControlName="dataConseguimento"
+               matInput
+               maxlength="4"
+               minlength="4"
+               placeholder="Anno Diploma">
 
 
-          <mat-error *ngIf="dataConseguimento.hasError('required')">Campo Obbligatorio</mat-error>
-          <mat-error *ngIf="dataConseguimento.hasError('onlyNumber')">Inserire nel campo solo numberi</mat-error>
-          <mat-error *ngIf="dataConseguimento.hasError('max')">L'anno è superiore all'anno corrente</mat-error>
-          <mat-error *ngIf="dataConseguimento.hasError('minlength')">L'anno deve avere solo 4 numeri</mat-error>
-          <mat-error *ngIf="dataConseguimento.hasError('maxlength')">L'anno deve avere solo 4 numeri</mat-error>
-        </mat-form-field>
+        <mat-error *ngIf="dataConseguimento.hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="dataConseguimento.hasError('onlyNumber')">Inserire nel campo solo numberi</mat-error>
+        <mat-error *ngIf="dataConseguimento.hasError('max')">L'anno è superiore all'anno corrente</mat-error>
+        <mat-error *ngIf="dataConseguimento.hasError('minlength')">L'anno deve avere solo 4 numeri</mat-error>
+        <mat-error *ngIf="dataConseguimento.hasError('maxlength')">L'anno deve avere solo 4 numeri</mat-error>
+      </mat-form-field>
 
 
     </div>
+
 
 
   <div fxLayout="column">
     <div fxFlex="row" fxLayoutGap="15px">
       <span fxFill fxFlex="1 1 0"></span>
       <button class="stepper_button" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
-      <button class="stepper_button" color="primary" mat-flat-button matStepperNext>Avanti</button>
+      <button class="stepper_button" color="primary" mat-flat-button matStepperNext (click)="statoDomanda()">Avanti</button>
     </div>
   </div>
 
@@ -140,4 +137,3 @@
 </div>
 
 
-{{isFormValid()}}

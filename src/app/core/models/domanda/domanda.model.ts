@@ -7,17 +7,22 @@ import {
   IntTipologiaOrTitoloOrIndirizzo,
   IntTitoliStudioPossedutiEntity
 } from './interfaces';
+import {subscribeOn} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DomandaObj implements IntDomandaObj{
-  domanda: DomandaModel;
+export class DomandaObj implements IntDomandaObj {
+  domanda: IntDomanda;
   errore: string;
   operazione: number;
+
+  public constructor() {}
 }
 
-
+@Injectable({
+  providedIn: 'root',
+})
 export class DomandaModel implements IntDomanda {
   id: string;
   idDomanda: string;
@@ -27,7 +32,7 @@ export class DomandaModel implements IntDomanda {
   dataInvio: string;
   dataModifica: string;
   anagCandidato: AnagCandidato;
-  titoliStudioPosseduti?: TitoliStudioPossedutiEntity | null;
+  titoloStudioPosseduto?: TitoliStudioPossedutiEntity | null;
   lingua: LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua;
   lstRiserve?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
@@ -80,7 +85,7 @@ export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEnti
 @Injectable({
   providedIn: 'root',
 })
-export class TipologiaOrTitoloOrIndirizzo implements  IntTipologiaOrTitoloOrIndirizzo{
+export class TipologiaOrTitoloOrIndirizzo implements  IntTipologiaOrTitoloOrIndirizzo {
   id: string;
   desc: string;
 

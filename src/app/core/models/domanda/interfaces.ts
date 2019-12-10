@@ -12,7 +12,7 @@ export interface IntDomanda {
   dataInvio: string;
   dataModifica: string;
   anagCandidato: IntAnagCandidato;
-  titoliStudioPosseduti?: IntTitoliStudioPossedutiEntity | null;
+  titoloStudioPosseduto?: IntTitoliStudioPossedutiEntity | null;
   lingua: IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua;
   lstRiserve?: (IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;

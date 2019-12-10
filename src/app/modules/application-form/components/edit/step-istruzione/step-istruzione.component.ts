@@ -88,17 +88,22 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
 
     this.tipologia.valueChanges.subscribe(
-      () => {}
-    );
+      (data: TipologiaTitoloStudio) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = data);
+
     this.titolo.valueChanges.subscribe(
-      () => {}
-    );
+      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = data);
+
     this.indirizzo.valueChanges.subscribe(
-      () => {}
-    );
+      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = data);
+
     this.dataConseguimento.valueChanges.subscribe(
-      () => {}
-    );
+      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = data);
+
+    this.comuneIstituto.valueChanges.subscribe( (data) => {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice = data.codice;
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.nome = data.nome;
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia = this.provinciaIstituto.value.codice;
+    });
 
     this.provinciaIstituto.valueChanges
       .pipe(
@@ -115,6 +120,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
 
     this.tipologia.valueChanges.pipe(
+      filter(() => this.tipologia.valid),
       map((tipologia: TipologiaTitoloStudio) => tipologia.id),
       tap((x) =>  console.log(x)),
       concatMap(id => this.rest.getTitoliTitoloStudio(id))
@@ -140,8 +146,8 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     });
 
     this.titolo.valueChanges.pipe(
+      filter(() => this.titolo.valid),
       map((titolo: TitoliTitoloIndirizzo) => titolo.id),
-      tap((x) =>  console.log(x)),
       concatMap(id => this.rest.getIndirizziTitoliStudio(id))
     ).subscribe((data: TitoliTitoloIndirizzo[]) => {
 
@@ -175,9 +181,23 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.filtraRicerca(this.listaProvince, this.provinceDropdown, this.filtroProvince);
       });
 
-    this.comuneIstituto.valueChanges.subscribe( () => {
-      this.domandaService.domandaobj.domanda.titoliStudioPosseduti.luogoIstituto = this.comuneIstituto.value;
-    });
+    this.tipologiaDropdown.valueChanges
+      .pipe(takeUntil(this.onDetroy))
+      .subscribe(() => {
+        this.filtraRicercaIstruzione(this.listaTipologie, this.tipologiaDropdown, this.filtroTipologie);
+      });
+
+    this.titoloDropdown.valueChanges
+      .pipe(takeUntil(this.onDetroy))
+      .subscribe(() => {
+        this.filtraRicercaIstruzione(this.listaTitoli, this.titoloDropdown, this.filtroTitolo);
+      });
+
+    this.indirizzoDropdown.valueChanges
+      .pipe(takeUntil(this.onDetroy))
+      .subscribe(() => {
+        this.filtraRicercaIstruzione(this.listaIndirizzi, this.indirizzoDropdown, this.filtroIndirizzi);
+      });
 
   }
 
@@ -193,7 +213,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.tipologiaSelect.compareWith = (a: string, b: string) => a && b && a === b;
       });
   }
-
 
   private setInitialTitoliValue(data: Observable<TitoliTitoloStudio[]>) {
     data
@@ -221,7 +240,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       });
   }
 
-  private setInitialProvinceValue(data: Observable<Provincia[]>) {
+  private setInitialProvinceValue(data: Observable<Provincia[]> ) {
     data
       .pipe(take(1), takeUntil(this.onDetroy))
       .subscribe(() => {
@@ -266,14 +285,27 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     );
   }
 
+  private filtraRicercaIstruzione(data: (TitoliTitoloIndirizzo[] | TipologiaTitoloStudio[] | TitoliTitoloIndirizzo[]), form, filters) {
+    if (!data) {
+      return;
+    }
+    // ottiene la keyword di ricerca
+    let search = form.value;
+    if (!search) {
+      filters.next(data.slice());
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // Filtra le province
+    filters.next(
+      data.filter(nm => nm.desc.toLocaleLowerCase().indexOf(search) > -1)
+    );
+  }
+
   ngOnDestroy() {
     this.onDetroy.next();
     this.onDetroy.complete();
-  }
-
-
-  isFormValid() {
-    console.log(this.parent.get('formIstruzione'));
   }
 
 
@@ -324,4 +356,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     return this.parent.get('formIstruzione.indirizzoDropdown');
   }
 
+  statoDomanda() {
+   console.log(this.domandaService.domandaobj.domanda);
+  }
 }

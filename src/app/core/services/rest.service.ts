@@ -40,8 +40,8 @@ export class RestService {
     return this.http.get<Comune[]>(environment.endpoint.comuni);
   }
 
-  getTipologiaTitoloStudio(): Observable<TipologiaTitoloStudio[]>  {
-    return this.http.get<TipologiaTitoloStudio[]>(environment.endpoint.tipologia);
+  getTipologiaTitoloStudio() {
+    return this.http.get(environment.endpoint.tipologia);
   }
 
   getTitoliTitoloStudio(id: string): Observable<TitoliTitoloStudio[]>  {
