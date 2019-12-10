@@ -46,7 +46,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
   public filtroTipologie: ReplaySubject<TipologiaTitoloStudio[]> = new ReplaySubject<TipologiaTitoloStudio[]>(1);
   listaTipologie: TipologiaTitoloStudio[];
 
-  @ViewChild('titoliSelect', { static: true }) titoliSelect: MatSelect;
+  @ViewChild('titoliSelect', { static: false }) titoliSelect: MatSelect;
   public filtroTitolo: ReplaySubject<TitoliTitoloStudio[]> = new ReplaySubject<TitoliTitoloStudio[]>(1);
   listaTitoli: TitoliTitoloStudio[];
 
@@ -99,6 +99,8 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     this.dataConseguimento.valueChanges.subscribe(
       (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = data);
 
+    this.indirizzoFisico.valueChanges.subscribe((data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto = data);
+
     this.comuneIstituto.valueChanges.subscribe( (data) => {
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice = data.codice;
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.nome = data.nome;
@@ -113,7 +115,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       )
       .subscribe((data: Comune[]) => {
         this.listaComuni = data;
-        console.log(this.listaComuni);
         this.filtroComuni.next(this.listaComuni.slice());
         this.setInitialComuneValue(this.filtroComuni);
       });
@@ -127,22 +128,22 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
     ).subscribe((data: TitoliTitoloStudio[]) => {
 
 
+
       if (data.length > 0) {
         this.displayTitoli = true;
-        this.displayIndirizzi = false;
+
+
         this.titolo.setValidators(Validators.required);
+        this.listaTitoli = data;
+        this.filtroTitolo.next(this.listaTitoli.slice());
+        this.setInitialTitoliValue(this.filtroTitolo);
 
       } else {
         this.displayTitoli = false;
-        this.displayIndirizzi = false;
         this.titolo.clearValidators();
       }
 
       this.titolo.updateValueAndValidity();
-
-      this.listaTitoli = data;
-      this.filtroTitolo.next(this.listaTitoli.slice());
-      this.setInitialTitoliValue(this.filtroTitolo);
     });
 
     this.titolo.valueChanges.pipe(
@@ -155,6 +156,10 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.displayIndirizzi = true;
         this.indirizzo.setValidators(Validators.required);
 
+        this.listaIndirizzi = data;
+        this.filtroIndirizzi.next(this.listaIndirizzi.slice());
+        this.setInitialIndirizziValue(this.filtroIndirizzi);
+
       } else {
         this.displayIndirizzi = false;
         this.indirizzo.clearValidators();
@@ -162,9 +167,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
       this.indirizzo.updateValueAndValidity();
 
-      this.listaIndirizzi = data;
-      this.filtroIndirizzi.next(this.listaIndirizzi.slice());
-      this.setInitialTitoliValue(this.filtroIndirizzi);
+
     });
 
     // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei comuni
@@ -203,7 +206,8 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   private setInitialTipologieValue(data: Observable<TipologiaTitoloStudio[]>) {
     data
-      .pipe(take(1), takeUntil(this.onDetroy))
+      .pipe(
+        take(1), takeUntil(this.onDetroy))
       .subscribe(() => {
         // setting the compareWith property to a comparison function
         // triggers initializing the selection according to the initial value of
@@ -216,7 +220,8 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   private setInitialTitoliValue(data: Observable<TitoliTitoloStudio[]>) {
     data
-      .pipe(take(1), takeUntil(this.onDetroy))
+      .pipe(take(1),
+        takeUntil(this.onDetroy))
       .subscribe(() => {
         // setting the compareWith property to a comparison function
         // triggers initializing the selection according to the initial value of
@@ -355,6 +360,11 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
   get indirizzoDropdown() {
     return this.parent.get('formIstruzione.indirizzoDropdown');
   }
+
+  get indirizzoFisico() {
+    return this.parent.get('formIstruzione.indirizzoFisico');
+  }
+
 
   statoDomanda() {
    console.log(this.domandaService.domandaobj.domanda);

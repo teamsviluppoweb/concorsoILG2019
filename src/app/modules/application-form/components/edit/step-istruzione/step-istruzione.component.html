@@ -72,7 +72,7 @@
 
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
 
-      <mat-form-field appearance="outline" fxFlex="45">
+      <mat-form-field appearance="outline" fxFlex="47">
         <mat-label>Provincia Istituto</mat-label>
         <mat-select #provinceSelect
                     formControlName="provinciaIstituto"
@@ -89,7 +89,7 @@
         <mat-error *ngIf="provinciaIstituto.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" fxFlex="45">
+      <mat-form-field appearance="outline" fxFlex>
         <mat-label>Comune Istituto</mat-label>
         <mat-select #comuneSelect
                     formControlName="comuneIstituto"
@@ -104,7 +104,20 @@
         <mat-error *ngIf="comuneIstituto.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" fxFlex>
+    </div>
+
+
+    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+      <mat-form-field appearance="outline" fxFlex="47">
+        <mat-label>Indirizzo fisico dell'istituto</mat-label>
+        <input formControlName="indirizzoFisico"
+               matInput
+               placeholder="Indirizzo dell'istituto">
+      </mat-form-field>
+
+
+
+      <mat-form-field appearance="outline" fxFlex="10">
         <mat-label>Anno diploma</mat-label>
         <input formControlName="dataConseguimento"
                matInput
