@@ -38,3 +38,11 @@ export interface Comune {
   nome: string;
   codiceProvincia: string;
 }
+
+export interface InfoConorso {
+  nomeConcorso: string;
+  titoloConcorso: string;
+  dataInizioDomanda: string;
+  dataFineDomanda: string;
+  dataFineConcorso: string;
+}

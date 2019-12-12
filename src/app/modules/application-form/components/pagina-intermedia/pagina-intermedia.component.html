@@ -40,7 +40,7 @@
 
   </mat-card-content>
   <mat-card-actions>
-  <button fxFlex *ngIf="displayModificaDomanda()" [routerLink]="['/apf/compile']" mat-button color="primary"><a>MODIFICA DOMANDA</a></button>
+  <button fxFlex *ngIf="displayModificaDomanda()" [routerLink]="['/apf/compile']" mat-button color="primary"><a>{{domanda.operazione| infoAzioneDomanda}}</a></button>
   <button fxFlex [routerLink]="['/user']"  mat-button color="primary"><a>VISUALIZZA DOMANDA</a></button>
   </mat-card-actions>
 </mat-card>

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {DomandaService} from '../../../../core/services/domanda.service';
+import {DomandaObj} from '../../../../core/models';
+import {RestService} from '../../../../core/services/rest.service';
 
 @Component({
   selector: 'app-pagina-intermedia',
@@ -8,7 +10,11 @@ import {DomandaService} from '../../../../core/services/domanda.service';
 })
 export class PaginaIntermediaComponent implements OnInit {
 
-  constructor(private domandaService: DomandaService) { }
+  domanda: DomandaObj;
+
+  constructor(private domandaService: DomandaService, private restData: RestService) {
+    this.domanda = this.domandaService.domandaobj;
+  }
 
   ngOnInit() {
   }

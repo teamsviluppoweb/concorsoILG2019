@@ -58,4 +58,9 @@ export class RestService {
     return this.http.get<TitoliTitoloIndirizzo[]>(environment.endpoint.indirizzi + id);
   }
 
+  @Cacheable()
+  getInfoConcorso(id: string): Observable<TitoliTitoloIndirizzo[]>  {
+    return this.http.get<TitoliTitoloIndirizzo[]>(environment.endpoint.infoConcorso);
+  }
+
 }

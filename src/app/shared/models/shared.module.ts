@@ -7,6 +7,10 @@ import {LoggingComponent} from '../components/messages/logging.component';
 import {CommonModule} from '@angular/common';
 import {SessionExpiredComponent} from '../components/session-expired/session-expired.component';
 import {MenuSidenavComponent} from '../components/menu-sidenav/menu-sidenav.component';
+import {CustomDatePipe} from '../pipes/custom-date.pipe';
+import {StatoDomandaPipe} from '../pipes/stato-domanda.pipe';
+import {InfoAzioneDomandaPipe} from '../pipes/info-azione-domanda.pipe';
+import {DataConseguimentoPipe} from '../pipes/data-conseguimento.pipe';
 
 
 @NgModule({
@@ -14,6 +18,10 @@ import {MenuSidenavComponent} from '../components/menu-sidenav/menu-sidenav.comp
     LoggingComponent,
     SessionExpiredComponent,
     MenuSidenavComponent,
+    CustomDatePipe,
+    StatoDomandaPipe,
+    InfoAzioneDomandaPipe,
+    DataConseguimentoPipe,
   ],
   imports: [
     CommonModule,
@@ -32,6 +40,10 @@ import {MenuSidenavComponent} from '../components/menu-sidenav/menu-sidenav.comp
     LoggingComponent,
     SessionExpiredComponent,
     MenuSidenavComponent,
+    CustomDatePipe,
+    StatoDomandaPipe,
+    InfoAzioneDomandaPipe,
+    DataConseguimentoPipe,
   ],
   entryComponents: [
     SessionExpiredComponent,
