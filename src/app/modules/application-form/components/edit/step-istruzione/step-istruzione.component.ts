@@ -65,11 +65,13 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+
     this.rest.getTipologiaTitoloStudio().subscribe(
       (data: TipologiaTitoloStudio[]) => {
         this.listaTipologie = data;
         this.filtroTipologie.next(this.listaTipologie.slice());
         this.setInitialTipologieValue(this.filtroTipologie);
+
       }
      );
 
@@ -78,6 +80,19 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
            this.listaProvince = data;
            this.filtroProvince.next(this.listaProvince.slice());
            this.setInitialProvinceValue(this.filtroProvince);
+           console.log('PROV');
+
+
+           const codiceProvincia = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
+           let prov;
+           let c = this.listaProvince.forEach( x => {
+             if(codiceProvincia === x.codice) {
+               prov = x;
+             }
+             return;
+           });
+
+           this.provinciaIstituto.patchValue(prov);
         }
       );
 
