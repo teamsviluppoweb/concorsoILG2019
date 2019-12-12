@@ -10,8 +10,9 @@
 
   </div>
 
-  <div *ngIf="appartenenza.value === 'SI'" fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+  <div *ngIf="appartenenza.value === 'SI'" fxLayout="column" fxLayout.sm="column" fxLayout.xs="column">
 
+    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
     <mat-form-field appearance="outline" fxFlex="auto">
       <mat-label>Percentuale invalidità</mat-label>
       <input [formControl]="percInvalidita"
@@ -46,6 +47,46 @@
       <mat-error *ngIf="invaliditaEnte.hasError('required')">Campo Obbligatorio</mat-error>
       <mat-error *ngIf="invaliditaEnte.hasError('maxlength')">Hai superato il limite dei caratteri</mat-error>
     </mat-form-field>
+  </div>
+
+
+    <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" formGroupName="formCategorieProtette">
+
+      <mat-form-field appearance="outline" fxFlex="39">
+        <mat-label>Provincia Istituto</mat-label>
+        <mat-select #provinceSelect
+                    formControlName="provincia"
+                    placeholder="Seleziona Provincia istituto">
+
+          <ngx-mat-select-search  formControlName="provinceDropdown"
+                                  [noEntriesFoundLabel]="'Nessun risultato'"
+                                  [placeholderLabel]="'Cerca provincia . . '"></ngx-mat-select-search>
+          <mat-option *ngFor="let prov of (filtroProvince | async)" [value]="prov">
+            {{prov.nome}}
+          </mat-option>
+        </mat-select>
+
+        <mat-error *ngIf="provincia.hasError('required')">Campo Obbligatorio</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" fxFlex="39">
+        <mat-label>Comune Istituto</mat-label>
+        <mat-select #comuneSelect
+                    formControlName="comune"
+                    placeholder="Seleziona Comune istituto">
+          <ngx-mat-select-search  formControlName="comuniDropdown"
+                                  [noEntriesFoundLabel]="'Nessun risultato'"
+                                  [placeholderLabel]="'Cerca comune . . '"></ngx-mat-select-search>
+          <mat-option *ngFor="let com of (filtroComuni | async)" [value]="com">
+            {{com.nome}}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="comune.hasError('required')">Campo Obbligatorio</mat-error>
+      </mat-form-field>
+
+    </div>
+
+
 
   </div>
 
