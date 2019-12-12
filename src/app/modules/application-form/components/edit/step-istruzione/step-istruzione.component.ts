@@ -257,7 +257,9 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        if(this.provinceSelect) {
+          this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        }
       });
   }
 
@@ -270,7 +272,9 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.comuneSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        if (this.comuneSelect) {
+          this.comuneSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        }
       });
   }
 

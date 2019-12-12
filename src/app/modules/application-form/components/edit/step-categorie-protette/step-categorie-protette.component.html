@@ -52,7 +52,7 @@
 
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" formGroupName="formCategorieProtette">
 
-      <mat-form-field appearance="outline" fxFlex="39">
+      <mat-form-field appearance="outline" fxFlex>
         <mat-label>Provincia Istituto</mat-label>
         <mat-select #provinceSelect
                     formControlName="provincia"
@@ -69,7 +69,7 @@
         <mat-error *ngIf="provincia.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" fxFlex="39">
+      <mat-form-field appearance="outline" fxFlex>
         <mat-label>Comune Istituto</mat-label>
         <mat-select #comuneSelect
                     formControlName="comune"

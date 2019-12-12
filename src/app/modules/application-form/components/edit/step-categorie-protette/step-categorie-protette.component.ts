@@ -74,7 +74,6 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
       .subscribe((data: Comune[]) => {
         this.listaComuni = data;
         this.filtroComuni.next(this.listaComuni.slice());
-        console.log(this.listaComuni);
         this.setInitialComuneValue(this.filtroComuni);
       });
 
@@ -181,7 +180,9 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        if (this.provinceSelect) {
+          this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        }
       });
   }
 
@@ -194,7 +195,9 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.comuneSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        if (this.comuneSelect) {
+          this.comuneSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        }
       });
   }
 
