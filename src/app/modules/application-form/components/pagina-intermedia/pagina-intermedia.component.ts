@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DomandaService} from '../../../../core/services/domanda.service';
 
 @Component({
   selector: 'app-pagina-intermedia',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PaginaIntermediaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private domandaService: DomandaService) { }
 
   ngOnInit() {
   }
 
+  displayModificaDomanda() {
+    return this.domandaService.domandaobj.operazione !== 2;
+  }
 }
