@@ -97,6 +97,9 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
   onChanges() {
 
 
+    this.comune.valueChanges.subscribe( (data) => {
+
+    });
 
     this.appartenenza.valueChanges.subscribe((x) => {
 

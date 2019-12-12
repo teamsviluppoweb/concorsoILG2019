@@ -106,14 +106,15 @@ export class LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua implements I
 @Injectable({
   providedIn: 'root',
 })
-export class InvaliditaCivile implements IntInvaliditaCivile{
+export class InvaliditaCivile {
   percentuale: number;
   dataCertificazione: string;
   enteCertificatore: string;
-  provincia: string;
   ausili: boolean;
   tempiAggiuntivi: boolean;
   esenteProvaPreselettiva: boolean;
+  luogoRilascio: ComuneNascitaOrLuogoIstituto;
+
 
   constructor() {}
 

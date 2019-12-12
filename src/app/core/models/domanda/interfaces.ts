@@ -55,7 +55,7 @@ export interface IntInvaliditaCivile {
   percentuale: number;
   dataCertificazione: string;
   enteCertificatore: string;
-  provincia: string;
+  luogoRilascio: IntComuneNascitaOrLuogoIstituto;
   ausili: boolean;
   tempiAggiuntivi: boolean;
   esenteProvaPreselettiva: boolean;
