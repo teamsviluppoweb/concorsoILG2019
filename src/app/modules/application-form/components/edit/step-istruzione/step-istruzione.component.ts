@@ -152,7 +152,6 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       .subscribe((data: Comune[]) => {
         this.listaComuni = data;
         this.filtroComuni.next(this.listaComuni.slice());
-        console.log(this.listaComuni);
         this.setInitialComuneValue(this.filtroComuni);
 
         if (this.domandaService.domandaobj.domanda.stato ==  1) {

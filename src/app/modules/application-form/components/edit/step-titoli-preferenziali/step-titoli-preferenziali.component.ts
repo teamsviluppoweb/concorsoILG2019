@@ -39,25 +39,21 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
       this.elencoTitoliPreferenziali = data;
       if (this.domandaService.domandaobj.domanda.stato === 1) {
         if (this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.length > 0) {
-            this.aventeTitoli.patchValue('SI');
+          console.log(this.domandaService.domandaobj.domanda.lstTitoliPreferenziali);
 
-            const test = this.elencoTitoliPreferenziali.filter((x) => {
-              // tslint:disable-next-line:prefer-for-of
+          const titoliScelti: TitoloPreferenziale[] = [];
 
-              this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.forEach((z) => {
-                if (x.id === z.id) {
-                  return x;
-                }
-              });
+          for (let i = 0; i < this.elencoTitoliPreferenziali.length; i++) {
+            for (let k = 0; k < this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.length; k++) {
+              if (this.elencoTitoliPreferenziali[i].id === this.elencoTitoliPreferenziali[k].id) {
+                titoliScelti.push(this.elencoTitoliPreferenziali[i]);
+              }
+            }
+          }
 
-            });
+          this.aventeTitoli.patchValue('SI');
+          this.titoliSelezionati.patchValue(titoliScelti);
 
-
-
-            this.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numFigli);
-
-
-            this.titoliSelezionati.patchValue(test);
 
           } else {
             this.aventeTitoli.patchValue('NO');
@@ -102,8 +98,16 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
       (x) => {
         if (this.titoliSelezionati.value !== null && this.titoliSelezionati.value !== 'undefined') {
           if (this.titoliSelezionati.value.map(k => k.id).includes(17)) {
-            this.domandaService.domandaobj.domanda.numFigli = x;
+
+            if (this.domandaService.domandaobj.domanda.stato === 1 ) {
+              this.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numFigli);
+            } else {
+              this.domandaService.domandaobj.domanda.numFigli = x;
+            }
+
           }
+        } else {
+          this.domandaService.domandaobj.domanda.numFigli = 0;
         }
       }
     );

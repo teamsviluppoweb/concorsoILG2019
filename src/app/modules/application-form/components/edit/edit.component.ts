@@ -42,7 +42,6 @@ export class EditComponent implements OnInit, OnDestroy {
     private http: DomandaService,
     private formBuilder: FormBuilder
   ) {
-    console.log('Sto analizzando la domanda dio');
     this.inizializzaDomanda();
 
     this.istruzioneIsValid = this.moduloDomanda.controls.formIstruzione;
