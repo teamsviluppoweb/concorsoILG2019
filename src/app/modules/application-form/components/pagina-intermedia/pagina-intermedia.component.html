@@ -10,27 +10,27 @@
     <div fxLayout="row">
       <mat-list fxFlex="50">
         <mat-list-item>
-          <b>Nome Concorso:&nbsp;</b> <p class="info">Concorso Ispettore Logistico Gestionale . . . . </p>
+          <b>Nome Concorso:&nbsp;</b> <p class="info"> {{infoConcorso.nomeConcorso}} </p>
         </mat-list-item>
         <mat-list-item>
-          <b>Nome Titolo Concorso:&nbsp;</b> <p class="info">Concorso Ispettore Logistico Gestionale</p>
+          <b>Titolo Concorso:&nbsp;</b> <p class="info">{{infoConcorso.titoloConcorso}}</p>
         </mat-list-item>
         <mat-list-item>
-          <b>Data Inizio DomandaModel:&nbsp;</b> <p class="info">10/09/2019</p>
+          <b>Data Inizio Domanda:&nbsp;</b> <p class="info">{{infoConcorso.dataInizioDomanda}}</p>
         </mat-list-item>  <mat-list-item>
-        <b>Data Fine Concorso:&nbsp;</b> <p class="info">12/12/2019</p>
+        <b>Data Fine Concorso:&nbsp;</b> <p class="info">{{infoConcorso.dataFineConcorso}}</p>
         </mat-list-item>
       </mat-list>
 
         <mat-list fxFlex="50">
           <mat-list-item>
-            <b>DomandaModel inviata il:&nbsp;</b> <p class="info">10/02/2019 ore 10:23</p>
+            <b>Domanda inviata il:&nbsp;</b> <p class="info">{{infoConcorso.dataInizioDomanda | customDate}}</p>
           </mat-list-item>
           <mat-list-item>
-           <b>Ultima modifica:&nbsp;</b> <p class="info">12/02/2019 ore 13:23</p>
+           <b>Ultima modifica:&nbsp;</b> <p class="info">{{infoConcorso.dataFineDomanda | customDate}}</p>
           </mat-list-item>
           <mat-list-item>
-            <b>Stato domanda:&nbsp;</b> <p class="info">Inviata</p>
+            <b>Stato domanda:&nbsp;</b> <p class="info">{{domanda.operazione | statoDomanda}}</p>
           </mat-list-item>
         </mat-list>
     </div>

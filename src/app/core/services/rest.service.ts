@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {
-  Comune,
+  Comune, InfoConorso,
   Lingua,
   Riserva,
   TipologiaTitoloStudio,
@@ -59,8 +59,8 @@ export class RestService {
   }
 
   @Cacheable()
-  getInfoConcorso(id: string): Observable<TitoliTitoloIndirizzo[]>  {
-    return this.http.get<TitoliTitoloIndirizzo[]>(environment.endpoint.infoConcorso);
+  getInfoConcorso(): Observable<InfoConorso>  {
+    return this.http.get<InfoConorso>(environment.endpoint.infoConcorso);
   }
 
 }
