@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
@@ -11,7 +11,8 @@ import {Riserva, TitoloPreferenziale} from '../../../../../core/models/rest/rest
   // tslint:disable-next-line:component-selector
   selector: 'step-riserve',
   templateUrl: './step-riserve.component.html',
-  styleUrls: ['./step-riserve.component.scss']
+  styleUrls: ['./step-riserve.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepRiserveComponent implements OnInit {
   clicker: boolean;
