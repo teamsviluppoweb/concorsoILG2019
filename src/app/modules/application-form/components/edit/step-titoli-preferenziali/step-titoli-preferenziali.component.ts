@@ -38,14 +38,14 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
     this.rest.getTitoliPreferenziali().subscribe( (data: TitoloPreferenziale[]) => {
       this.elencoTitoliPreferenziali = data;
       if (this.domandaService.domandaobj.domanda.stato === 1) {
+
         if (this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.length > 0) {
-          console.log(this.domandaService.domandaobj.domanda.lstTitoliPreferenziali);
 
           const titoliScelti: TitoloPreferenziale[] = [];
 
           for (let i = 0; i < this.elencoTitoliPreferenziali.length; i++) {
             for (let k = 0; k < this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.length; k++) {
-              if (this.elencoTitoliPreferenziali[i].id === this.elencoTitoliPreferenziali[k].id) {
+              if (this.elencoTitoliPreferenziali[i].id === this.domandaService.domandaobj.domanda.lstTitoliPreferenziali[k].id) {
                 titoliScelti.push(this.elencoTitoliPreferenziali[i]);
               }
             }

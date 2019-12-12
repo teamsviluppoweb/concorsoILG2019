@@ -3,7 +3,7 @@ import {FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {RestService} from '../../../../../core/services/rest.service';
-import {Riserva} from '../../../../../core/models/rest/rest-interface';
+import {Riserva, TitoloPreferenziale} from '../../../../../core/models/rest/rest-interface';
 
 /* TODO: Cambiare mat toggle button con butotn per poter usare 2 way binding */
 
@@ -31,21 +31,27 @@ export class StepRiserveComponent implements OnInit {
         this.elencoRiserve = data;
 
         if (this.domandaService.domandaobj.domanda.stato === 1) {
-          if (this.domandaService.domandaobj.domanda.lstRiserve.length > 0) {
+
+          let riserveScelte = this.domandaService.domandaobj.domanda.lstRiserve;
+          if (riserveScelte.length > 0) {
+
+
             this.aventeRiserve.patchValue('SI');
 
-            const test = this.elencoRiserve.filter((x) => {
+            const rs: Riserva[] = [];
 
-              if (this.domandaService.domandaobj.domanda.lstRiserve.length > 0) {
-                this.domandaService.domandaobj.domanda.lstRiserve.forEach((z) => {
-                  if (x.id === z.id) {
-                    return x;
-                  }
-                });
 
+            for (let i = 0; i < this.elencoRiserve.length; i++) {
+              for (let k = 0; k < riserveScelte.length; k++) {
+                if (this.elencoRiserve[i].id === riserveScelte[k].id) {
+                  rs.push(this.elencoRiserve[i]);
+                }
               }
-            });
-            this.riserveSelezionate.patchValue(test);
+            }
+
+
+            this.riserveSelezionate.patchValue(rs);
+
           } else {
             this.aventeRiserve.patchValue('NO');
           }

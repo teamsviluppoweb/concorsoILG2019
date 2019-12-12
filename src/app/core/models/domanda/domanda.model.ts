@@ -36,7 +36,7 @@ export class DomandaModel implements IntDomanda {
   lingua: LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua;
   lstRiserve?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
-  numFigli?: string;
+  numFigli?: number;
   invaliditaCivile: InvaliditaCivile | null;
 }
 
@@ -99,7 +99,6 @@ export class LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua implements I
   id: number;
   descrizione: string;
 
-  constructor() {}
 
 }
 
