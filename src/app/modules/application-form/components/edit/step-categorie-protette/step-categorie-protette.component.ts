@@ -7,6 +7,7 @@ import {Observable, ReplaySubject, Subject} from 'rxjs';
 import {Comune, Provincia} from '../../../../../core/models/rest/rest-interface';
 import {concatMap, filter, take, takeUntil} from 'rxjs/operators';
 import {RestService} from '../../../../../core/services/rest.service';
+import {IntComuneNascitaOrLuogoIstituto, IntInvaliditaCivile} from '../../../../../core/models';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -41,6 +42,19 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         this.listaProvince = data;
         this.filtroProvince.next(this.listaProvince.slice());
         this.setInitialProvinceValue(this.filtroProvince);
+
+        if (this.domandaService.domandaobj.domanda.stato ==  1) {
+          const codiceProvincia = this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia;
+          let prov;
+          const c = this.listaProvince.forEach( x => {
+            if (codiceProvincia === x.codice) {
+              prov = x;
+              this.provincia.patchValue(prov);
+            }
+            return;
+          });
+        }
+
       }
     );
 
@@ -75,6 +89,19 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         this.listaComuni = data;
         this.filtroComuni.next(this.listaComuni.slice());
         this.setInitialComuneValue(this.filtroComuni);
+
+        if (this.domandaService.domandaobj.domanda.stato ===  1) {
+          const codComune = this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice;
+          let com;
+          const c = this.listaComuni.forEach( x => {
+            if (codComune === x.codice) {
+              com = x;
+              this.comune.patchValue(com);
+            }
+            return;
+          });
+        }
+
       });
 
     // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei comuni
@@ -116,6 +143,22 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         this.invaliditaEnte.setValidators([Validators.required, Validators.maxLength(255)]);
         this.comune.setValidators(Validators.required);
         this.provincia.setValidators(Validators.required);
+        const luogo: IntComuneNascitaOrLuogoIstituto = {
+          codice: '',
+          nome: '',
+          codiceProvincia: ''
+        };
+
+        const inv: IntInvaliditaCivile = {
+          luogoRilascio: luogo,
+          dataCertificazione: '',
+          percentuale: 0,
+          enteCertificatore: '',
+          ausili: false,
+          esenteProvaPreselettiva: false,
+          tempiAggiuntivi: false
+        };
+        this.domandaService.domandaobj.domanda.invaliditaCivile = inv;
       } else if (x === 'NO') {
         this.percInvalidita.clearValidators();
         this.percInvalidita.reset();
@@ -143,7 +186,11 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
 
     });
 
-    this.dataCertificazione.valueChanges.subscribe(
+    this.dataCertificazione.valueChanges
+      .pipe(
+        filter(() => this.dataCertificazione.valid)
+      )
+      .subscribe(
       (x) => {
         if (x !== '') {
           this.domandaService.domandaobj.domanda.invaliditaCivile.dataCertificazione = x;
@@ -151,7 +198,11 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.ausiliProva.valueChanges.subscribe(
+    this.ausiliProva.valueChanges
+      .pipe(
+        filter(() => this.ausiliProva.valid)
+      )
+      .subscribe(
       (x) => {
         if (x !== '') {
           this.domandaService.domandaobj.domanda.invaliditaCivile.ausili = x;
@@ -159,14 +210,22 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.invaliditaEnte.valueChanges.subscribe(
+    this.invaliditaEnte.valueChanges
+      .pipe(
+        filter(() => this.invaliditaEnte.valid)
+      )
+      .subscribe(
       (x) => {
         if (x !== '') {
           this.domandaService.domandaobj.domanda.invaliditaCivile.enteCertificatore = x;
         }
       }
     );
-    this.esenzioneProvaSelettiva.valueChanges.subscribe(
+    this.esenzioneProvaSelettiva.valueChanges
+      .pipe(
+        filter(() => this.esenzioneProvaSelettiva.valid)
+      )
+      .subscribe(
       (x) => {
         if (x !== '') {
           this.domandaService.domandaobj.domanda.invaliditaCivile.esenteProvaPreselettiva = x;
@@ -174,15 +233,23 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
       }
     );
 
-    this.percInvalidita.valueChanges.subscribe(
+    this.percInvalidita.valueChanges
+      .pipe(
+        filter(() => this.percInvalidita.valid)
+      )
+      .subscribe(
       (x) => {
-        if (x !== '') {
+        if (x !== undefined) {
           this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale = x;
         }
       }
     );
 
-    this.tempiAggiuntiviProva.valueChanges.subscribe(
+    this.tempiAggiuntiviProva.valueChanges
+      .pipe(
+        filter(() => this.tempiAggiuntiviProva.valid)
+      )
+      .subscribe(
       (x) => {
         if (x !== '') {
           this.domandaService.domandaobj.domanda.invaliditaCivile.tempiAggiuntivi = x;
@@ -217,7 +284,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        if(this.comuneInvSelect) {
+        if (this.comuneInvSelect) {
           this.comuneInvSelect.compareWith = (a: string, b: string) => a && b && a === b;
         }
       });
