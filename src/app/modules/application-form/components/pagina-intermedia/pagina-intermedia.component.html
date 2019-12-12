@@ -8,7 +8,7 @@
   <mat-card-content>
 
     <div fxLayout="row">
-      <mat-list fxFlex="50">
+      <mat-list fxFlex>
         <mat-list-item>
           <b>Nome Concorso:&nbsp;</b> <p class="info"> {{infoConcorso.nomeConcorso}} </p>
         </mat-list-item>
@@ -20,9 +20,7 @@
         </mat-list-item>  <mat-list-item>
         <b>Data Fine Concorso:&nbsp;</b> <p class="info">{{infoConcorso.dataFineConcorso}}</p>
         </mat-list-item>
-      </mat-list>
 
-        <mat-list fxFlex="50">
           <mat-list-item>
             <b>Domanda inviata il:&nbsp;</b> <p class="info">{{infoConcorso.dataInizioDomanda | customDate}}</p>
           </mat-list-item>
