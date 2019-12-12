@@ -1,6 +1,6 @@
-import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import { MatSelect} from '@angular/material';
+import {MatSelect} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
 import {concatMap, filter, map, take, takeUntil, tap} from 'rxjs/operators';
@@ -60,6 +60,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   constructor(private formbuilder: FormBuilder,
               private rest: RestService,
+              private ref: ChangeDetectorRef,
               private domandaService: DomandaService) {}
 
 
@@ -154,7 +155,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.filtroComuni.next(this.listaComuni.slice());
         this.setInitialComuneValue(this.filtroComuni);
 
-        if (this.domandaService.domandaobj.domanda.stato ==  1) {
+        if (this.domandaService.domandaobj.domanda.stato ===  1) {
           const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
           let com;
           const c = this.listaComuni.forEach( x => {

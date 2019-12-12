@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import { FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 
@@ -12,7 +12,8 @@ import {RestService} from '../../../../../core/services/rest.service';
   // tslint:disable-next-line:component-selector
   selector: 'step-titoli-preferenziali',
   templateUrl: './step-titoli-preferenziali.component.html',
-  styleUrls: ['./step-titoli-preferenziali.component.scss']
+  styleUrls: ['./step-titoli-preferenziali.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepTitoliPreferenzialiComponent implements OnInit {
   /* Lo uso per triggerare l'errore in caso l'utente vada avanti senza aver scelto la lingua, mat-error non funziona
