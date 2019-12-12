@@ -65,12 +65,30 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
+    if (this.domandaService.domandaobj.domanda.stato == 1) {
+      this.indirizzoFisico.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
+      this.nomeIstituto.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
+      this.dataConseguimento.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
+    }
+
 
     this.rest.getTipologiaTitoloStudio().subscribe(
       (data: TipologiaTitoloStudio[]) => {
         this.listaTipologie = data;
         this.filtroTipologie.next(this.listaTipologie.slice());
         this.setInitialTipologieValue(this.filtroTipologie);
+
+
+        if (this.domandaService.domandaobj.domanda.stato ==  1) {
+          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia;
+
+          const tipologiaSceltaId = this.listaTipologie
+            .filter(selected => selected.id === tipologiaIst.id)
+            .map(selected => selected)
+            .reduce(selected => selected);
+
+          this.tipologia.patchValue(tipologiaSceltaId);
+        }
 
       }
      );
@@ -80,19 +98,20 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
            this.listaProvince = data;
            this.filtroProvince.next(this.listaProvince.slice());
            this.setInitialProvinceValue(this.filtroProvince);
-           console.log('PROV');
 
 
-           const codiceProvincia = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
-           let prov;
-           let c = this.listaProvince.forEach( x => {
-             if(codiceProvincia === x.codice) {
-               prov = x;
-             }
-             return;
-           });
+           if (this.domandaService.domandaobj.domanda.stato ==  1) {
+              const codiceProvincia = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
+              let prov;
+              const c = this.listaProvince.forEach( x => {
+                if (codiceProvincia === x.codice) {
+                  prov = x;
+                  this.provinciaIstituto.patchValue(prov);
+                }
+                return;
+              });
+            }
 
-           this.provinciaIstituto.patchValue(prov);
         }
       );
 
@@ -135,6 +154,20 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.filtroComuni.next(this.listaComuni.slice());
         console.log(this.listaComuni);
         this.setInitialComuneValue(this.filtroComuni);
+
+        if (this.domandaService.domandaobj.domanda.stato ==  1) {
+          const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
+          let com;
+          const c = this.listaComuni.forEach( x => {
+            if (codComune === x.codice) {
+              com = x;
+              this.comuneIstituto.patchValue(com);
+            }
+            return;
+          });
+        }
+
+
       });
 
 
@@ -155,6 +188,18 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.listaTitoli = data;
         this.filtroTitolo.next(this.listaTitoli.slice());
         this.setInitialTitoliValue(this.filtroTitolo);
+
+        if (this.domandaService.domandaobj.domanda.stato ==  1) {
+          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo;
+
+          const tipologiaSceltaId = this.listaTitoli
+            .filter(selected => selected.id === tipologiaIst.id)
+            .map(selected => selected)
+            .reduce(selected => selected);
+
+          this.titolo.patchValue(tipologiaSceltaId);
+        }
+
 
       } else {
         this.displayTitoli = false;
@@ -178,6 +223,19 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.listaIndirizzi = data;
         this.filtroIndirizzi.next(this.listaIndirizzi.slice());
         this.setInitialIndirizziValue(this.filtroIndirizzi);
+
+        if (this.domandaService.domandaobj.domanda.stato ==  1) {
+          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo;
+
+          const tipologiaSceltaId = this.listaIndirizzi
+            .filter(selected => selected.id === tipologiaIst.id)
+            .map(selected => selected)
+            .reduce(selected => selected);
+
+          this.indirizzo.patchValue(tipologiaSceltaId);
+        }
+
+
 
       } else {
         this.displayIndirizzi = false;
