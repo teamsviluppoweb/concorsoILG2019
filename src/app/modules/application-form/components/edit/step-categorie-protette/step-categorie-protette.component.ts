@@ -98,7 +98,9 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
 
 
     this.comune.valueChanges.subscribe( (data) => {
-
+      this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice = data.codice;
+      this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.nome = data.nome;
+      this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia = this.provincia.value.codice;
     });
 
     this.appartenenza.valueChanges.subscribe((x) => {
@@ -107,6 +109,8 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         this.percInvalidita.setValidators([Validators.required, Validators.max(100), Validators.min(1), CustomValidators.onlyNumber]);
         this.dataCertificazione.setValidators(Validators.required);
         this.invaliditaEnte.setValidators([Validators.required, Validators.maxLength(255)]);
+        this.comune.setValidators(Validators.required);
+        this.provincia.setValidators(Validators.required);
       } else if (x === 'NO') {
         this.percInvalidita.clearValidators();
         this.percInvalidita.reset();
@@ -116,11 +120,19 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
 
         this.invaliditaEnte.clearValidators();
         this.invaliditaEnte.reset();
+
+        this.comune.clearValidators();
+        this.comune.reset();
+
+        this.provincia.clearValidators();
+        this.provincia.reset();
       }
 
       this.percInvalidita.updateValueAndValidity();
       this.dataCertificazione.updateValueAndValidity();
       this.invaliditaEnte.updateValueAndValidity();
+      this.comune.updateValueAndValidity();
+      this.provincia.updateValueAndValidity();
 
     });
 
