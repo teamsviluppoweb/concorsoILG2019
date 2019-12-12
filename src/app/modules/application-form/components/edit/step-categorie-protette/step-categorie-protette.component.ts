@@ -20,11 +20,11 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
   maxDateDataCertificazione = new Date(Date.now());
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
-  @ViewChild('provinceSelect', { static: true }) provinceSelect: MatSelect;
+  @ViewChild('provinceInvSelect', { static: true }) provinceInvSelect: MatSelect;
   public filtroProvince: ReplaySubject<Provincia[]> = new ReplaySubject<Provincia[]>(1);
   listaProvince: Provincia[];
 
-  @ViewChild('comuneSelect', { static: true }) comuneSelect: MatSelect;
+  @ViewChild('comuneInvSelect', { static: true }) comuneInvSelect: MatSelect;
   public filtroComuni: ReplaySubject<Comune[]> = new ReplaySubject<Comune[]>(1);
   listaComuni: Comune[];
 
@@ -45,7 +45,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
     );
 
     if (this.domandaService.domandaobj.domanda.stato === 1) {
-      if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale) {
+      if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
         this.appartenenza.patchValue('SI');
 
         const inv = this.domandaService.domandaobj.domanda.invaliditaCivile;
@@ -68,7 +68,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
     this.provincia.valueChanges
       .pipe(
         // Mi assicuro che il valore nel form sia valido
-        filter(() => this.provincia.valid),
+        filter(() => this.provincia.value !== null),
         concatMap((data: Provincia) => this.rest.getComuni(data.codice))
       )
       .subscribe((data: Comune[]) => {
@@ -98,9 +98,11 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
 
 
     this.comune.valueChanges.subscribe( (data) => {
-      this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice = data.codice;
-      this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.nome = data.nome;
-      this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia = this.provincia.value.codice;
+      if(data !== undefined && data !== null) {
+        this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice = data.codice;
+        this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.nome = data.nome;
+        this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia = this.provincia.value.codice;
+      }
     });
 
     this.appartenenza.valueChanges.subscribe((x) => {
@@ -126,6 +128,8 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
 
         this.provincia.clearValidators();
         this.provincia.reset();
+
+        this.domandaService.domandaobj.domanda.invaliditaCivile = null;
       }
 
       this.percInvalidita.updateValueAndValidity();
@@ -195,8 +199,8 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        if (this.provinceSelect) {
-          this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        if (this.provinceInvSelect) {
+          this.provinceInvSelect.compareWith = (a: string, b: string) => a && b && a === b;
         }
       });
   }
@@ -210,9 +214,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        if (this.comuneSelect) {
-          this.comuneSelect.compareWith = (a: string, b: string) => a && b && a === b;
-        }
+          this.comuneInvSelect.compareWith = (a: string, b: string) => a && b && a === b;
       });
   }
 

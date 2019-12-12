@@ -17,7 +17,7 @@ export interface IntDomanda {
   lstRiserve?: (IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   numFigli?: string;
-  invaliditaCivile: IntInvaliditaCivile;
+  invaliditaCivile: IntInvaliditaCivile | null;
 }
 export interface IntAnagCandidato {
   codiceFiscale: string;
@@ -36,8 +36,8 @@ export interface IntComuneNascitaOrLuogoIstituto {
 }
 export interface IntTitoliStudioPossedutiEntity {
   tipologia: IntTipologiaOrTitoloOrIndirizzo;
-  titolo: IntTipologiaOrTitoloOrIndirizzo;
-  indirizzo: IntTipologiaOrTitoloOrIndirizzo;
+  titolo: IntTipologiaOrTitoloOrIndirizzo | null;
+  indirizzo: IntTipologiaOrTitoloOrIndirizzo | null;
   dataConseguimento: string;
   istituto: string;
   luogoIstituto: IntComuneNascitaOrLuogoIstituto;

@@ -144,6 +144,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       } else {
         this.displayTitoli = false;
         this.titolo.clearValidators();
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = null;
       }
 
       this.titolo.updateValueAndValidity();
@@ -166,6 +167,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       } else {
         this.displayIndirizzi = false;
         this.indirizzo.clearValidators();
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
       }
 
       this.indirizzo.updateValueAndValidity();
@@ -217,7 +219,9 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.tipologiaSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        if (this.tipologiaSelect !== undefined) {
+          this.tipologiaSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        }
       });
   }
 
@@ -231,7 +235,9 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.titoliSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        if (this.titoliSelect !== undefined) {
+          this.titoliSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        }
       });
   }
 
@@ -244,7 +250,9 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        this.indirizziSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        if (this.indirizziSelect !== undefined) {
+          this.indirizziSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        }
       });
   }
 
@@ -257,7 +265,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        if(this.provinceSelect) {
+        if (this.provinceSelect) {
           this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
         }
       });

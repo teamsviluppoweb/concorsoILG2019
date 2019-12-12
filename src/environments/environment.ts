@@ -11,6 +11,7 @@ export const environment = {
 
   endpoint: {
     domanda: 'http://localhost:8080/domanda',
+    salvaDomanda: 'http://webpc.dipvvf.it:8020/SalvaDomanda',
     titoli: 'http://localhost:8080/titoli',
     riserve: 'http://localhost:8080/riserve',
     lingue: 'http://localhost:8080/lingue',

@@ -37,7 +37,7 @@ export class DomandaModel implements IntDomanda {
   lstRiserve?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   numFigli?: string;
-  invaliditaCivile: InvaliditaCivile;
+  invaliditaCivile: InvaliditaCivile | null;
 }
 
 @Injectable({
@@ -70,8 +70,8 @@ export class ComuneNascitaOrLuogoIstituto implements  IntComuneNascitaOrLuogoIst
 })
 export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEntity {
   tipologia: TipologiaOrTitoloOrIndirizzo;
-  titolo: TipologiaOrTitoloOrIndirizzo;
-  indirizzo: TipologiaOrTitoloOrIndirizzo;
+  titolo: TipologiaOrTitoloOrIndirizzo | null;
+  indirizzo: TipologiaOrTitoloOrIndirizzo | null;
   dataConseguimento: string;
   istituto: string;
   luogoIstituto: ComuneNascitaOrLuogoIstituto;

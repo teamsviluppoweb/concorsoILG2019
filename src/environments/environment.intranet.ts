@@ -12,7 +12,7 @@ export const environment = {
   hostredirect: 'https://pc39548.dipvvf.it:4200/',
   endpoint: {
     domanda: 'http://webpc.dipvvf.it:8020/GetDomanda',
-    salvaDomanda: 'http://webpc.dipvvf.it:8020/SalveDomanda',
+    salvaDomanda: 'http://webpc.dipvvf.it:8020/SalvaDomanda',
     titoli: 'http://webpc.dipvvf.it:8020/TitoliPreferenziali',
     riserve: 'http://webpc.dipvvf.it:8020/Riserve',
     lingue: 'http://webpc.dipvvf.it:8020/Lingue',

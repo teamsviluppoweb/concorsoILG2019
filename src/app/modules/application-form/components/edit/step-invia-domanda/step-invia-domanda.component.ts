@@ -20,17 +20,19 @@ export class StepInviaDomandaComponent implements OnInit {
 
   inviaDomanda() {
 
-    this.domandaService.domandaobj.domanda.stato = 1;
+      this.domandaService.domandaobj.domanda.stato = 1;
 
-    if (!this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.map(k => k.id).includes(17)) {
+      if (!this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.map(k => k.id).includes(17)) {
       this.domandaService.domandaobj.domanda.numFigli = '';
     }
 
-    this.domandaService.putDomanda(this.domandaService.domandaobj).subscribe(
+      this.domandaService.putDomanda(this.domandaService.domandaobj.domanda).subscribe(
       () => {
         localStorage.setItem('domanda', JSON.stringify(this.domandaService.domandaobj));
-        this.domandaService.sendMessage('Modifica DomandaModel');
+        this.domandaService.sendMessage('Modifica Domanda');
         this.domandaService.sendStato(true);
+
+        console.log(this.domandaService.domandaobj.domanda);
 
         this.router.navigate(['/user']);
       }

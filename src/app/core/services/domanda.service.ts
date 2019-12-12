@@ -56,7 +56,8 @@ export class DomandaService {
 
   putDomanda(domanda) {
     this.domandaobj.domanda.stato = 1;
-    return this.http.put(environment.endpoint.salvaDomanda, domanda).pipe(
+    console.log(this.domandaobj.domanda);
+    return this.http.post(environment.endpoint.salvaDomanda, domanda).pipe(
       tap(() => console.log('domanda puttata'))
     );
   }
