@@ -3,8 +3,8 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {AuthGuard, NoAuthGuard} from './guards';
 import {throwIfAlreadyLoaded} from './guards/module-import.guard';
-import {TokenInterceptor, CachingInterceptor, LoggingInterceptor} from './interceptors';
-import {RequestCache, RequestCacheWithMap, MessageService, HttpErrorHandler} from './services';
+import {TokenInterceptor, LoggingInterceptor} from './interceptors';
+import {HttpErrorHandler, MessageService} from './services';
 
 
 @NgModule({
@@ -16,15 +16,6 @@ import {RequestCache, RequestCacheWithMap, MessageService, HttpErrorHandler} fro
     NoAuthGuard,
     MessageService,
     HttpErrorHandler,
-    {
-      provide: RequestCache,
-      useClass: RequestCacheWithMap,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: CachingInterceptor,
-      multi: true
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,

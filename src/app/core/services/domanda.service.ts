@@ -1,21 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 
-import { map, tap} from 'rxjs/operators';
+import { map} from 'rxjs/operators';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {DomandaObj} from '../models';
+import {Cacheable, CacheBuster} from 'ngx-cacheable';
 
-
-export const searchUrl = 'http://localhost:8080/';
-
-
-function createHttpOptions(refresh = false) {
-  const params = new HttpParams();
-  const headerMap = refresh ? {'x-refresh': 'true'} : {};
-  const headers = new HttpHeaders(headerMap) ;
-  return { headers, params };
-}
+const domandaCacheBuster$ = new Subject<void>();
 
 
 @Injectable({
@@ -41,25 +33,24 @@ export class DomandaService {
   }
 
 
-
+  @Cacheable({
+    cacheBusterObserver: domandaCacheBuster$
+  })
   getDomanda(): Observable<DomandaObj> {
-    const options = createHttpOptions(true);
-    return this.http.get<DomandaObj>(environment.endpoint.domanda, options)
+    return this.http.get<DomandaObj>(environment.endpoint.domanda)
       .pipe(
         map( (response: DomandaObj) => {
           this.domandaobj = response;
-          console.log(this.domandaobj);
           return response;
         }  ),
       );
   }
 
-  putDomanda(domanda) {
-    this.domandaobj.domanda.stato = 1;
-    console.log(this.domandaobj.domanda);
-    return this.http.post(environment.endpoint.salvaDomanda, domanda).pipe(
-      tap(() => console.log('domanda puttata'))
-    );
+  @CacheBuster({
+    cacheBusterNotifier: domandaCacheBuster$
+  })
+  postDomanda(domanda) {
+    return this.http.post(environment.endpoint.salvaDomanda, domanda);
   }
 
 
