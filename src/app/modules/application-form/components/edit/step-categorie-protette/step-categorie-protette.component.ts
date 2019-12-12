@@ -97,8 +97,11 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
   onChanges() {
 
 
-    this.comune.valueChanges.subscribe( (data) => {
-      if(data !== undefined && data !== null) {
+    this.comune.valueChanges
+      .pipe(
+        filter(() => this.comune.valid)
+      ).subscribe( (data) => {
+      if (data !== undefined && data !== null) {
         this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice = data.codice;
         this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.nome = data.nome;
         this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia = this.provincia.value.codice;
@@ -214,7 +217,9 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
+        if(this.comuneInvSelect) {
           this.comuneInvSelect.compareWith = (a: string, b: string) => a && b && a === b;
+        }
       });
   }
 

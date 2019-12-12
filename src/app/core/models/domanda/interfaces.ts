@@ -17,7 +17,7 @@ export interface IntDomanda {
   lstRiserve?: (IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   numFigli?: number;
-  invaliditaCivile: IntInvaliditaCivile | null;
+  invaliditaCivile?: IntInvaliditaCivile | null;
 }
 export interface IntAnagCandidato {
   codiceFiscale: string;
@@ -52,11 +52,11 @@ export interface IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua {
   descrizione: string;
 }
 export interface IntInvaliditaCivile {
-  percentuale: number;
-  dataCertificazione: string;
-  enteCertificatore: string;
-  luogoRilascio: IntComuneNascitaOrLuogoIstituto;
-  ausili: boolean;
-  tempiAggiuntivi: boolean;
-  esenteProvaPreselettiva: boolean;
+  percentuale?: number;
+  dataCertificazione?: string;
+  enteCertificatore?: string;
+  luogoRilascio?: IntComuneNascitaOrLuogoIstituto;
+  ausili?: boolean;
+  tempiAggiuntivi?: boolean;
+  esenteProvaPreselettiva?: boolean;
 }
