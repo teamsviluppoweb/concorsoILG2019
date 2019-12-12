@@ -1,4 +1,4 @@
-import {Component, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, OnInit, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import * as moment from 'moment';
@@ -8,6 +8,7 @@ import * as moment from 'moment';
   selector: 'anagrafica-childform',
   templateUrl: './step-anagrafica.component.html',
   styleUrls: ['./step-anagrafica.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepAnagraficaComponent implements OnInit {
 
