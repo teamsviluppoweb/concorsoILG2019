@@ -33,7 +33,7 @@
           <step-categorie-protette [parent]="moduloDomanda"></step-categorie-protette>
       </mat-step>
 
-      <mat-step [stepControl]="accettazioneValid">
+      <mat-step [stepControl]="accettazioneValid" *ngIf="showDichiarazioni()">
           <ng-template matStepLabel><h2 class="step_title">dichiarazione</h2></ng-template>
           <app-step-dichiarazione [parent]="moduloDomanda"></app-step-dichiarazione>
       </mat-step>

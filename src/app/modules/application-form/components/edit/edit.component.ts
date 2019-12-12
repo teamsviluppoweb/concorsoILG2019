@@ -40,7 +40,8 @@ export class EditComponent implements OnInit, OnDestroy {
 
   constructor(
     private http: DomandaService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private domandaService: DomandaService
   ) {
     this.inizializzaDomanda();
 
@@ -110,6 +111,13 @@ export class EditComponent implements OnInit, OnDestroy {
   get isDirty(): boolean {
     this.moduloDomanda = this.moduloDomanda.value;
     return JSON.stringify(this.domandaPrecedente) !== JSON.stringify(this.moduloDomanda.value);
+  }
+
+  showDichiarazioni() {
+    if (this.domandaService.domandaobj.domanda.stato === 1) {
+      return false;
+    }
+    return true;
   }
 
 
