@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSelect} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
-import {concatMap, filter, map, take, takeUntil, tap} from 'rxjs/operators';
+import {concatMap, filter, map, take, takeUntil} from 'rxjs/operators';
 import {
   Comune,
   Provincia,
@@ -26,8 +26,9 @@ import {RestService} from '../../../../../core/services/rest.service';
   selector: 'step-istruzione',
   templateUrl: './step-istruzione.component.html',
   styleUrls: ['./step-istruzione.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StepIstruzioneComponent implements OnInit, OnDestroy {
+export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
   @Input() parent: FormGroup;
   displayTitoli = false;
@@ -60,13 +61,12 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
 
   constructor(private formbuilder: FormBuilder,
               private rest: RestService,
-              private ref: ChangeDetectorRef,
               private domandaService: DomandaService) {}
-
 
   ngOnInit() {
 
-    if (this.domandaService.domandaobj.domanda.stato == 1) {
+
+    if (this.domandaService.domandaobj.domanda.stato === 1) {
       this.indirizzoFisico.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
       this.nomeIstituto.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
       this.dataConseguimento.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
@@ -79,9 +79,12 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.filtroTipologie.next(this.listaTipologie.slice());
         this.setInitialTipologieValue(this.filtroTipologie);
 
+        console.log('inside subscribe');
 
-        if (this.domandaService.domandaobj.domanda.stato ==  1) {
+        if (this.domandaService.domandaobj.domanda.stato ===  1) {
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia;
+
+
 
           const tipologiaSceltaId = this.listaTipologie
             .filter(selected => selected.id === tipologiaIst.id)
@@ -92,57 +95,73 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         }
 
       }
-     );
+    );
 
     this.rest.getProvince().subscribe(
-        (data: Provincia[]) => {
-           this.listaProvince = data;
-           this.filtroProvince.next(this.listaProvince.slice());
-           this.setInitialProvinceValue(this.filtroProvince);
+      (data: Provincia[]) => {
+        this.listaProvince = data;
+        this.filtroProvince.next(this.listaProvince.slice());
+        this.setInitialProvinceValue(this.filtroProvince);
 
 
-           if (this.domandaService.domandaobj.domanda.stato ==  1) {
-              const codiceProvincia = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
-              let prov;
-              const c = this.listaProvince.forEach( x => {
-                if (codiceProvincia === x.codice) {
-                  prov = x;
-                  this.provinciaIstituto.patchValue(prov);
-                }
-                return;
-              });
+        if (this.domandaService.domandaobj.domanda.stato ===  1) {
+          const codiceProvincia = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
+          let prov;
+          const c = this.listaProvince.forEach( x => {
+            if (codiceProvincia === x.codice) {
+              prov = x;
+              this.provinciaIstituto.patchValue(prov);
             }
-
+            return;
+          });
         }
-      );
 
-    this.onChanges();
+      }
+    );
+
   }
 
-  onChanges() {
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    this.tipologia.valueChanges.pipe(
+      map((tipologia: TipologiaTitoloStudio) => tipologia.id),
+      concatMap(id => this.rest.getTitoliTitoloStudio(id))
+    ).subscribe((data: TitoliTitoloStudio[]) => {
 
 
-    this.tipologia.valueChanges.subscribe(
-      (data: TipologiaTitoloStudio) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = data);
 
-    this.titolo.valueChanges.subscribe(
-      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = data);
 
-    this.indirizzo.valueChanges.subscribe(
-      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = data);
+      if (data.length > 0) {
+        this.displayTitoli = true;
 
-    this.dataConseguimento.valueChanges.subscribe(
-      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = data);
 
-    this.nomeIstituto.valueChanges.subscribe(data => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto = data);
+        this.titolo.setValidators(Validators.required);
+        this.listaTitoli = data;
+        this.filtroTitolo.next(this.listaTitoli.slice());
+        this.setInitialTitoliValue(this.filtroTitolo);
 
-    this.indirizzoFisico.valueChanges.subscribe((data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto = data);
+        if (this.domandaService.domandaobj.domanda.stato ===  1) {
+          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo;
 
-    this.comuneIstituto.valueChanges.subscribe( (data) => {
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice = data.codice;
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.nome = data.nome;
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia = this.provinciaIstituto.value.codice;
+          const tipologiaSceltaId = this.listaTitoli
+            .filter(selected => selected.id === tipologiaIst.id)
+            .map(selected => selected)
+            .reduce(selected => selected);
+
+          this.titolo.patchValue(tipologiaSceltaId);
+        }
+
+
+      } else {
+        this.displayTitoli = false;
+        this.titolo.clearValidators();
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = null;
+      }
+
+      this.titolo.updateValueAndValidity();
     });
+
 
     this.provinciaIstituto.valueChanges
       .pipe(
@@ -171,44 +190,35 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       });
 
 
-    this.tipologia.valueChanges.pipe(
-      filter(() => this.tipologia.valid),
-      map((tipologia: TipologiaTitoloStudio) => tipologia.id),
-      tap((x) =>  console.log(x)),
-      concatMap(id => this.rest.getTitoliTitoloStudio(id))
-    ).subscribe((data: TitoliTitoloStudio[]) => {
 
+    this.tipologia.valueChanges
+      .subscribe(
+        (data: TipologiaTitoloStudio) => {
+          this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = data;
+        });
 
+    this.titolo.valueChanges.subscribe(
+      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = data);
 
-      if (data.length > 0) {
-        this.displayTitoli = true;
+    this.indirizzo.valueChanges.subscribe(
+      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = data);
 
+    this.dataConseguimento.valueChanges.subscribe(
+      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = data);
 
-        this.titolo.setValidators(Validators.required);
-        this.listaTitoli = data;
-        this.filtroTitolo.next(this.listaTitoli.slice());
-        this.setInitialTitoliValue(this.filtroTitolo);
+    this.nomeIstituto.valueChanges.subscribe(data => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto = data);
 
-        if (this.domandaService.domandaobj.domanda.stato ==  1) {
-          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo;
+    this.indirizzoFisico.valueChanges
+      .subscribe((data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto = data);
 
-          const tipologiaSceltaId = this.listaTitoli
-            .filter(selected => selected.id === tipologiaIst.id)
-            .map(selected => selected)
-            .reduce(selected => selected);
-
-          this.titolo.patchValue(tipologiaSceltaId);
-        }
-
-
-      } else {
-        this.displayTitoli = false;
-        this.titolo.clearValidators();
-        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = null;
-      }
-
-      this.titolo.updateValueAndValidity();
+    this.comuneIstituto.valueChanges.subscribe( (data) => {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice = data.codice;
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.nome = data.nome;
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia = this.provinciaIstituto.value.codice;
     });
+
+
+
 
     this.titolo.valueChanges.pipe(
       filter(() => this.titolo.valid),
@@ -224,7 +234,7 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
         this.filtroIndirizzi.next(this.listaIndirizzi.slice());
         this.setInitialIndirizziValue(this.filtroIndirizzi);
 
-        if (this.domandaService.domandaobj.domanda.stato ==  1) {
+        if (this.domandaService.domandaobj.domanda.stato ===  1) {
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo;
 
           const tipologiaSceltaId = this.listaIndirizzi
@@ -281,6 +291,8 @@ export class StepIstruzioneComponent implements OnInit, OnDestroy {
       });
 
   }
+
+
 
   private setInitialTipologieValue(data: Observable<TipologiaTitoloStudio[]>) {
     data
