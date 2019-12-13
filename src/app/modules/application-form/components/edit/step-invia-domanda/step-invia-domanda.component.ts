@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, Input, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
@@ -8,7 +8,7 @@ import {Router} from '@angular/router';
   // tslint:disable-next-line:component-selector
   selector: 'step-invia-domanda',
   templateUrl: './step-invia-domanda.component.html',
-  styleUrls: ['./step-invia-domanda.component.scss']
+  styleUrls: ['./step-invia-domanda.component.scss'],
 })
 export class StepInviaDomandaComponent  {
 
@@ -23,7 +23,8 @@ export class StepInviaDomandaComponent  {
     this.isSendingDisabled = true;
     console.log(this.domandaService.domandaobj.domanda);
 
-    this.domandaService.postDomanda(this.domandaService.domandaobj.domanda).subscribe(
+    this.domandaService.postDomanda(this.domandaService.domandaobj.domanda)
+      .subscribe(
       () => {
         localStorage.setItem('domanda', JSON.stringify(this.domandaService.domandaobj));
         this.domandaService.sendMessage('Modifica Domanda');
@@ -38,5 +39,12 @@ export class StepInviaDomandaComponent  {
   }
 
 
+  formready() {
+    return this.parent.valid;
+  }
 
+  logFormStatus() {
+    console.log(this.parent.valid);
+  }
 }
+

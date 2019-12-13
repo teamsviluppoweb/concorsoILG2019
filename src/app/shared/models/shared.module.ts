@@ -11,7 +11,6 @@ import {CustomDatePipe} from '../pipes/custom-date.pipe';
 import {StatoDomandaPipe} from '../pipes/stato-domanda.pipe';
 import {InfoAzioneDomandaPipe} from '../pipes/info-azione-domanda.pipe';
 import {DataConseguimentoPipe} from '../pipes/data-conseguimento.pipe';
-import {SendingApfPipe} from '../pipes/sending-apf.pipe';
 
 
 @NgModule({
@@ -23,7 +22,6 @@ import {SendingApfPipe} from '../pipes/sending-apf.pipe';
     StatoDomandaPipe,
     InfoAzioneDomandaPipe,
     DataConseguimentoPipe,
-    SendingApfPipe,
   ],
   imports: [
     CommonModule,
@@ -46,7 +44,6 @@ import {SendingApfPipe} from '../pipes/sending-apf.pipe';
     StatoDomandaPipe,
     InfoAzioneDomandaPipe,
     DataConseguimentoPipe,
-    SendingApfPipe,
   ],
   entryComponents: [
     SessionExpiredComponent,

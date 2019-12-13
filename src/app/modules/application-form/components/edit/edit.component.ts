@@ -111,6 +111,11 @@ export class EditComponent implements OnInit, OnDestroy {
       }),
     });
 
+    if(this.domandaService.domandaobj.operazione === 1) {
+      this.moduloDomanda.get('formDichiarazione.approvazione').clearValidators();
+      this.moduloDomanda.get('formDichiarazione.approvazione').updateValueAndValidity();
+    }
+
   }
 
   get isDirty(): boolean {

@@ -23,7 +23,9 @@ import {
   MatStepperModule,
   MatTabsModule,
   MatToolbarModule,
-  MatTooltipModule, MatSidenavModule,
+  MatTooltipModule,
+  MatSidenavModule,
+  MatProgressSpinnerModule
 } from '@angular/material';
 
 @NgModule({
@@ -57,6 +59,7 @@ import {
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MatFormFieldModule,
@@ -88,6 +91,7 @@ import {
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    MatProgressSpinnerModule
   ],
 })
 
