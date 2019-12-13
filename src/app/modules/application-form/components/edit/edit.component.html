@@ -1,7 +1,7 @@
 <form [formGroup]="moduloDomanda">
 
   <div class="container">
-    <mat-vertical-stepper #stepper linear="true">
+    <mat-vertical-stepper #stepper [linear]="shouldBeLinear">
 
       <mat-step>
           <ng-template matStepLabel><h2 class="step_title">anagrafica</h2></ng-template>
