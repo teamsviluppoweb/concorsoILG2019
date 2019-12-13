@@ -41,6 +41,7 @@ export class DomandaService {
       .pipe(
         map( (response: DomandaObj) => {
           this.domandaobj = response;
+          console.log(this.domandaobj);
           return response;
         }  ),
       );
