@@ -21,7 +21,7 @@ export class StepInviaDomandaComponent  {
   inviaDomanda() {
     console.log(this.domandaService.domandaobj.domanda);
 
-      this.domandaService.postDomanda(this.domandaService.domandaobj.domanda).subscribe(
+    this.domandaService.postDomanda(this.domandaService.domandaobj.domanda).subscribe(
       () => {
         localStorage.setItem('domanda', JSON.stringify(this.domandaService.domandaobj));
         this.domandaService.sendMessage('Modifica Domanda');
@@ -35,7 +35,5 @@ export class StepInviaDomandaComponent  {
   }
 
 
-  allowSend() {
-    return !this.parent.valid;
-  }
+
 }

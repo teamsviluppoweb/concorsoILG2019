@@ -270,6 +270,10 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       concatMap(id => this.rest.getIndirizziTitoliStudio(id))
     ).subscribe((data: TitoliTitoloIndirizzo[]) => {
 
+      this.indirizzo.patchValue('', {
+        emitEvent: false,
+      });
+
       if (data.length > 0) {
         this.displayIndirizzi = true;
         this.indirizzo.setValidators(Validators.required);
