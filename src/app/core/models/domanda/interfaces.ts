@@ -52,11 +52,11 @@ export interface IntLstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua {
   descrizione: string;
 }
 export interface IntInvaliditaCivile {
-  percentuale?: number;
-  dataCertificazione?: string;
-  enteCertificatore?: string;
-  luogoRilascio?: IntComuneNascitaOrLuogoIstituto;
-  ausili?: boolean;
-  tempiAggiuntivi?: boolean;
-  esenteProvaPreselettiva?: boolean;
+  percentuale?: number | null;
+  dataCertificazione?: string | null;
+  enteCertificatore?: string | null;
+  luogoRilascio?: IntComuneNascitaOrLuogoIstituto | null;
+  ausili?: boolean | null;
+  tempiAggiuntivi?: boolean | null;
+  esenteProvaPreselettiva?: boolean | null;
 }

@@ -101,7 +101,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
     this.provincia.valueChanges
       .pipe(
         // Mi assicuro che il valore nel form sia valido
-        filter(() => this.provincia.valid),
+        filter(() => this.provincia.value !== null && this.provincia.value !== undefined),
         concatMap((data: Provincia) => this.rest.getComuni(data.codice))
       )
       .subscribe((data: Comune[]) => {
@@ -140,12 +140,14 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
 
     this.comune.valueChanges
       .pipe(
-        filter(() => this.comune.valid)
+        filter(() => this.comune.value !== null && this.comune.value !== undefined),
       ).subscribe( (data) => {
       if (data !== undefined && data !== null) {
-        this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice = data.codice;
-        this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.nome = data.nome;
-        this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia = this.provincia.value.codice;
+        if (this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio !== null) {
+          this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice = data.codice;
+          this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.nome = data.nome;
+          this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia = this.provincia.value.codice;
+        }
       }
     });
 
@@ -207,7 +209,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
       )
       .subscribe(
         (x) => {
-          if (x !== '') {
+          if (x !== undefined && x !== null) {
             this.domandaService.domandaobj.domanda.invaliditaCivile.dataCertificazione = x;
           }
         }
@@ -219,7 +221,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
       )
       .subscribe(
         (x) => {
-          if (x !== '') {
+          if (x !== undefined && x !== null) {
             this.domandaService.domandaobj.domanda.invaliditaCivile.ausili = x;
           }
         }
@@ -231,7 +233,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
       )
       .subscribe(
         (x) => {
-          if (x !== '') {
+          if (x !== undefined && x !== null) {
             this.domandaService.domandaobj.domanda.invaliditaCivile.enteCertificatore = x;
           }
         }
@@ -242,7 +244,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
       )
       .subscribe(
         (x) => {
-          if (x !== '') {
+          if (x !== undefined && x !== null) {
             this.domandaService.domandaobj.domanda.invaliditaCivile.esenteProvaPreselettiva = x;
           }
         }
@@ -254,7 +256,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
       )
       .subscribe(
         (x) => {
-          if (x !== undefined) {
+          if (x !== undefined && x !== null) {
             this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale = x;
           }
         }
@@ -266,7 +268,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
       )
       .subscribe(
         (x) => {
-          if (x !== '') {
+          if (x !== undefined && x !== null) {
             this.domandaService.domandaobj.domanda.invaliditaCivile.tempiAggiuntivi = x;
           }
         }
