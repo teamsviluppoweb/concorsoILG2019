@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
   templateUrl: './step-invia-domanda.component.html',
   styleUrls: ['./step-invia-domanda.component.scss']
 })
-export class StepInviaDomandaComponent implements OnInit {
+export class StepInviaDomandaComponent  {
 
   @Input() parent: FormGroup;
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
@@ -21,7 +21,6 @@ export class StepInviaDomandaComponent implements OnInit {
   inviaDomanda() {
     console.log(this.domandaService.domandaobj.domanda);
 
-    /*
       this.domandaService.postDomanda(this.domandaService.domandaobj.domanda).subscribe(
       () => {
         localStorage.setItem('domanda', JSON.stringify(this.domandaService.domandaobj));
@@ -33,10 +32,7 @@ export class StepInviaDomandaComponent implements OnInit {
         this.router.navigate(['/user']);
       }
     );
-      */
   }
 
-  ngOnInit() {
-  }
 
 }

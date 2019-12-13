@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MatSelect} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
-import {concatMap, filter, map, take, takeUntil} from 'rxjs/operators';
+import {concatMap, filter, map, take, takeUntil, tap} from 'rxjs/operators';
 import {
   Comune,
   Provincia,
@@ -154,10 +154,13 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       concatMap(id => this.rest.getTitoliTitoloStudio(id))
     ).subscribe((data: TitoliTitoloStudio[]) => {
 
+      this.titolo.patchValue('', {
+        emitEvent: false,
+      });
+      this.displayIndirizzi = false;
 
 
       if (data.length > 0) {
-
         this.displayTitoli = true;
 
 
