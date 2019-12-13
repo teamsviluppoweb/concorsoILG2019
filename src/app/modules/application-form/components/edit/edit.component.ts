@@ -64,7 +64,7 @@ export class EditComponent implements OnInit, OnDestroy {
         tipologia: ['', [Validators.required]],
         titolo: [''],
         indirizzo: [''],
-        nomeIstituto: [''],
+        nomeIstituto: ['', [Validators.required]],
         indirizzoFisico: [''],
         dataConseguimento: ['', [
           Validators.required,
