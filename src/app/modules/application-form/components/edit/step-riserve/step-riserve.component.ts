@@ -31,7 +31,7 @@ export class StepRiserveComponent implements OnInit {
       (data: Riserva[]) => {
         this.elencoRiserve = data;
 
-        if (this.domandaService.domandaobj.domanda.stato === 1) {
+        if (this.domandaService.domandaobj.operazione === 1) {
 
           let riserveScelte = this.domandaService.domandaobj.domanda.lstRiserve;
           if (riserveScelte.length > 0) {

@@ -38,7 +38,7 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
     this.onChanges();
     this.rest.getTitoliPreferenziali().subscribe( (data: TitoloPreferenziale[]) => {
       this.elencoTitoliPreferenziali = data;
-      if (this.domandaService.domandaobj.domanda.stato === 1) {
+      if (this.domandaService.domandaobj.operazione === 1) {
 
         if (this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.length > 0) {
 
@@ -100,7 +100,7 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
         if (this.titoliSelezionati.value !== null && this.titoliSelezionati.value !== 'undefined') {
           if (this.titoliSelezionati.value.map(k => k.id).includes(17)) {
 
-            if (this.domandaService.domandaobj.domanda.stato === 1 ) {
+            if (this.domandaService.domandaobj.operazione === 1 ) {
               this.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numFigli);
             } else {
               this.domandaService.domandaobj.domanda.numFigli = x;

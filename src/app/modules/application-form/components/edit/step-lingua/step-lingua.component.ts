@@ -15,7 +15,6 @@ import {RestService} from '../../../../../core/services/rest.service';
   selector: 'step-lingua',
   templateUrl: './step-lingua.component.html',
   styleUrls: ['./step-lingua.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepLinguaComponent implements OnInit {
 
@@ -42,7 +41,7 @@ export class StepLinguaComponent implements OnInit {
 
         this.elencoLingue = lingua;
 
-        if (this.domandaService.domandaobj.domanda.stato === 1) {
+        if (this.domandaService.domandaobj.operazione === 1) {
 
           const linguaSelezionata = this.elencoLingue.filter((x) => {
               if (x.id === this.domandaService.domandaobj.domanda.lingua.id) {

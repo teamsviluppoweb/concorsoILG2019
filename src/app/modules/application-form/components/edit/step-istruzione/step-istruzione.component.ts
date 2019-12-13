@@ -12,6 +12,7 @@ import {
   TitoliTitoloStudio
 } from '../../../../../core/models/rest/rest-interface';
 import {RestService} from '../../../../../core/services/rest.service';
+import {IntTitoliStudioPossedutiEntity} from '../../../../../core/models';
 
 /* ## Disabilita il required di istruzione */
 /*
@@ -26,7 +27,6 @@ import {RestService} from '../../../../../core/services/rest.service';
   selector: 'step-istruzione',
   templateUrl: './step-istruzione.component.html',
   styleUrls: ['./step-istruzione.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
@@ -65,8 +65,33 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
 
+    if (this.domandaService.domandaobj.operazione === 0) {
+      const obj: IntTitoliStudioPossedutiEntity = {
+        indirizzo: {
+          id: '',
+          desc: ''
+        },
+        indirizzoIstituto: '',
+        dataConseguimento: '',
+        istituto: '',
+        titolo: {
+          desc: '',
+          id: ''
+        },
+        tipologia: {
+          id: '',
+          desc: ''
+        },
+        luogoIstituto: {
+          codiceProvincia: '',
+          nome: '',
+          codice: ''
+        }
+      };
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto = obj;
+    }
 
-    if (this.domandaService.domandaobj.domanda.stato === 1) {
+    if (this.domandaService.domandaobj.operazione === 1) {
       this.indirizzoFisico.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
       this.nomeIstituto.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
       this.dataConseguimento.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
@@ -81,7 +106,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
         console.log('inside subscribe');
 
-        if (this.domandaService.domandaobj.domanda.stato ===  1) {
+        if (this.domandaService.domandaobj.operazione ===  1) {
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia;
 
 
@@ -104,7 +129,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.setInitialProvinceValue(this.filtroProvince);
 
 
-        if (this.domandaService.domandaobj.domanda.stato ===  1) {
+        if (this.domandaService.domandaobj.operazione ===  1) {
           const codiceProvincia = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
           let prov;
           const c = this.listaProvince.forEach( x => {
@@ -131,25 +156,35 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
 
 
-
       if (data.length > 0) {
+
         this.displayTitoli = true;
 
 
-        this.titolo.setValidators(Validators.required);
+        this.titolo.setValidators([Validators.required]);
         this.listaTitoli = data;
         this.filtroTitolo.next(this.listaTitoli.slice());
         this.setInitialTitoliValue(this.filtroTitolo);
 
-        if (this.domandaService.domandaobj.domanda.stato ===  1) {
+
+
+
+        if (this.domandaService.domandaobj.operazione ===  1) {
+
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo;
 
-          const tipologiaSceltaId = this.listaTitoli
+          const matchLength = this.listaTitoli
             .filter(selected => selected.id === tipologiaIst.id)
-            .map(selected => selected)
-            .reduce(selected => selected);
+            .map(selected => selected).length;
 
-          this.titolo.patchValue(tipologiaSceltaId);
+          if (matchLength > 0) {
+            const tipologiaSceltaId = this.listaTitoli
+              .filter(selected => selected.id === tipologiaIst.id)
+              .map(selected => selected)
+              .reduce(selected => selected);
+
+            this.titolo.patchValue(tipologiaSceltaId);
+          }
         }
 
 
@@ -157,9 +192,12 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.displayTitoli = false;
         this.titolo.clearValidators();
         this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = null;
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
       }
 
       this.titolo.updateValueAndValidity();
+      console.log('required titolo');
+      console.log(this.titolo);
     });
 
 
@@ -174,7 +212,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.filtroComuni.next(this.listaComuni.slice());
         this.setInitialComuneValue(this.filtroComuni);
 
-        if (this.domandaService.domandaobj.domanda.stato ===  1) {
+        if (this.domandaService.domandaobj.operazione ===  1) {
           const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
           let com;
           const c = this.listaComuni.forEach( x => {
@@ -194,7 +232,10 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
     this.tipologia.valueChanges
       .subscribe(
         (data: TipologiaTitoloStudio) => {
+
           this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = data;
+
+
         });
 
     this.titolo.valueChanges.subscribe(
@@ -234,21 +275,34 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.filtroIndirizzi.next(this.listaIndirizzi.slice());
         this.setInitialIndirizziValue(this.filtroIndirizzi);
 
-        if (this.domandaService.domandaobj.domanda.stato ===  1) {
+        if (this.domandaService.domandaobj.operazione ===  1) {
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo;
 
-          const tipologiaSceltaId = this.listaIndirizzi
-            .filter(selected => selected.id === tipologiaIst.id)
-            .map(selected => selected)
-            .reduce(selected => selected);
+          /*
+          Da migliorare:
+            Devo controllare che l'array uscito da map sia popolato altrimenti mi va in errore, se è popolato
+            allora eseguo il patch value.
+           */
 
-          this.indirizzo.patchValue(tipologiaSceltaId);
+          const matchLength = this.listaIndirizzi
+            .filter(selected => selected.id === tipologiaIst.id)
+            .map(selected => selected).length;
+          if (matchLength > 0) {
+
+            const tipologiaSceltaId = this.listaIndirizzi
+              .filter(selected => selected.id === tipologiaIst.id)
+              .map(selected => selected)
+              .reduce(selected => selected);
+
+            this.indirizzo.patchValue(tipologiaSceltaId);
+          }
         }
 
 
 
       } else {
         this.displayIndirizzi = false;
+        this.indirizzo.reset();
         this.indirizzo.clearValidators();
         this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
       }
