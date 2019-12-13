@@ -14,11 +14,13 @@ export class StepInviaDomandaComponent  {
 
   @Input() parent: FormGroup;
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
+  isSendingDisabled = false;
 
   constructor(private domandaService: DomandaService, private router: Router) {
   }
 
   inviaDomanda() {
+    this.isSendingDisabled = true;
     console.log(this.domandaService.domandaobj.domanda);
 
     this.domandaService.postDomanda(this.domandaService.domandaobj.domanda).subscribe(
@@ -30,6 +32,7 @@ export class StepInviaDomandaComponent  {
         console.log(this.domandaService.domandaobj.domanda);
 
         this.router.navigate(['/user']);
+        this.isSendingDisabled = false;
       }
     );
   }
