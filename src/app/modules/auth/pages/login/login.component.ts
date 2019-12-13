@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {environment} from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -8,10 +7,8 @@ import {environment} from '../../../../../environments/environment';
 })
 export class LoginComponent implements OnInit {
 
-  pathSpidLogin: string;
 
   constructor() {
-    this.pathSpidLogin = environment.endpoint.pathSpidLogin;
   }
 
   ngOnInit() {

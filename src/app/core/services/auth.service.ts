@@ -27,8 +27,9 @@ export class AuthService {
   }
 
   logout(): void {
+    const tk = localStorage.getItem('token');
     this.removeAccessToken();
-    window.location.href = environment.endpoint.pathSpidLogout;
+    window.location.href = '//sso.vigilfuoco.it/cas-test/logout?service=https://localhost:8080/testjwt/' + tk;
   }
 
   validateJwt(): Observable<any> {
