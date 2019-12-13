@@ -4,6 +4,7 @@ import {BreakpointObserver, Breakpoints} from '@angular/cdk/layout';
 import {Observable, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SessionCheckServiceService} from '../../core/services/session-check-service.service';
+import {AuthService} from '../../core/services';
 
 
 @Component({
@@ -22,7 +23,7 @@ export class ContentLayoutComponent implements OnDestroy {
       map(result => result.matches)
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private tokenSession: SessionCheckServiceService) {
+  constructor(private breakpointObserver: BreakpointObserver, private tokenSession: SessionCheckServiceService, private auth: AuthService) {
     this.tokenValidity$ = this.tokenSession.checkValidity().subscribe(
       (x) => {
         if (this.tokenSession.helper.isTokenExpired(this.tokenSession.token)) {
@@ -56,4 +57,7 @@ export class ContentLayoutComponent implements OnDestroy {
   }
 
 
+  logout() {
+    this.auth.logout();
+  }
 }

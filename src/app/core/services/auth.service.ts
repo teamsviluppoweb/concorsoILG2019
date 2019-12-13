@@ -3,6 +3,7 @@ import {Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {catchError, first, map, tap} from 'rxjs/operators';
 import {DomandaService} from './domanda.service';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class AuthService {
 
   logout(): void {
     this.removeAccessToken();
-    this.router.navigate(['/guest/login']);
+    window.location.href = environment.endpoint.pathSpidLogout;
   }
 
   validateJwt(): Observable<any> {
