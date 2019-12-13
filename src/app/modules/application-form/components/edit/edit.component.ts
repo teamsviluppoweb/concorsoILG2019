@@ -45,7 +45,7 @@ export class EditComponent implements OnInit, OnDestroy {
     private domandaService: DomandaService
   ) {
 
-    if (this.domandaService.domandaobj.operazione === 0) {
+    if (this.domandaService.domandaobj.operazione !== 0) {
       this.shouldBeLinear = false;
     }
     this.inizializzaDomanda();
