@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {DomandaService} from '../../../core/services/domanda.service';
+import { DomandaObj} from '../../../core/models';
 
 @Component({
   selector: 'app-menu-sidenav',
@@ -7,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MenuSidenavComponent implements OnInit {
 
-  constructor() { }
+  domanda: DomandaObj;
+  constructor(private domandaService: DomandaService) {
+    this.domanda = this.domandaService.domandaobj;
+  }
 
   ngOnInit() {
   }
