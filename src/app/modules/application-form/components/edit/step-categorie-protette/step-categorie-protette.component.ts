@@ -51,6 +51,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
         tempiAggiuntivi: false
       };
       this.domandaService.domandaobj.domanda.invaliditaCivile = inv;
+      console.log(this.domandaService.domandaobj.domanda.invaliditaCivile);
     }
 
     this.rest.getProvince().subscribe(
@@ -81,17 +82,21 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
 
     if (this.domandaService.domandaobj.operazione === 1) {
       if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
-        this.appartenenza.patchValue('SI');
+        if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale !== 0) {
+          this.appartenenza.patchValue('SI');
 
-        const inv = this.domandaService.domandaobj.domanda.invaliditaCivile;
+          const inv = this.domandaService.domandaobj.domanda.invaliditaCivile;
 
-        this.ausiliProva.patchValue(inv.ausili);
-        this.dataCertificazione.patchValue(inv.dataCertificazione);
-        this.invaliditaEnte.patchValue(inv.enteCertificatore);
-        this.esenzioneProvaSelettiva.patchValue(inv.esenteProvaPreselettiva);
-        this.percInvalidita.patchValue(inv.percentuale);
-        this.tempiAggiuntiviProva.patchValue(inv.tempiAggiuntivi);
+          this.ausiliProva.patchValue(inv.ausili);
+          this.dataCertificazione.patchValue(inv.dataCertificazione);
+          this.invaliditaEnte.patchValue(inv.enteCertificatore);
+          this.esenzioneProvaSelettiva.patchValue(inv.esenteProvaPreselettiva);
+          this.percInvalidita.patchValue(inv.percentuale);
+          this.tempiAggiuntiviProva.patchValue(inv.tempiAggiuntivi);
 
+        } else {
+          this.appartenenza.patchValue('NO');
+        }
       } else {
         this.appartenenza.patchValue('NO');
       }
@@ -176,7 +181,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
 
 
 
-      } else if (x === 'NO') {
+      } else  {
         this.percInvalidita.clearValidators();
         this.percInvalidita.reset();
 
@@ -193,6 +198,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
         this.provincia.reset();
 
         this.domandaService.domandaobj.domanda.invaliditaCivile = null;
+        console.log(this.domandaService.domandaobj.domanda.invaliditaCivile);
       }
 
       this.percInvalidita.updateValueAndValidity();

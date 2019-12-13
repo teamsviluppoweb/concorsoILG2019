@@ -104,8 +104,6 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.filtroTipologie.next(this.listaTipologie.slice());
         this.setInitialTipologieValue(this.filtroTipologie);
 
-        console.log('inside subscribe');
-
         if (this.domandaService.domandaobj.operazione ===  1) {
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia;
 
@@ -199,8 +197,6 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       }
 
       this.titolo.updateValueAndValidity();
-      console.log('required titolo');
-      console.log(this.titolo);
     });
 
 
@@ -217,11 +213,9 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.domandaService.domandaobj.operazione ===  1) {
           const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
-          console.log(codComune);
           let com;
           const c = this.listaComuni.forEach( x => {
             if (codComune === x.codice) {
-              console.log(x);
               com = x;
               this.comuneIstituto.patchValue(com);
             }

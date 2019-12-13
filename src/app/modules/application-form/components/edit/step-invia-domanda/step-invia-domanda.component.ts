@@ -21,7 +21,13 @@ export class StepInviaDomandaComponent  {
 
   inviaDomanda() {
     this.isSendingDisabled = true;
-    console.log(this.domandaService.domandaobj.domanda);
+
+    if(this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
+      if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale === 0) {
+        this.domandaService.domandaobj.domanda.invaliditaCivile = null;
+      }
+    }
+
 
     this.domandaService.postDomanda(this.domandaService.domandaobj.domanda)
       .subscribe(
@@ -30,7 +36,6 @@ export class StepInviaDomandaComponent  {
         this.domandaService.sendMessage('Modifica Domanda');
         this.domandaService.sendStato(true);
 
-        console.log(this.domandaService.domandaobj.domanda);
 
         this.router.navigate(['/user']);
         this.isSendingDisabled = false;
@@ -43,8 +48,6 @@ export class StepInviaDomandaComponent  {
     return this.parent.valid;
   }
 
-  logFormStatus() {
-    console.log(this.parent.valid);
-  }
+
 }
 
