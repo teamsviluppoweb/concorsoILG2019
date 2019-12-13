@@ -14,7 +14,6 @@ import {IntComuneNascitaOrLuogoIstituto, IntInvaliditaCivile} from '../../../../
   selector: 'step-categorie-protette',
   templateUrl: './step-categorie-protette.component.html',
   styleUrls: ['./step-categorie-protette.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChanges {
 
@@ -36,7 +35,23 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
   constructor(private domandaService: DomandaService, private rest: RestService) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    if (this.domandaService.domandaobj.operazione === 0 || this.domandaService.domandaobj.domanda.invaliditaCivile === null) {
+      const inv: IntInvaliditaCivile = {
+        luogoRilascio: {
+          codice: '',
+          nome: '',
+          codiceProvincia: ''
+        },
+        dataCertificazione: '',
+        percentuale: 0,
+        enteCertificatore: '',
+        ausili: false,
+        esenteProvaPreselettiva: false,
+        tempiAggiuntivi: false
+      };
+      this.domandaService.domandaobj.domanda.invaliditaCivile = inv;
+    }
 
     this.rest.getProvince().subscribe(
       (data: Provincia[]) => {
@@ -45,26 +60,28 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
         this.setInitialProvinceValue(this.filtroProvince);
 
         if (this.domandaService.domandaobj.operazione ===  1) {
-          const codiceProvincia = this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia;
-          let prov;
-          const c = this.listaProvince.forEach( x => {
-            if (codiceProvincia === x.codice) {
-              prov = x;
-              this.provincia.patchValue(prov);
-            }
-            return;
-          });
+          if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
+            const codiceProvincia = this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia;
+            let prov;
+            const c = this.listaProvince.forEach( x => {
+              if (codiceProvincia === x.codice) {
+                prov = x;
+                this.provincia.patchValue(prov);
+              }
+              return;
+            });
+          }
         }
 
       }
     );
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
 
     if (this.domandaService.domandaobj.operazione === 1) {
-      console.log(this.domandaService.domandaobj.domanda.invaliditaCivile);
       if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
         this.appartenenza.patchValue('SI');
-
-        console.log(this.domandaService.domandaobj.domanda.invaliditaCivile);
 
         const inv = this.domandaService.domandaobj.domanda.invaliditaCivile;
 
@@ -80,13 +97,11 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
       }
     }
 
-    this.comune.valueChanges.subscribe( (data) => {
-    });
 
     this.provincia.valueChanges
       .pipe(
         // Mi assicuro che il valore nel form sia valido
-        filter(() => this.provincia.value !== null),
+        filter(() => this.provincia.valid),
         concatMap((data: Provincia) => this.rest.getComuni(data.codice))
       )
       .subscribe((data: Comune[]) => {
@@ -122,9 +137,6 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
         this.filtraRicerca(this.listaProvince, this.provinceDropdown, this.filtroProvince);
       });
 
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
 
     this.comune.valueChanges
       .pipe(
@@ -140,27 +152,28 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
     this.appartenenza.valueChanges.subscribe((x) => {
 
       if (x === 'SI') {
+        console.log('validator!!');
         this.percInvalidita.setValidators([Validators.required, Validators.max(100), Validators.min(1), CustomValidators.onlyNumber]);
         this.dataCertificazione.setValidators(Validators.required);
         this.invaliditaEnte.setValidators([Validators.required, Validators.maxLength(255)]);
         this.comune.setValidators(Validators.required);
         this.provincia.setValidators(Validators.required);
-        const luogo: IntComuneNascitaOrLuogoIstituto = {
-          codice: '',
-          nome: '',
-          codiceProvincia: ''
-        };
 
-        const inv: IntInvaliditaCivile = {
-          luogoRilascio: luogo,
-          dataCertificazione: '',
-          percentuale: 0,
-          enteCertificatore: '',
-          ausili: false,
-          esenteProvaPreselettiva: false,
-          tempiAggiuntivi: false
-        };
-        this.domandaService.domandaobj.domanda.invaliditaCivile = inv;
+        if (this.domandaService.domandaobj.operazione === 1) {
+          if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
+            const inva = this.domandaService.domandaobj.domanda.invaliditaCivile;
+
+            this.ausiliProva.patchValue(inva.ausili);
+            this.dataCertificazione.patchValue(inva.dataCertificazione);
+            this.invaliditaEnte.patchValue(inva.enteCertificatore);
+            this.esenzioneProvaSelettiva.patchValue(inva.esenteProvaPreselettiva);
+            this.percInvalidita.patchValue(inva.percentuale);
+            this.tempiAggiuntiviProva.patchValue(inva.tempiAggiuntivi);
+          }
+        }
+
+
+
       } else if (x === 'NO') {
         this.percInvalidita.clearValidators();
         this.percInvalidita.reset();
@@ -258,6 +271,9 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
           }
         }
       );
+
+
+
 
   }
 

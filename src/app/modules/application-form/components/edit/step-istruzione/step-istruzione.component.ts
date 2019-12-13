@@ -217,17 +217,17 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
         if (this.domandaService.domandaobj.operazione ===  1) {
           const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
+          console.log(codComune);
           let com;
           const c = this.listaComuni.forEach( x => {
             if (codComune === x.codice) {
+              console.log(x);
               com = x;
               this.comuneIstituto.patchValue(com);
             }
             return;
           });
         }
-
-
       });
 
 
