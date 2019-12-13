@@ -63,4 +63,9 @@ export class StepLinguaComponent implements OnInit {
   get linguaSelezionata() {
     return this.parent.get('formLingua.linguaSelezionata');
   }
+
+
+  allowNextStep() {
+    return !this.parent.controls.formLingua.valid;
+  }
 }

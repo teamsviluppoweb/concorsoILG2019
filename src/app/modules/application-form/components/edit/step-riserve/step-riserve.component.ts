@@ -97,6 +97,9 @@ export class StepRiserveComponent implements OnInit {
   }
 
 
+  allowNextStep() {
+    return !this.parent.controls.formRiserve.valid;
+  }
 }
 
 

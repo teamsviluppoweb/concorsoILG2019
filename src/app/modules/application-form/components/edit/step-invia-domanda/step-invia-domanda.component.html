@@ -1,5 +1,5 @@
 <div fxLayout="column" fxLayoutGap="20px">
   <div fxFlex="row" fxFlexAlign="center" >
-    <button class="material-button inviaDomanda" (click)="inviaDomanda()" color="primary" mat-flat-button>INVIA DOMANDA</button>
+    <button class="material-button inviaDomanda" (click)="inviaDomanda()"  [disabled]="allowSend()" color="primary" mat-flat-button>INVIA DOMANDA</button>
   </div>
 </div>

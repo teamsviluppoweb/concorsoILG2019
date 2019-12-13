@@ -132,4 +132,8 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
   get aventeTitoli() {
     return this.parent.get('formTitoliPreferenziali.aventeTitoli');
   }
+
+  allowNextStep() {
+    return !this.parent.controls.formTitoliPreferenziali.valid;
+  }
 }

@@ -382,5 +382,8 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
   }
 
 
+  allowNextStep() {
+    return !this.parent.controls.formCategorieProtette.valid;
+  }
 }
 

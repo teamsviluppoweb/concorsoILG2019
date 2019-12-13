@@ -35,4 +35,7 @@ export class StepInviaDomandaComponent  {
   }
 
 
+  allowSend() {
+    return !this.parent.valid;
+  }
 }
