@@ -16,9 +16,9 @@
           <b>Titolo Concorso:&nbsp;</b> <p class="info">{{infoConcorso.titoloConcorso}}</p>
         </mat-list-item>
         <mat-list-item>
-          <b>Data Inizio Domanda:&nbsp;</b> <p class="info">{{infoConcorso.dataInizioDomanda}}</p>
+          <b>Data Inizio Domanda:&nbsp;</b> <p class="info">{{infoConcorso.dataInizioDomanda | customDate}}</p>
         </mat-list-item>  <mat-list-item>
-        <b>Data Fine Concorso:&nbsp;</b> <p class="info">{{infoConcorso.dataFineConcorso}}</p>
+        <b>Data Fine Concorso:&nbsp;</b> <p class="info">{{infoConcorso.dataFineConcorso | customDate}}</p>
         </mat-list-item>
 
           <mat-list-item>
@@ -38,7 +38,7 @@
 
   </mat-card-content>
   <mat-card-actions>
-  <button fxFlex *ngIf="displayModificaDomanda()" [routerLink]="['/apf/compile']" mat-button color="primary"><a>{{domanda.operazione| infoAzioneDomanda}}</a></button>
-  <button fxFlex [routerLink]="['/user']"  mat-button color="primary"><a>VISUALIZZA DOMANDA</a></button>
+  <button fxFlex *ngIf="stato !== 2" [routerLink]="['/apf/compile']" mat-button color="primary"><a>{{domanda.operazione| infoAzioneDomanda}}</a></button>
+  <button fxFlex *ngIf="stato !== 0" [routerLink]="['/user']"  mat-button color="primary"><a>VISUALIZZA DOMANDA</a></button>
   </mat-card-actions>
 </mat-card>

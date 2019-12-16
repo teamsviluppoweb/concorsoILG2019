@@ -39,12 +39,12 @@
       </mat-list-item>
 
 
-      <mat-list-item *ngIf="domanda.operazione !== 0" fxLayout="column" [routerLink]="['/user']" routerLinkActive="router-link-active" class="menu_style">
+      <mat-list-item *ngIf="stato !== 0" fxLayout="column" [routerLink]="['/user']" routerLinkActive="router-link-active" class="menu_style">
         <a class="menu_item_text" style="font-size: 14px;margin-left: 24px; color: #2f2f2f">VISUALIZZA DOMANDA</a>
       </mat-list-item>
 
       <mat-list-item fxLayout="column"  [routerLink]="['/apf/compile']" routerLinkActive="router-link-active" class="menu_style">
-        <a class="menu_item_text" style="font-size: 14px;margin-left: 24px; color: #2f2f2f">MODIFICA</a>
+        <a class="menu_item_text" style="font-size: 14px;margin-left: 24px; color: #2f2f2f">{{stato | infoAzioneDomanda}}</a>
       </mat-list-item>
     </mat-list>
 

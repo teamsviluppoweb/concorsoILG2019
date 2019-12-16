@@ -3,6 +3,7 @@ import {DomandaService} from '../../../../core/services/domanda.service';
 import {DomandaObj} from '../../../../core/models';
 import {RestService} from '../../../../core/services/rest.service';
 import {InfoConorso} from '../../../../core/models/rest/rest-interface';
+import {SidenavContainer, SidenavService} from '../../../../core/services/sidenav.service';
 
 @Component({
   selector: 'app-pagina-intermedia',
@@ -13,8 +14,9 @@ export class PaginaIntermediaComponent implements OnInit {
 
   domanda: DomandaObj;
   infoConcorso: InfoConorso;
+  stato;
 
-  constructor(private domandaService: DomandaService, private restData: RestService) {
+  constructor(private domandaService: DomandaService, private restData: RestService,  private sidenavService: SidenavService) {
     this.domanda = this.domandaService.domandaobj;
 
     this.restData.getInfoConcorso().subscribe(
@@ -25,9 +27,13 @@ export class PaginaIntermediaComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.stato = this.domanda.domanda.stato;
+    this.sidenavService.getContainer().subscribe(
+      (x: SidenavContainer) => {
+        this.stato = x.stato;
+      }
+    );
+
   }
 
-  displayModificaDomanda() {
-    return this.domandaService.domandaobj.operazione !== 2;
-  }
 }
