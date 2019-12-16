@@ -27,7 +27,7 @@ export class PaginaIntermediaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stato = this.domanda.domanda.stato;
+    this.stato = this.domandaService.domandaobj.operazione;
     this.sidenavService.getContainer().subscribe(
       (x: SidenavContainer) => {
         this.stato = x.stato;

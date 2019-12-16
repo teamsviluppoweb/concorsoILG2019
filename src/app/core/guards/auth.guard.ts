@@ -50,7 +50,7 @@ export class AuthGuard implements CanActivate {
   refactorUrl(url: string): string {
     let token: string;
 
-    token = url.split('?ticket=JWT-').pop();
+    token = url.split('?ticket=').pop();
 
     return token;
   }

@@ -5,6 +5,8 @@ import {Observable, Subscription} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {SessionCheckServiceService} from '../../core/services/session-check-service.service';
 import {AuthService} from '../../core/services';
+import {DomandaObj} from '../../core/models';
+import {DomandaService} from '../../core/services/domanda.service';
 
 
 @Component({
@@ -15,6 +17,7 @@ import {AuthService} from '../../core/services';
 export class ContentLayoutComponent implements OnDestroy {
 
   tokenValidity$: Subscription;
+  domanda: DomandaObj;
 
   @ViewChild('drawer', { static: true }) topbarDrawer: MatDrawer;
 
@@ -23,7 +26,8 @@ export class ContentLayoutComponent implements OnDestroy {
       map(result => result.matches)
     );
 
-  constructor(private breakpointObserver: BreakpointObserver, private tokenSession: SessionCheckServiceService, private auth: AuthService) {
+  constructor(private breakpointObserver: BreakpointObserver, private tokenSession: SessionCheckServiceService, private auth: AuthService, private domandaService: DomandaService) {
+    this.domanda = this.domandaService.domandaobj;
     this.tokenValidity$ = this.tokenSession.checkValidity().subscribe(
       (x) => {
         if (this.tokenSession.helper.isTokenExpired(this.tokenSession.token)) {
