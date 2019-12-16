@@ -25,14 +25,17 @@ export class StepInviaDomandaComponent  {
   inviaDomanda() {
     this.isSendingDisabled = true;
 
-    if(this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
+    if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
       if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale === 0) {
         this.domandaService.domandaobj.domanda.invaliditaCivile = null;
       }
     }
 
-    console.log(this.domandaService.domandaobj.domanda);
+    if (!this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.map(k => k.id).includes(17)) {
+      this.domandaService.domandaobj.domanda.numeroFigli = 0;
+    }
 
+    console.log(this.domandaService.domandaobj.domanda);
 
     this.domandaService.postDomanda(this.domandaService.domandaobj.domanda).pipe(
       concatMap(() => this.domandaService.getFreshDomanda())

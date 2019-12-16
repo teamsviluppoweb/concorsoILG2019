@@ -1,34 +1,33 @@
-<mat-card style="width: 1200px; margin: 0 auto">
-  <mat-card-header>
-    <mat-card-title>
-      <span>INFORMAZIONI CONCORSO</span>
+<mat-card style="width: 1500px; margin: 0 auto">
+  <mat-card-header style="">
+    <mat-card-title style="text-transform: uppercase">
+      <span>{{infoConcorso.titoloConcorso}}&nbsp;</span> <p class="info"></p>
     </mat-card-title>
   </mat-card-header>
+
+  <mat-divider></mat-divider>
 
   <mat-card-content>
 
     <div fxLayout="row">
       <mat-list fxFlex>
-        <mat-list-item>
-          <b>Nome Concorso:&nbsp;</b> <p class="info"> {{infoConcorso.nomeConcorso}} </p>
-        </mat-list-item>
-        <mat-list-item>
-          <b>Titolo Concorso:&nbsp;</b> <p class="info">{{infoConcorso.titoloConcorso}}</p>
-        </mat-list-item>
-        <mat-list-item>
-          <b>Data Inizio Domanda:&nbsp;</b> <p class="info">{{infoConcorso.dataInizioDomanda | customDate}}</p>
-        </mat-list-item>  <mat-list-item>
-        <b>Data Fine Concorso:&nbsp;</b> <p class="info">{{infoConcorso.dataFineConcorso | customDate}}</p>
+        <mat-list-item >
+        <span class="key-name">Data termine presentazione domanda:&nbsp;</span> <b class="info">{{infoConcorso.dataFineConcorso | customDate}}</b>
         </mat-list-item>
 
-          <mat-list-item>
-            <b>Domanda inviata il:&nbsp;</b> <p class="info">{{infoConcorso.dataInizioDomanda | customDate}}</p>
+          <mat-list-item *ngIf="stato !== 0">
+            <span class="key-name">Domanda inviata il:&nbsp;</span> <b class="info">{{infoConcorso.dataInizioDomanda | customDate}}</b>
           </mat-list-item>
-          <mat-list-item>
-           <b>Ultima modifica:&nbsp;</b> <p class="info">{{infoConcorso.dataFineDomanda | customDate}}</p>
+        <mat-list-item *ngIf="stato !== 0">
+           <span class="key-name">Ultima modifica:&nbsp;</span> <b class="info">{{infoConcorso.dataFineDomanda | customDate}}</b>
           </mat-list-item>
+
           <mat-list-item>
-            <b>Stato domanda:&nbsp;</b> <p class="info">{{domanda.operazione | statoDomanda}}</p>
+          </mat-list-item>
+
+          <mat-list-item>
+            <i class="ciao">Ciao {{domanda.domanda.anagCandidato.nome + ' ' + domanda.domanda.anagCandidato.cognome}},
+              <br> non hai ancora presentato la domanda.</i>
           </mat-list-item>
         </mat-list>
     </div>
@@ -38,8 +37,8 @@
 
   </mat-card-content>
   <mat-card-actions>
-  <button fxFlex *ngIf="stato !== 2" [routerLink]="['/apf/compile']" mat-button color="primary"><a>{{domanda.operazione| infoAzioneDomanda}}</a></button>
-  <button fxFlex *ngIf="stato === 1" [routerLink]="['/user']"  mat-button color="primary"><a>VISUALIZZA DOMANDA</a></button>
+  <button fxFlex *ngIf="stato !== 2" [routerLink]="['/apf/compile']" mat-button color="primary"><a style="font-size: 22px">{{domanda.operazione| infoAzioneDomanda}}</a></button>
+  <button fxFlex *ngIf="stato === 1" [routerLink]="['/user']"  mat-button color="primary"><a style="font-size: 22px">VISUALIZZA DOMANDA</a></button>
   </mat-card-actions>
 </mat-card>
 

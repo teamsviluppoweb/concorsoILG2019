@@ -36,7 +36,7 @@ export class DomandaModel implements IntDomanda {
   lingua: LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua;
   lstRiserve?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
   lstTitoliPreferenziali?: (LstRiserveEntityOrLstTitoliPreferenzialiEntityOrLingua)[] | null;
-  numFigli?: number;
+  numeroFigli: number;
   invaliditaCivile: InvaliditaCivile | null;
 }
 

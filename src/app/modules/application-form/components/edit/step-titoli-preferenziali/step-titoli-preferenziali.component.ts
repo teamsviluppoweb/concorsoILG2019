@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
-import { FormGroup, Validators} from '@angular/forms';
+import {FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 
 import {MatStepper} from '@angular/material';
@@ -13,7 +13,6 @@ import {RestService} from '../../../../../core/services/rest.service';
   selector: 'step-titoli-preferenziali',
   templateUrl: './step-titoli-preferenziali.component.html',
   styleUrls: ['./step-titoli-preferenziali.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepTitoliPreferenzialiComponent implements OnInit {
   /* Lo uso per triggerare l'errore in caso l'utente vada avanti senza aver scelto la lingua, mat-error non funziona
@@ -33,7 +32,6 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
 
   ngOnInit() {
 
-    this.numeroFigliSelezionati.patchValue('');
 
     this.onChanges();
     this.rest.getTitoliPreferenziali().subscribe( (data: TitoloPreferenziale[]) => {
@@ -74,6 +72,9 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
         this.titoliSelezionati.clearValidators();
         this.titoliSelezionati.reset();
         this.titoliSelezionati.patchValue([]);
+        this.numeroFigliSelezionati.clearValidators();
+        this.numeroFigliSelezionati.updateValueAndValidity();
+        this.domandaService.domandaobj.domanda.numeroFigli = 0;
       }
       this.titoliSelezionati.updateValueAndValidity();
     });
@@ -84,31 +85,24 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
       if (x !== null && x !== 'undefined') {
         if (x.map(k => k.id).includes(17)) {
           this.numeroFigliSelezionati.setValidators(Validators.required);
+          this.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numeroFigli.toString());
         } else {
           this.numeroFigliSelezionati.clearValidators();
-          this.numeroFigliSelezionati.reset();
+          this.numeroFigliSelezionati.patchValue('0');
         }
         this.numeroFigliSelezionati.updateValueAndValidity();
       }
 
       this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = this.titoliSelezionati.value;
 
+
+
     });
 
     this.numeroFigliSelezionati.valueChanges.subscribe(
-      (x) => {
-        if (this.titoliSelezionati.value !== null && this.titoliSelezionati.value !== 'undefined') {
-          if (this.titoliSelezionati.value.map(k => k.id).includes(17)) {
-
-            if (this.domandaService.domandaobj.operazione === 1 ) {
-              // this.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numFigli);
-            } else {
-              this.domandaService.domandaobj.domanda.numFigli = x;
-            }
-
-          }
-        } else {
-          this.domandaService.domandaobj.domanda.numFigli = 0;
+      (x: string) => {
+        if (x !== undefined && x !== null && x !== '0') {
+          this.domandaService.domandaobj.domanda.numeroFigli = +x;
         }
       }
     );
