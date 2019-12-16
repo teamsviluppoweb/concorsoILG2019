@@ -6,7 +6,7 @@ import {PaginaIntermediaComponent} from './components/pagina-intermedia/pagina-i
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'compile',
+    redirectTo: 'info',
   },
   {
     path: 'compile',
