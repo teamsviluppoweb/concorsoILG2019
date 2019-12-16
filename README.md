@@ -2,7 +2,6 @@
 [![npm version](https://img.shields.io/badge/%40angular%2Fcore-8.0.0-%23dd0031.svg)](https://www.npmjs.com/package/@angular/core/v/8.0.0)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](https://github.com/rabbithols/concorsoILG2019/issues)
-[![Coverage Status](https://coveralls.io/repos/github/RabbitHols/concorsoILG2019/badge.svg?branch=dev)](https://coveralls.io/github/RabbitHols/CIA?branch=master)
 [![Build Status](https://travis-ci.org/RabbitHols/concorsoILG2019.svg?branch=dev)](https://travis-ci.org/RabbitHols/concorsoILG2019)
 
 # CILG (Concorso Ispettore Logistico Gestionale)
