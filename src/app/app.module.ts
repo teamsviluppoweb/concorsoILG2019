@@ -9,7 +9,7 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NavbarComponent} from './layouts/navbar/navbar.component';
 import {NotFoundComponent} from './layouts/not-found/not-found.component';
-import {DateAdapter} from '@angular/material';
+import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material';
 import {SessionCheckServiceService} from './core/services/session-check-service.service';
 
 
@@ -31,12 +31,14 @@ import {SessionCheckServiceService} from './core/services/session-check-service.
     CoreModule,
     //  app
   ],
-  providers: [SessionCheckServiceService],
+  providers: [
+    {provide: MAT_DATE_LOCALE, useValue: 'it-IT'},
+    SessionCheckServiceService],
   bootstrap: [AppComponent],
 
 })
 export class AppModule {
   constructor(private dateAdapter: DateAdapter<Date>) {
-    dateAdapter.setLocale('en-in'); // DD/MM/YYYY
+    dateAdapter.setLocale('it-IT'); // DD/MM/YYYY
   }
 }

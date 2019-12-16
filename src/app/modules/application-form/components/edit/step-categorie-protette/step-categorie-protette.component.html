@@ -23,15 +23,15 @@
       <mat-error *ngIf="percInvalidita.hasError('required')">Campo Obbligatorio</mat-error>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" fxFlex="auto">
+    <mat-form-field  appearance="outline" fxFlex="auto" >
       <mat-label>Data certificazione</mat-label>
-      <input (click)="picker.open()"
+      <input (click)="dataCertificazioneInv.open()"
              [formControl]="dataCertificazione"
-             [matDatepicker]="picker"
+             [matDatepicker]="dataCertificazioneInv"
              matInput
-             placeholder="Data certificazione">
-      <mat-datepicker-toggle [for]="picker" matSuffix style="color: white"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
+             placeholder="dd/mm/yyyy">
+      <mat-datepicker-toggle [for]="dataCertificazioneInv" matSuffix></mat-datepicker-toggle>
+      <mat-datepicker #dataCertificazioneInv></mat-datepicker>
 
       <mat-error *ngIf="dataCertificazione.hasError('required')">Campo Obbligatorio</mat-error>
     </mat-form-field>
