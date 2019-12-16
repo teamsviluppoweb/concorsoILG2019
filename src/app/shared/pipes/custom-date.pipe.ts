@@ -7,7 +7,7 @@ import * as moment from 'moment';
 export class CustomDatePipe implements PipeTransform {
 
   transform(value: any, ...args: any[]): any {
-    return moment(value).locale('it-IT').format('dddd d MMMM YYYY HH:mm');
+    return moment(value).locale('it-IT').format('d MMMM YYYY');
   }
 
 }

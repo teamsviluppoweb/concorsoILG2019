@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DomandaService} from '../../../core/services/domanda.service';
 import { DomandaObj} from '../../../core/models';
+import {SidenavContainer, SidenavService} from '../../../core/services/sidenav.service';
 
 @Component({
   selector: 'app-menu-sidenav',
@@ -10,12 +11,31 @@ import { DomandaObj} from '../../../core/models';
 export class MenuSidenavComponent implements OnInit {
 
   domanda: DomandaObj;
-  constructor(private domandaService: DomandaService) {
+
+  dataInvio;
+  dataModifica;
+  stato;
+
+  constructor(private domandaService: DomandaService, private sidenavService: SidenavService) {
     this.domanda = this.domandaService.domandaobj;
-    console.log(this.domanda);
+    this.dataInvio = this.domanda.domanda.dataInvio;
+    this.dataModifica = this.domanda.domanda.dataModifica;
+    this.stato = this.domanda.operazione;
+
+    this.sidenavService.getContainer().subscribe(
+      (x: SidenavContainer) => {
+        this.dataInvio = x.dataInvio;
+        this.dataModifica = x.ultimaModifica;
+        this.stato = x.stato;
+      }
+    );
+
   }
 
   ngOnInit() {
   }
+
+
+
 
 }

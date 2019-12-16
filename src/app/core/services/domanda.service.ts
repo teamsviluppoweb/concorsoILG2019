@@ -6,6 +6,7 @@ import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {DomandaObj} from '../models';
 import {Cacheable, CacheBuster} from 'ngx-cacheable';
+import {SidenavContainer, SidenavService} from './sidenav.service';
 
 const domandaCacheBuster$ = new Subject<void>();
 
@@ -21,7 +22,7 @@ export class DomandaService {
   private statoMiaDomanda = new Subject<any>();
   private displayMiaDomanda = new Subject<boolean>();
 
-  constructor(private http: HttpClient, private d: DomandaObj) {
+  constructor(private http: HttpClient, private d: DomandaObj, private sidenavService: SidenavService) {
     this.domandaobj = d;
   }
 
@@ -50,9 +51,35 @@ export class DomandaService {
       .pipe(
         map( (response: DomandaObj) => {
           this.domandaobj = response;
+
+          const obj: SidenavContainer = {
+            dataInvio: this.domandaobj.domanda.dataInvio,
+            ultimaModifica: this.domandaobj.domanda.dataModifica,
+            stato: this.domandaobj.operazione
+          };
+
+          this.sidenavService.updateContainer(obj);
           return response;
         }  ),
       );
+  }
+
+  getFreshDomanda(): Observable<DomandaObj> {
+    return this.http.get<DomandaObj>(environment.endpoint.domanda).pipe(
+      map( (response: DomandaObj) => {
+        this.domandaobj = response;
+
+        const obj: SidenavContainer = {
+          dataInvio: this.domandaobj.domanda.dataInvio,
+          ultimaModifica: this.domandaobj.domanda.dataModifica,
+          stato: this.domandaobj.operazione
+        };
+
+        this.sidenavService.updateContainer(obj);
+
+        return response;
+      })
+    );
   }
 
   @CacheBuster({

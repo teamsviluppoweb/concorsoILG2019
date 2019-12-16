@@ -2,23 +2,23 @@
   <mat-nav-list>
 
     <mat-list class="menu_info">
-      <mat-list-item fxLayout="column">
+      <mat-list-item fxLayout="column" *ngIf="stato === 1">
         <span class="menu_info_text">DATA INVIO:</span>
         <span fxFlex="1 1 auto"></span>
-        <a class="menu_info_text value">02/12/1995</a>
+        <a class="menu_info_text value">{{dataInvio | customDate}}</a>
       </mat-list-item>
 
 
-      <mat-list-item fxLayout="column">
+      <mat-list-item fxLayout="column" *ngIf="stato === 1">
         <span class="menu_info_text">ULTIMA MODIFICA:</span>
         <span fxFlex="1 1 auto"></span>
-        <a class="menu_info_text value">02/12/1995</a>
+        <a class="menu_info_text value">{{dataModifica| customDate}}</a>
       </mat-list-item>
 
       <mat-list-item fxLayout="column">
         <span class="menu_info_text">STATO:</span>
         <span fxFlex="1 1 auto"></span>
-        <a class="menu_info_text value">{{domanda.operazione | statoDomanda}}</a>
+        <a class="menu_info_text value">{{stato| statoDomanda}}</a>
       </mat-list-item>
     </mat-list>
 

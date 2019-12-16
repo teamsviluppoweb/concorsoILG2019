@@ -181,7 +181,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
 
 
 
-      } else  {
+      } else if (x === 'NO') {
         this.percInvalidita.clearValidators();
         this.percInvalidita.reset();
 

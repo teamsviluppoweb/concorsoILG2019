@@ -1,7 +1,11 @@
-import {CategorieProtette, FormDomanda, IstruzioneForm} from './form';
-import {IntDomanda} from './interfaces';
+import {CategorieProtette, FormDomanda, IstruzioneForm} from '../models/domanda/form';
+import {Injectable} from '@angular/core';
+import {IntDomanda} from '../models';
 
-export class FactoryFormDomanda {
+@Injectable({
+  providedIn: 'root'
+})
+export class FactoryFormDomandaService {
   formDomanda: FormDomanda;
   jsonDomanda: IntDomanda;
 
@@ -14,9 +18,12 @@ export class FactoryFormDomanda {
   serialize(json: IntDomanda) {
     this.jsonDomanda = json;
 
+    // Serializzo istruzione
 
 
   }
+
+
 
 
 }

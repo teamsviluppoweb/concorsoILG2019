@@ -3,6 +3,9 @@ import {FormGroup} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Router} from '@angular/router';
+import {concatMap} from 'rxjs/operators';
+import {SidenavContainer, SidenavService} from '../../../../../core/services/sidenav.service';
+import {DomandaObj} from '../../../../../core/models';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -16,7 +19,7 @@ export class StepInviaDomandaComponent  {
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
   isSendingDisabled = false;
 
-  constructor(private domandaService: DomandaService, private router: Router) {
+  constructor(private domandaService: DomandaService, private sidenav: SidenavService, private router: Router) {
   }
 
   inviaDomanda() {
@@ -28,16 +31,23 @@ export class StepInviaDomandaComponent  {
       }
     }
 
-    console.log(this.domandaService.domandaobj.domanda.invaliditaCivile);
+    console.log(this.domandaService.domandaobj.domanda);
 
 
-    this.domandaService.postDomanda(this.domandaService.domandaobj.domanda)
+    this.domandaService.postDomanda(this.domandaService.domandaobj.domanda).pipe(
+      concatMap(() => this.domandaService.getFreshDomanda())
+    )
       .subscribe(
-      () => {
-        localStorage.setItem('domanda', JSON.stringify(this.domandaService.domandaobj));
+      (x: DomandaObj) => {
+        const obj: SidenavContainer = {
+          stato: x.operazione,
+          ultimaModifica: x.domanda.dataModifica,
+          dataInvio: x.domanda.dataInvio
+        };
+
+        this.sidenav.updateContainer(obj);
         this.domandaService.sendMessage('Modifica Domanda');
         this.domandaService.sendStato(true);
-
 
         this.router.navigate(['/user']);
         this.isSendingDisabled = false;
