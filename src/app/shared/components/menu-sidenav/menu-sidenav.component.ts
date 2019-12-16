@@ -12,6 +12,7 @@ export class MenuSidenavComponent implements OnInit {
   domanda: DomandaObj;
   constructor(private domandaService: DomandaService) {
     this.domanda = this.domandaService.domandaobj;
+    console.log(this.domanda);
   }
 
   ngOnInit() {

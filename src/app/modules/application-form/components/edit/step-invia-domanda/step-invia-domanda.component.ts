@@ -28,6 +28,8 @@ export class StepInviaDomandaComponent  {
       }
     }
 
+    console.log(this.domandaService.domandaobj.domanda.invaliditaCivile);
+
 
     this.domandaService.postDomanda(this.domandaService.domandaobj.domanda)
       .subscribe(

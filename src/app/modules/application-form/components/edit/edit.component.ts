@@ -125,6 +125,9 @@ export class EditComponent implements OnInit, OnDestroy {
 
   showDichiarazioni() {
     if (this.domandaService.domandaobj.domanda.stato === 1) {
+      this.moduloDomanda.get('formDichiarazione.approvazione').setValidators([]);
+      this.moduloDomanda.get('formDichiarazione.approvazione').clearValidators();
+
       return false;
     }
     return true;

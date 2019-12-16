@@ -19,9 +19,18 @@ export class DomandaService {
 
   private testoMenuDomanda = new Subject<any>();
   private statoMiaDomanda = new Subject<any>();
+  private displayMiaDomanda = new Subject<boolean>();
 
   constructor(private http: HttpClient, private d: DomandaObj) {
     this.domandaobj = d;
+  }
+
+  sendDisplayAction(should: boolean) {
+    this.displayMiaDomanda.next(should);
+  }
+
+  getDisplayMiaDomanda() {
+    return this.displayMiaDomanda.asObservable();
   }
 
   sendMessage(message: string) {

@@ -7,7 +7,7 @@ import {Observable, ReplaySubject, Subject} from 'rxjs';
 import {Comune, Provincia} from '../../../../../core/models/rest/rest-interface';
 import {concatMap, filter, take, takeUntil} from 'rxjs/operators';
 import {RestService} from '../../../../../core/services/rest.service';
-import {IntComuneNascitaOrLuogoIstituto, IntInvaliditaCivile} from '../../../../../core/models';
+import {IntInvaliditaCivile} from '../../../../../core/models';
 
 @Component({
   // tslint:disable-next-line:component-selector
