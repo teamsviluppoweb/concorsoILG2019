@@ -24,7 +24,7 @@ export class StepAnagraficaComponent implements OnInit {
       Nome: [agf.nome],
       CodiceFiscale: [agf.codiceFiscale],
       Residenza: [agf.residenza],
-      DataNascita: [moment(agf.dataNascita).locale('it-IT').format('d MMMM YYYY')],
+      DataNascita: [moment(agf.dataNascita).utc().format('DD/MM/YYYY')],
       LuogoNascita: [agf.comuneNascita.nome + ' (' + [agf.comuneNascita.codiceProvincia] + ')'],
       Telefono: [agf.telefono],
       Email: [agf.email],

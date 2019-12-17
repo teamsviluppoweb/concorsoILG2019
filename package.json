@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 8080 -c intranet-http",
+    "start": "ng serve --host 172.16.15.201 --port 8088 -c intranet-http",
     "start-https": "ng serve --port 4300 --host 172.16.15.201 -c ",
     "start-local": "ng serve  --port 4300 -c locale",
     "build": "ng build --prod --extra-webpack-config webpack.extra.js --output-hashing=all",
