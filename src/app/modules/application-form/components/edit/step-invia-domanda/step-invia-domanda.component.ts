@@ -56,7 +56,26 @@ export class StepInviaDomandaComponent  {
       codiceProvincia: this.provinciaIstituto.value.codice,
     };
 
-    /////
+    /*
+        Serializzo i titoli preferenziali qui
+    */
+
+    if (this.aventeTitoli.value === 'NO') {
+      this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = [];
+      this.domandaService.domandaobj.domanda.numeroFigli = null;
+    }
+
+    if (this.aventeTitoli.value === 'SI') {
+      this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = this.titoliSelezionati.value;
+
+      if (this.titoliSelezionati.value.map(k => k.id).includes('17')) {
+        this.domandaService.domandaobj.domanda.numeroFigli = this.numeroFigliSelezionati.value;
+      } else {
+        this.domandaService.domandaobj.domanda.numeroFigli = null;
+      }
+    }
+
+    //
 
     if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
       if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale === 0) {
@@ -65,9 +84,6 @@ export class StepInviaDomandaComponent  {
     }
 
 
-    if (!this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.map(k => k.id).includes(17)) {
-      this.domandaService.domandaobj.domanda.numeroFigli = 0;
-    }
 
     console.log(this.domandaService.domandaobj.domanda);
 
@@ -135,6 +151,19 @@ export class StepInviaDomandaComponent  {
 
   get comuneIstituto() {
     return this.parent.get('formIstruzione.comuneIstituto');
+  }
+
+
+  get titoliSelezionati() {
+    return this.parent.get('formTitoliPreferenziali.titoliSelezionati');
+  }
+
+  get numeroFigliSelezionati() {
+    return this.parent.get('formTitoliPreferenziali.numeroFigliSelezionati');
+  }
+
+  get aventeTitoli() {
+    return this.parent.get('formTitoliPreferenziali.aventeTitoli');
   }
 
 }

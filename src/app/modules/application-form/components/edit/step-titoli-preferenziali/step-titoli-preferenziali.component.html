@@ -36,7 +36,7 @@
 
     <ul *ngFor="let i of titoliSelezionati.value">
       <li style="margin-bottom: 10px;">{{i.descrizione}}</li>
-      <div *ngIf="i.id === 17"  fxLayout="column" style="margin-top: 10px;">
+      <div *ngIf="i.id == 17"  fxLayout="column" style="margin-top: 10px;">
         <p>Scegli il numero dei figli</p>
         <div fxFlex.sm="100" fxFlex.xs="100" fxFlex="50" style="margin-bottom: 20px" >
           <mat-button-toggle-group fxLayout.sm="column"
