@@ -30,19 +30,7 @@ import {IntTitoliStudioPossedutiEntity} from '../../../../../core/models';
 })
 export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
-
-  constructor(private formbuilder: FormBuilder,
-              private rest: RestService,
-              private domandaService: DomandaService) {}
-
-
-
-
   @Input() parent: FormGroup;
-  displayTitoli = false;
-  displayIndirizzi = false;
-  displayAltroIndirizzo = false;
-
 
   @ViewChild('provinceSelect', { static: true }) provinceSelect: MatSelect;
   public filtroProvince: ReplaySubject<Provincia[]> = new ReplaySubject<Provincia[]>(1);
@@ -64,51 +52,20 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   public filtroIndirizzi: ReplaySubject<TitoliTitoloIndirizzo[]> = new ReplaySubject<TitoliTitoloIndirizzo[]>(1);
   listaIndirizzi: TitoliTitoloIndirizzo[];
 
+  displayTitoli = false;
+  displayIndirizzi = false;
+  displayAltroIndirizzo = false;
+  displayComune = false;
+  isDomandaInvita: boolean;
 
   private onDetroy = new Subject<void>();
 
-
+  constructor(private formbuilder: FormBuilder,
+              private rest: RestService,
+              private domandaService: DomandaService) {}
 
   ngOnInit() {
-
-    // la prima volta che si compila la domanda l'istruzione è null dunque mi creo l'oggetto
-
-    if (this.domandaService.domandaobj.operazione === 0) {
-      const obj: IntTitoliStudioPossedutiEntity = {
-        indirizzo: {
-          id: '',
-          desc: ''
-        },
-        indirizzoIstituto: '',
-        dataConseguimento: '',
-        istituto: '',
-        titolo: {
-          desc: '',
-          id: ''
-        },
-        tipologia: {
-          id: '',
-          desc: ''
-        },
-        luogoIstituto: {
-          codiceProvincia: '',
-          nome: '',
-          codice: ''
-        },
-        altroIndirizzoTitoloStudio: '',
-      };
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto = obj;
-    }
-
-    if (this.domandaService.domandaobj.operazione === 1) {
-      this.indirizzoFisico.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
-      this.nomeIstituto.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
-      this.dataConseguimento.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
-      if (this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio !== null) {
-        this.altroIndirizzo.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
-      }
-    }
-
+    this.isDomandaInvita = this.domandaService.domandaobj.operazione ===  1;
 
     this.rest.getTipologiaTitoloStudio().subscribe(
       (data: TipologiaTitoloStudio[]) => {
@@ -116,19 +73,15 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.filtroTipologie.next(this.listaTipologie.slice());
         this.setInitialTipologieValue(this.filtroTipologie);
 
-        if (this.domandaService.domandaobj.operazione ===  1) {
+        // Se la domanda è stata già mi popolo la dropdown list con i dati rest
+        if (this.isDomandaInvita) {
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia;
-
-
-
           const tipologiaSceltaId = this.listaTipologie
             .filter(selected => selected.id === tipologiaIst.id)
             .map(selected => selected)
             .reduce(selected => selected);
-
           this.tipologia.patchValue(tipologiaSceltaId);
         }
-
       }
     );
 
@@ -138,160 +91,52 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.filtroProvince.next(this.listaProvince.slice());
         this.setInitialProvinceValue(this.filtroProvince);
 
-
-        if (this.domandaService.domandaobj.operazione ===  1) {
-          const codiceProvincia = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
-          let prov;
-          const c = this.listaProvince.forEach( x => {
-            if (codiceProvincia === x.codice) {
-              prov = x;
-              this.provinciaIstituto.patchValue(prov);
-            }
-            return;
-          });
+        // Se la domanda è stata già mi popolo la dropdown list con i dati rest
+        if (this.isDomandaInvita) {
+          const codiceSelezionato = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
+          const provinciaSelezionata = this.listaProvince.filter(x => x.codice === codiceSelezionato).map(x => x).reduce(x => x);
+          this.provinciaIstituto.patchValue(provinciaSelezionata);
         }
-
       }
     );
 
   }
 
 
+  // I form sono posizionati in ngOnChanges in modo da farli sempre restare in ascolte anche nel routing change
   ngOnChanges(changes: SimpleChanges): void {
 
     this.tipologia.valueChanges.pipe(
+      filter((x) => this.tipologia.valid),
       map((tipologia: TipologiaTitoloStudio) => tipologia.id),
       concatMap(id => this.rest.getTitoliTitoloStudio(id))
     ).subscribe((data: TitoliTitoloStudio[]) => {
 
-      this.titolo.patchValue('', {
-        emitEvent: false,
-      });
+      // Se la tipologia cambia, non ha senso mostrare ancora gli indirizzi
       this.displayIndirizzi = false;
-
 
       if (data.length > 0) {
         this.displayTitoli = true;
 
-
         this.titolo.setValidators([Validators.required]);
+        this.titolo.updateValueAndValidity();
+
         this.listaTitoli = data;
         this.filtroTitolo.next(this.listaTitoli.slice());
         this.setInitialTitoliValue(this.filtroTitolo);
 
-
-
-
-        if (this.domandaService.domandaobj.operazione ===  1) {
-
+        // Se la domanda è stata già mi popolo la dropdown list con i dati rest
+        if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo !== null) {
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo;
-
-          const matchLength = this.listaTitoli
-            .filter(selected => selected.id === tipologiaIst.id)
-            .map(selected => selected).length;
-
-          if (matchLength > 0) {
-            const tipologiaSceltaId = this.listaTitoli
+          const tipologiaSceltaId = this.listaTitoli
               .filter(selected => selected.id === tipologiaIst.id)
               .map(selected => selected)
               .reduce(selected => selected);
 
-            this.titolo.patchValue(tipologiaSceltaId);
-          }
-        }
-
-
-      } else {
-        this.displayTitoli = false;
-        this.titolo.clearValidators();
-        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = null;
-        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
-      }
-
-      this.titolo.updateValueAndValidity();
-    });
-
-
-    this.provinciaIstituto.valueChanges
-      .pipe(
-        // Mi assicuro che il valore nel form sia valido
-        filter(() => this.provinciaIstituto.valid),
-        concatMap((data: Provincia) => this.rest.getComuni(data.codice))
-      )
-      .subscribe((data: Comune[]) => {
-        this.listaComuni = data;
-        this.filtroComuni.next(this.listaComuni.slice());
-        this.setInitialComuneValue(this.filtroComuni);
-
-        if (this.domandaService.domandaobj.operazione ===  1) {
-          const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
-          let com;
-          const c = this.listaComuni.forEach( x => {
-            if (codComune === x.codice) {
-              com = x;
-              this.comuneIstituto.patchValue(com);
-            }
-            return;
-          });
-        }
-      });
-
-
-
-    this.tipologia.valueChanges
-      .subscribe(
-        (data: TipologiaTitoloStudio) => {
-          this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = data;
-
-
-        });
-
-    this.titolo.valueChanges.subscribe(
-      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = data);
-
-    this.indirizzo.valueChanges
-      .pipe(
-        filter( x => x !== null && x !== undefined)
-      )
-      .subscribe(
-      (data) => {
-        if (data.id === '351') {
-            this.displayAltroIndirizzo = true;
-            this.altroIndirizzo.setValidators([Validators.required]);
-            this.altroIndirizzo.updateValueAndValidity();
-        } else {
-          this.displayAltroIndirizzo = false;
-          this.altroIndirizzo.setValidators([]);
-          this.altroIndirizzo.patchValue('');
-          this.altroIndirizzo.updateValueAndValidity();
-        }
-        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = data;
-      });
-
-    this.dataConseguimento.valueChanges.subscribe(
-      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = data);
-
-    this.nomeIstituto.valueChanges.subscribe(data => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto = data);
-
-    this.indirizzoFisico.valueChanges
-      .subscribe((data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto = data);
-
-    this.altroIndirizzo.valueChanges.subscribe(
-      (x) => {
-        if (x !== null && x !== undefined) {
-          this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = x;
+          this.titolo.patchValue(tipologiaSceltaId);
         }
       }
-    );
-
-    this.comuneIstituto.valueChanges.subscribe( (data) => {
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice = data.codice;
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.nome = data.nome;
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia = this.provinciaIstituto.value.codice;
     });
-
-
-
 
     this.titolo.valueChanges.pipe(
       filter(() => this.titolo.valid),
@@ -299,56 +144,85 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       concatMap(id => this.rest.getIndirizziTitoliStudio(id))
     ).subscribe((data: TitoliTitoloIndirizzo[]) => {
 
-      this.indirizzo.patchValue('', {
-        emitEvent: false,
-      });
-
       if (data.length > 0) {
         this.displayIndirizzi = true;
-        this.indirizzo.setValidators(Validators.required);
+        this.indirizzo.setValidators([Validators.required]);
 
         this.listaIndirizzi = data;
         this.filtroIndirizzi.next(this.listaIndirizzi.slice());
         this.setInitialIndirizziValue(this.filtroIndirizzi);
 
-        if (this.domandaService.domandaobj.operazione ===  1) {
-          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo;
+        if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo !== null) {
+          const indirizzo = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo;
 
-          /*
-          Da migliorare:
-            Devo controllare che l'array uscito da map sia popolato altrimenti mi va in errore, se è popolato
-            allora eseguo il patch value.
-           */
-
-          const matchLength = this.listaIndirizzi
-            .filter(selected => selected.id === tipologiaIst.id)
-            .map(selected => selected).length;
-          if (matchLength > 0) {
-
-            const tipologiaSceltaId = this.listaIndirizzi
-              .filter(selected => selected.id === tipologiaIst.id)
+          const tipologiaSceltaId = this.listaIndirizzi
+              .filter(selected => selected.id === indirizzo.id)
               .map(selected => selected)
               .reduce(selected => selected);
 
-            this.indirizzo.patchValue(tipologiaSceltaId);
-          }
+          console.log(tipologiaSceltaId);
+
+          this.indirizzo.patchValue(tipologiaSceltaId);
         }
-
-
-
-      } else {
+      }
+      // Se l'array non è popolato allora non vi sono indirizzi da scegliere
+      if ( !(data.length > 0)) {
         this.displayIndirizzi = false;
-        this.indirizzo.reset();
+        this.indirizzo.patchValue(null);
         this.indirizzo.clearValidators();
-        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
       }
 
       this.indirizzo.updateValueAndValidity();
-
-
     });
 
-    // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei comuni
+
+    this.indirizzo.valueChanges
+      .pipe(
+        filter(() => this.indirizzo.value !== null),
+      )
+      .subscribe(
+        (data) => {
+          console.log(data);
+          // Se è stato scelto ALTRO INDIRIZZO allora faccio inserire manualmente l'indirizzo
+          if (data.id === '351') {
+            this.displayAltroIndirizzo = true;
+            this.altroIndirizzo.setValidators([Validators.required]);
+            this.altroIndirizzo.updateValueAndValidity();
+
+            if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio !== null) {
+              this.altroIndirizzo.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
+            }
+          } else {
+            this.displayAltroIndirizzo = false;
+            this.altroIndirizzo.setValidators([]);
+            this.altroIndirizzo.patchValue(null);
+            this.altroIndirizzo.updateValueAndValidity();
+          }
+        });
+
+
+    this.provinciaIstituto.valueChanges
+      .pipe(
+        filter(() => this.provinciaIstituto.valid),
+        concatMap((data: Provincia) => this.rest.getComuni(data.codice))
+      )
+      .subscribe((data: Comune[]) => {
+        this.displayComune = true;
+        this.listaComuni = data;
+        this.filtroComuni.next(this.listaComuni.slice());
+        this.setInitialComuneValue(this.filtroComuni);
+
+        if (this.isDomandaInvita) {
+          const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
+          const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune).map(x => x).reduce(x => x);
+          this.comuneIstituto.patchValue(comuneSelezionato);
+        }
+      });
+
+
+    /*
+      Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei delle dropdown list
+     */
     this.comuniDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
       .subscribe(() => {
@@ -364,7 +238,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
     this.tipologiaDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
-      .subscribe(() => {
+      .subscribe((x) => {
         this.filtraRicercaIstruzione(this.listaTipologie, this.tipologiaDropdown, this.filtroTipologie);
       });
 
@@ -382,11 +256,14 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
   }
 
-
+  /*
+    Popola gli array con i dati iniziali
+   */
 
   private setInitialTipologieValue(data: Observable<TipologiaTitoloStudio[]>) {
     data
       .pipe(
+        filter(() => this.tipologiaSelect !== undefined),
         take(1), takeUntil(this.onDetroy))
       .subscribe(() => {
         // setting the compareWith property to a comparison function
@@ -394,55 +271,35 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         // the form control (i.e. _initializeSelection())
         // this needs to be done after the filteredBanks are loaded initially
         // and after the mat-option elements are available
-        if (this.tipologiaSelect !== undefined) {
           this.tipologiaSelect.compareWith = (a: string, b: string) => a && b && a === b;
-        }
       });
   }
 
   private setInitialTitoliValue(data: Observable<TitoliTitoloStudio[]>) {
     data
-      .pipe(take(1),
+      .pipe(
+        take(1),
         takeUntil(this.onDetroy))
       .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially
-        // and after the mat-option elements are available
-        if (this.titoliSelect !== undefined) {
           this.titoliSelect.compareWith = (a: string, b: string) => a && b && a === b;
-        }
       });
   }
 
   private setInitialIndirizziValue(data: Observable<TitoliTitoloIndirizzo[]>) {
     data
-      .pipe(take(1), takeUntil(this.onDetroy))
+      .pipe(
+        take(1), takeUntil(this.onDetroy))
       .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially
-        // and after the mat-option elements are available
-        if (this.indirizziSelect !== undefined) {
           this.indirizziSelect.compareWith = (a: string, b: string) => a && b && a === b;
-        }
       });
   }
 
   private setInitialProvinceValue(data: Observable<Provincia[]> ) {
     data
-      .pipe(take(1), takeUntil(this.onDetroy))
+      .pipe(
+        take(1), takeUntil(this.onDetroy))
       .subscribe(() => {
-        // setting the compareWith property to a comparison function
-        // triggers initializing the selection according to the initial value of
-        // the form control (i.e. _initializeSelection())
-        // this needs to be done after the filteredBanks are loaded initially
-        // and after the mat-option elements are available
-        if (this.provinceSelect) {
-          this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
-        }
+        this.provinceSelect.compareWith = (a: string, b: string) => a && b && a === b;
       });
   }
 
@@ -461,7 +318,9 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       });
   }
 
-
+    /*
+     Filtra i risultati delle dropdown list in base all'input
+    */
   private filtraRicerca(data: (Provincia[] | Comune[]), form, filters) {
     if (!data) {
       return;
@@ -498,17 +357,21 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
     );
   }
 
+
   ngOnDestroy() {
     this.onDetroy.next();
     this.onDetroy.complete();
   }
 
-
+  // Se il form è valido permette di andare avanti al prossimo step
   allowNextStep() {
     return !this.parent.controls.formIstruzione.valid;
   }
 
 
+  /*
+    REACTIVE FORM BOILER TEMPLATE
+  */
 
   get tipologia() {
     return this.parent.get('formIstruzione.tipologia');
@@ -534,8 +397,9 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
     return this.parent.get('formIstruzione.indirizzoFisico');
   }
 
-
-  // DROPDOWN
+  get altroIndirizzo() {
+    return this.parent.get('formIstruzione.altroIndirizzo');
+  }
 
   get provinciaIstituto() {
     return this.parent.get('formIstruzione.provinciaIstituto');
@@ -544,6 +408,11 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   get comuneIstituto() {
     return this.parent.get('formIstruzione.comuneIstituto');
   }
+
+
+  // DROPDOWN
+
+
 
   get comuniDropdown() {
     return this.parent.get('formIstruzione.comuniDropdown');
@@ -564,7 +433,6 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   get indirizzoDropdown() {
     return this.parent.get('formIstruzione.indirizzoDropdown');
   }
-  get altroIndirizzo() {
-    return this.parent.get('formIstruzione.altroIndirizzo');
-  }
+
+
 }

@@ -25,23 +25,45 @@ export class StepInviaDomandaComponent  {
   inviaDomanda() {
     this.isSendingDisabled = true;
 
+    /*
+    Serializzo i titoli di studio qui
+     */
+
+
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = this.tipologia.value;
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = this.titolo.value;
+
+    if (this.indirizzo.value === null) {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
+    } else {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = this.indirizzo.value;
+      if (this.indirizzo.value.id === '351') {
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = this.altroIndirizzo.value;
+      } else {
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
+      }
+    }
+
+    if (this.indirizzoFisico.value !== null) {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto = this.indirizzoFisico.value;
+    }
+
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto = this.nomeIstituto.value;
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = this.dataConseguimento.value;
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto = {
+      codice: this.comuneIstituto.value.codice,
+      nome: this.comuneIstituto.value.nome,
+      codiceProvincia: this.provinciaIstituto.value.codice,
+    };
+
+    /////
+
     if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
       if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale === 0) {
         this.domandaService.domandaobj.domanda.invaliditaCivile = null;
       }
     }
 
-    if(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio === '') {
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
-    }
-
-    if(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo !== null) {
-      if(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo.id !== '351') {
-        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
-      }
-    } else {
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
-    }
 
     if (!this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.map(k => k.id).includes(17)) {
       this.domandaService.domandaobj.domanda.numeroFigli = 0;
@@ -75,6 +97,45 @@ export class StepInviaDomandaComponent  {
     return this.parent.valid;
   }
 
+  /*
+      REACTIVE FORM BOILER TEMPLATE
+    */
+
+  get tipologia() {
+    return this.parent.get('formIstruzione.tipologia');
+  }
+
+  get titolo() {
+    return this.parent.get('formIstruzione.titolo');
+  }
+
+  get indirizzo() {
+    return this.parent.get('formIstruzione.indirizzo');
+  }
+
+  get dataConseguimento() {
+    return this.parent.get('formIstruzione.dataConseguimento');
+  }
+
+  get nomeIstituto() {
+    return this.parent.get('formIstruzione.nomeIstituto');
+  }
+
+  get indirizzoFisico() {
+    return this.parent.get('formIstruzione.indirizzoFisico');
+  }
+
+  get altroIndirizzo() {
+    return this.parent.get('formIstruzione.altroIndirizzo');
+  }
+
+  get provinciaIstituto() {
+    return this.parent.get('formIstruzione.provinciaIstituto');
+  }
+
+  get comuneIstituto() {
+    return this.parent.get('formIstruzione.comuneIstituto');
+  }
 
 }
 

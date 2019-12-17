@@ -18,7 +18,7 @@ export const environment = {
     lingue: 'http://webpc.dipvvf.it:8020/Lingue',
     province: 'http://webpc.dipvvf.it:8020/Province',
     comuni: 'http://webpc.dipvvf.it:8020/Province/',
-    tipologia: 'http://webpc.dipvvf.it:8020//TitoliStudio/Tipologie',
+    tipologia: 'http://webpc.dipvvf.it:8020/TitoliStudio/Tipologie',
     titolo: 'http://webpc.dipvvf.it:8020//TitoliStudio/titoli/',
     indirizzi: 'http://webpc.dipvvf.it:8020/TitoliStudio/indirizzi/',
     infoConcorso: 'http://webpc.dipvvf.it:8020/info/',

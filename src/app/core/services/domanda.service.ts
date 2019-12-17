@@ -52,7 +52,6 @@ export class DomandaService {
         map( (response: DomandaObj) => {
           this.domandaobj = response;
 
-          console.log(response);
           const obj: SidenavContainer = {
             dataInvio: this.domandaobj.domanda.dataInvio,
             ultimaModifica: this.domandaobj.domanda.dataModifica,

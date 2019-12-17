@@ -10,19 +10,20 @@ export class FormDomanda {
 }
 
 export class IstruzioneForm {
-  tipologia: IntTipologiaOrTitoloOrIndirizzo;
-  titolo: IntTipologiaOrTitoloOrIndirizzo;
-  indirizzo: IntTipologiaOrTitoloOrIndirizzo;
-  nomeIstituto: string;
-  indirizzoFisico: string;
-  dataConseguimento: string;
-  provinciaIstituto: string;
-  comuneIstituto: string;
-  comuniDropdown: string;
-  provinceDropdown: string;
-  tipologiaDropdown: string;
-  titoloDropdown: string;
-  indirizzoDropdown: string;
+  tipologia: IntTipologiaOrTitoloOrIndirizzo | null;
+  titolo: IntTipologiaOrTitoloOrIndirizzo | null;
+  indirizzo: IntTipologiaOrTitoloOrIndirizzo | null;
+  nomeIstituto: string | null;
+  altroIndirizzo: string | null;
+  indirizzoFisico: string | null;
+  dataConseguimento: string | null;
+  provinciaIstituto: string | null;
+  comuneIstituto: string | null;
+  comuniDropdown: string | null;
+  provinceDropdown: string | null;
+  tipologiaDropdown: string | null;
+  titoloDropdown: string | null;
+  indirizzoDropdown: string | null;
 }
 
 export class CategorieProtette {

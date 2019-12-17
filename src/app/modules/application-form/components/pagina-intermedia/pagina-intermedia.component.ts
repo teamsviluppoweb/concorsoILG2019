@@ -17,6 +17,15 @@ export class PaginaIntermediaComponent implements OnInit {
   stato;
 
   constructor(private domandaService: DomandaService, private restData: RestService,  private sidenavService: SidenavService) {
+
+    this.infoConcorso = {
+      dataFineConcorso: '',
+      dataFineDomanda: '',
+      dataInizioDomanda: '',
+      nomeConcorso: '',
+      titoloConcorso: '',
+    };
+
     this.domanda = this.domandaService.domandaobj;
 
     this.restData.getInfoConcorso().subscribe(

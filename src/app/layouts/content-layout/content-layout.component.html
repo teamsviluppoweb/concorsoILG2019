@@ -16,6 +16,7 @@
 
 <mat-sidenav-container class="sidenav_container">
   <mat-sidenav #drawer
+               fxFlex.lt-md="100"
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
                [mode]="'side'"
                [opened]="true"

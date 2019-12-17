@@ -62,7 +62,6 @@
             {{ind.desc}}
           </mat-option>
         </mat-select>
-
         <mat-error *ngIf="indirizzo.hasError('required')">Campo Obbligatorio</mat-error>
         <mat-error *ngIf="indirizzoDropdown.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
@@ -86,6 +85,7 @@
         <input formControlName="indirizzoFisico"
                matInput
                placeholder="Indirizzo dell'istituto">
+
       </mat-form-field>
 
       <mat-form-field appearance="outline" fxFlex="40">
@@ -135,7 +135,7 @@
         <mat-error *ngIf="provinciaIstituto.hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" fxFlex="39">
+      <mat-form-field appearance="outline" fxFlex="39" *ngIf="displayComune">
         <mat-label>Comune Istituto</mat-label>
         <mat-select #comuneSelect
                     formControlName="comuneIstituto"
@@ -155,8 +155,7 @@
 
 
   <div fxLayout="column">
-    <div fxFlex="row" fxLayoutGap="15px">
-      <span fxFill fxFlex="1 1 0"></span>
+    <div fxFlex="row" fxLayoutGap="15px" fxLayoutAlign="end center" fxLayoutAlign.gt-md="end center"  fxLayoutAlign.lt-md="space-between center">
       <button class="stepper_button" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
       <button class="stepper_button" color="primary" [disabled]="allowNextStep()" mat-flat-button matStepperNext>Avanti</button>
     </div>

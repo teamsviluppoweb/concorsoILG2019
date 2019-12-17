@@ -8,7 +8,7 @@
 
 
 <form [formGroup]="anagraficaForm">
-  <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column" [formGroup]="anagraficaForm">
+  <div fxLayout="row wrap"  fxLayout.sm="column" fxLayout.xs="column" [formGroup]="anagraficaForm">
 
     <mat-form-field appearance="outline" fxFlex="35" fxFlex.sm="1 0 auto">
       <mat-label>Cognome</mat-label>
@@ -109,8 +109,7 @@
   </div>
 
   <div fxLayout="column">
-    <div fxFlex="row" fxLayoutGap="15px">
-      <span fxFill fxFlex="1 1 0"></span>
+    <div fxFlex="row" fxLayoutGap="15px" fxLayoutAlign="end center" fxLayoutAlign.gt-md="end center"  fxLayoutAlign.lt-md="space-between center">
       <button class="stepper_button" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
       <button class="stepper_button" color="primary" mat-flat-button matStepperNext>Avanti</button>
     </div>

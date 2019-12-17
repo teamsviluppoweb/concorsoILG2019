@@ -1,3 +1,4 @@
+
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
@@ -6,20 +7,22 @@
 export const environment = {
   production: false,
   enableTracing: true,
-  localIp: 'localhost',
-  hostredirect: 'https://localhost:4300/',
 
+  localIp: 'pc39548.dipvvf.it',
+  hostredirect: 'https://pc39548.dipvvf.it:4200/',
   endpoint: {
-    domanda: 'http://localhost:8080/domanda',
-    salvaDomanda: 'http://webpc.dipvvf.it:8020/SalveDomanda',
-    titoli: 'http://webpc.dipvvf.it:8020/TitoliPreferenziali',
-    riserve: 'http://webpc.dipvvf.it:8020/Riserve',
-    lingue: 'http://webpc.dipvvf.it:8020/Lingue',
-    province: 'http://webpc.dipvvf.it:8020/Province',
-    comuni: 'http://webpc.dipvvf.it:8020/Province',
-    tipologia: 'http://webpc.dipvvf.it:8020//TitoliStudio/Tipologie',
-    titolo: 'http://webpc.dipvvf.it:8020//TitoliStudio/titoli/',
-    indirizzi: 'http://webpc.dipvvf.it:8020//TitoliStudio/indirizzi/',
+    domanda: 'http://192.168.1.152:8080/GetDomanda',
+    salvaDomanda: 'http://192.168.1.152:8080/SalvaDomanda',
+    titoli: 'http://192.168.1.152:8080/TitoliPreferenziali',
+    riserve: 'http://192.168.1.152:8080/Riserve',
+    lingue: 'http://192.168.1.152:8080/Lingue',
+    province: 'http://192.168.1.152:8080/Province',
+    comuni: 'http://192.168.1.152:8080/Province/',
+    tipologia: 'http://192.168.1.152:8080/TitoliStudio/Tipologie',
+    titolo: 'http://192.168.1.152:8080/TitoliStudio/titoli/',
+    indirizzi: 'http://192.168.1.152:8080/TitoliStudio/indirizzi/',
+    infoConcorso: 'http://192.168.1.152:8080/info',
+    pathSpidLogin: 'https://sso.vigilfuoco.it/cas-test/login?service=https://192.168.1.152:8080/testjwt/',
+    pathSpidLogout: 'https://sso.vigilfuoco.it/cas-test/logout?service=https://192.168.1.152:8080/testjwt/'
   }
 };
-

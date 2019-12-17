@@ -49,6 +49,7 @@
   // Serve per rendere la toolbar sticky
   // https://stackoverflow.com/questions/43707076/position-sticky-not-working-css-and-html/47878455#47878455
   overflow: visible;
+  margin: 0 auto;
 
   .sidenav_content_toolbar {
     position: sticky;
@@ -60,6 +61,8 @@
     padding-top: 10px;
     height: 100%;
     min-width: 300px;
+    margin: 0 auto;
+
   }
 
 

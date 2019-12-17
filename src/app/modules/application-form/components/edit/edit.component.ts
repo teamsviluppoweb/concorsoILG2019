@@ -9,6 +9,7 @@ import {StepCategorieProtetteComponent} from './step-categorie-protette/step-cat
 import {StepInviaDomandaComponent} from './step-invia-domanda/step-invia-domanda.component';
 import {DomandaService} from '../../../../core/services/domanda.service';
 import {CustomValidators} from '../../../../shared/validators/customValidators';
+import {FormService} from '../../../../core/services/form.service';
 
 @Component({
   selector: 'app-main-form',
@@ -42,7 +43,8 @@ export class EditComponent implements OnInit, OnDestroy {
   constructor(
     private http: DomandaService,
     private formBuilder: FormBuilder,
-    private domandaService: DomandaService
+    private domandaService: DomandaService,
+    private formService: FormService,
   ) {
 
     if (this.domandaService.domandaobj.operazione !== 0) {
@@ -112,7 +114,9 @@ export class EditComponent implements OnInit, OnDestroy {
       }),
     });
 
-    if(this.domandaService.domandaobj.operazione === 1) {
+    this.formService.serializeForm(this.moduloDomanda);
+
+    if (this.domandaService.domandaobj.operazione === 1) {
       this.moduloDomanda.get('formDichiarazione.approvazione').clearValidators();
       this.moduloDomanda.get('formDichiarazione.approvazione').updateValueAndValidity();
     }
