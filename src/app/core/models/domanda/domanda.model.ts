@@ -76,7 +76,7 @@ export class TitoliStudioPossedutiEntity implements IntTitoliStudioPossedutiEnti
   istituto: string;
   luogoIstituto: ComuneNascitaOrLuogoIstituto;
   indirizzoIstituto: string;
-  altroIndirizzo: string;
+  altroIndirizzoTitoloStudio?: string;
 
   constructor() {}
 

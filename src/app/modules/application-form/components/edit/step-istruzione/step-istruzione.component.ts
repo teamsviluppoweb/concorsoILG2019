@@ -95,7 +95,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
           nome: '',
           codice: ''
         },
-        altroIndirizzo: '',
+        altroIndirizzoTitoloStudio: '',
       };
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto = obj;
     }
@@ -104,7 +104,9 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       this.indirizzoFisico.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
       this.nomeIstituto.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
       this.dataConseguimento.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
-      // this.altroIndirizzo.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzo);
+      if (this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio !== null) {
+        this.altroIndirizzo.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
+      }
     }
 
 
@@ -277,7 +279,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
     this.altroIndirizzo.valueChanges.subscribe(
       (x) => {
         if (x !== null && x !== undefined) {
-          this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzo = x;
+          this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = x;
         }
       }
     );

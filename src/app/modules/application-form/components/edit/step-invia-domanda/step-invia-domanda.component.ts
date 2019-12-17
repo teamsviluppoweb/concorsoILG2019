@@ -31,6 +31,18 @@ export class StepInviaDomandaComponent  {
       }
     }
 
+    if(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio === '') {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
+    }
+
+    if(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo !== null) {
+      if(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo.id !== '351') {
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
+      }
+    } else {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
+    }
+
     if (!this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.map(k => k.id).includes(17)) {
       this.domandaService.domandaobj.domanda.numeroFigli = 0;
     }

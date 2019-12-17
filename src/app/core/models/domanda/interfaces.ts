@@ -42,7 +42,7 @@ export interface IntTitoliStudioPossedutiEntity {
   istituto: string;
   luogoIstituto: IntComuneNascitaOrLuogoIstituto;
   indirizzoIstituto: string;
-  altroIndirizzo: string;
+  altroIndirizzoTitoloStudio?: string;
 }
 export interface IntTipologiaOrTitoloOrIndirizzo {
   id: string;
