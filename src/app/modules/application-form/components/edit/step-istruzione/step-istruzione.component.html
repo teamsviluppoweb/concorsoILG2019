@@ -69,6 +69,16 @@
 
     </div>
 
+    <div *ngIf="displayAltroIndirizzo">
+      <mat-form-field appearance="outline" fxFlex="100">
+        <mat-label>Specificare altro indirizzo</mat-label>
+        <input formControlName="altroIndirizzo"
+               matInput
+               placeholder="altro indirizzo">
+      </mat-form-field>
+
+    </div>
+
 
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
       <mat-form-field appearance="outline" fxFlex="40">

@@ -30,9 +30,18 @@ import {IntTitoliStudioPossedutiEntity} from '../../../../../core/models';
 })
 export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
+
+  constructor(private formbuilder: FormBuilder,
+              private rest: RestService,
+              private domandaService: DomandaService) {}
+
+
+
+
   @Input() parent: FormGroup;
   displayTitoli = false;
   displayIndirizzi = false;
+  displayAltroIndirizzo = false;
 
 
   @ViewChild('provinceSelect', { static: true }) provinceSelect: MatSelect;
@@ -59,11 +68,10 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   private onDetroy = new Subject<void>();
 
 
-  constructor(private formbuilder: FormBuilder,
-              private rest: RestService,
-              private domandaService: DomandaService) {}
 
   ngOnInit() {
+
+    // la prima volta che si compila la domanda l'istruzione è null dunque mi creo l'oggetto
 
     if (this.domandaService.domandaobj.operazione === 0) {
       const obj: IntTitoliStudioPossedutiEntity = {
@@ -86,7 +94,8 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
           codiceProvincia: '',
           nome: '',
           codice: ''
-        }
+        },
+        altroIndirizzo: '',
       };
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto = obj;
     }
@@ -95,6 +104,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       this.indirizzoFisico.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
       this.nomeIstituto.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
       this.dataConseguimento.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
+      // this.altroIndirizzo.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzo);
     }
 
 
@@ -229,7 +239,6 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
     this.tipologia.valueChanges
       .subscribe(
         (data: TipologiaTitoloStudio) => {
-
           this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = data;
 
 
@@ -238,8 +247,24 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
     this.titolo.valueChanges.subscribe(
       (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = data);
 
-    this.indirizzo.valueChanges.subscribe(
-      (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = data);
+    this.indirizzo.valueChanges
+      .pipe(
+        filter( x => x !== null && x !== undefined)
+      )
+      .subscribe(
+      (data) => {
+        if (data.id === '351') {
+            this.displayAltroIndirizzo = true;
+            this.altroIndirizzo.setValidators([Validators.required]);
+            this.altroIndirizzo.updateValueAndValidity();
+        } else {
+          this.displayAltroIndirizzo = false;
+          this.altroIndirizzo.setValidators([]);
+          this.altroIndirizzo.patchValue('');
+          this.altroIndirizzo.updateValueAndValidity();
+        }
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = data;
+      });
 
     this.dataConseguimento.valueChanges.subscribe(
       (data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = data);
@@ -248,6 +273,14 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
     this.indirizzoFisico.valueChanges
       .subscribe((data) => this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto = data);
+
+    this.altroIndirizzo.valueChanges.subscribe(
+      (x) => {
+        if (x !== null && x !== undefined) {
+          this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzo = x;
+        }
+      }
+    );
 
     this.comuneIstituto.valueChanges.subscribe( (data) => {
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice = data.codice;
@@ -469,6 +502,11 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
+  allowNextStep() {
+    return !this.parent.controls.formIstruzione.valid;
+  }
+
+
 
   get tipologia() {
     return this.parent.get('formIstruzione.tipologia');
@@ -524,9 +562,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   get indirizzoDropdown() {
     return this.parent.get('formIstruzione.indirizzoDropdown');
   }
-
-
-  allowNextStep() {
-    return !this.parent.controls.formIstruzione.valid;
+  get altroIndirizzo() {
+    return this.parent.get('formIstruzione.altroIndirizzo');
   }
 }
