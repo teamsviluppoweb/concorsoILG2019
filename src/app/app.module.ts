@@ -7,8 +7,6 @@ import {AuthModule} from './modules/auth/auth.module';
 import {CoreModule} from './core';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {NavbarComponent} from './layouts/navbar/navbar.component';
-import {NotFoundComponent} from './layouts/not-found/not-found.component';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material';
 import {SessionCheckServiceService} from './core/services/session-check-service.service';
 
@@ -16,10 +14,8 @@ import {SessionCheckServiceService} from './core/services/session-check-service.
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent,
     ContentLayoutComponent,
     AuthLayoutComponent,
-    NotFoundComponent,
   ],
   imports: [
     BrowserAnimationsModule,
