@@ -1,6 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 @import "assets/scss/vvf-material";
-@import "~src/assets/scss/colors";
 @import "./assets/spid2/css/spid-sp-access-button.min.css";
 
 html {
@@ -8,8 +7,9 @@ html {
 
   body {
     margin: 0 auto;
-    font-family: Titillium Web, "Helvetica Neue", sans-serif;
+    font-family: 'Titillium Web', sans-serif;
     overflow: visible;
+    height: calc(100% - 64px);
   }
 
   body::-webkit-scrollbar

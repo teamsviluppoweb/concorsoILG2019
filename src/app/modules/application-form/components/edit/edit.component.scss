@@ -1,9 +1,10 @@
+@import "src/assets/scss/stepper";
+
 .container {
-  max-width: 1366px;
+  max-width: 1380px;
   margin: 0 auto;
 }
 
 .step_title {
   font-weight: 400;
-  text-transform: uppercase;
 }

@@ -4,42 +4,42 @@
     <mat-vertical-stepper #stepper [linear]="shouldBeLinear">
 
       <mat-step>
-          <ng-template matStepLabel><h2 class="step_title">anagrafica</h2></ng-template>
+          <ng-template matStepLabel><span class="stepper-title">anagrafica</span></ng-template>
       <anagrafica-childform></anagrafica-childform>
       </mat-step>
 
       <mat-step [stepControl]="istruzioneIsValid" >
-          <ng-template matStepLabel><h2 class="step_title">istruzione</h2></ng-template>
+          <ng-template matStepLabel><span class="stepper-title">istruzione</span></ng-template>
           <step-istruzione [parent]="moduloDomanda"></step-istruzione>
         </mat-step>
 
       <mat-step [stepControl]="linguaValid">
-        <ng-template matStepLabel><h2 class="step_title">lingua straniera</h2></ng-template>
+        <ng-template matStepLabel><span class="stepper-title">lingua straniera</span></ng-template>
         <step-lingua [parent]="moduloDomanda"></step-lingua>
       </mat-step>
 
       <mat-step [stepControl]="titoliValid">
-          <ng-template matStepLabel><h2 class="step_title">titoli preferenziali</h2></ng-template>
+          <ng-template matStepLabel><span class="stepper-title">titoli preferenziali</span></ng-template>
           <step-titoli-preferenziali [parent]="moduloDomanda"></step-titoli-preferenziali>
       </mat-step>
 
       <mat-step [stepControl]="riserveValid" label="riserve">
-          <ng-template matStepLabel><h2 class="step_title">riserve</h2></ng-template>
+          <ng-template matStepLabel><span class="stepper-title">riserve</span></ng-template>
           <step-riserve [parent]="moduloDomanda"></step-riserve>
       </mat-step>
 
       <mat-step [stepControl]="categorieProtetteValid">
-          <ng-template matStepLabel><h2 class="step_title">categorie protette</h2></ng-template>
+          <ng-template matStepLabel><span class="stepper-title">categorie protette</span></ng-template>
           <step-categorie-protette [parent]="moduloDomanda"></step-categorie-protette>
       </mat-step>
 
       <mat-step [stepControl]="accettazioneValid" *ngIf="displayDichiarazioni()">
-          <ng-template matStepLabel><h2 class="step_title">dichiarazione</h2></ng-template>
+          <ng-template matStepLabel><span class="stepper-title">dichiarazione</span></ng-template>
           <app-step-dichiarazione [parent]="moduloDomanda"></app-step-dichiarazione>
       </mat-step>
 
       <mat-step label="invia Ddomanda">
-          <ng-template matStepLabel><h2 class="step_title">invia domanda</h2></ng-template>
+          <ng-template matStepLabel><span class="stepper-title">invia domanda</span></ng-template>
           <step-invia-domanda [parent]="moduloDomanda"></step-invia-domanda>
       </mat-step>
 
