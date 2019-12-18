@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 
@@ -6,6 +6,7 @@ import {MatStepper} from '@angular/material';
 import {TitoloPreferenziale} from '../../../../../core/models/rest/rest-interface';
 import {RestService} from '../../../../../core/services/rest.service';
 import {filter} from 'rxjs/operators';
+import {FormService} from '../../../../../core/services/form.service';
 
 /* TODO: Cambiare mat toggle button con butotn per poter usare 2 way binding */
 
@@ -25,7 +26,9 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
 
 
 
-  constructor(private domandaService: DomandaService, private rest: RestService
+  constructor(private domandaService: DomandaService,
+              private formService: FormService,
+              private rest: RestService
   ) {}
 
   ngOnInit() {
@@ -38,7 +41,7 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
       // Se le domanda è stata già inviata controllo se ci sono titoli altrimenti setto a NO
       if (this.isDomandaInvita) {
         if (this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.length > 0) {
-          this.aventeTitoli.patchValue('SI');
+          this.formService.aventeTitoli.patchValue('SI');
 
           const titoliScelti: TitoloPreferenziale[] = [];
           // tslint:disable-next-line:prefer-for-of
@@ -51,10 +54,10 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
             }
           }
 
-          this.titoliSelezionati.patchValue(titoliScelti);
+          this.formService.titoliSelezionati.patchValue(titoliScelti);
 
           } else {
-            this.aventeTitoli.patchValue('NO');
+            this.formService.aventeTitoli.patchValue('NO');
           }
         }
     });
@@ -64,24 +67,24 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
 
   onChanges() {
 
-    this.aventeTitoli.valueChanges.subscribe((x: string) => {
-      if (this.aventeTitoli.value === 'SI') {
-        this.titoliSelezionati.setValidators([Validators.required]);
+    this.formService.aventeTitoli.valueChanges.subscribe((x: string) => {
+      if (this.formService.aventeTitoli.value === 'SI') {
+        this.formService.titoliSelezionati.setValidators([Validators.required]);
       }
-      if (this.aventeTitoli.value === 'NO') {
-        this.titoliSelezionati.setValidators([]);
-        this.numeroFigliSelezionati.setValidators([]);
+      if (this.formService.aventeTitoli.value === 'NO') {
+        this.formService.titoliSelezionati.setValidators([]);
+        this.formService.numeroFigliSelezionati.setValidators([]);
 
-        this.titoliSelezionati.patchValue(null);
-        this.numeroFigliSelezionati.patchValue(null);
+        this.formService.titoliSelezionati.patchValue(null);
+        this.formService.numeroFigliSelezionati.patchValue(null);
       }
-      this.titoliSelezionati.updateValueAndValidity();
-      this.numeroFigliSelezionati.updateValueAndValidity();
+      this.formService.titoliSelezionati.updateValueAndValidity();
+      this.formService.numeroFigliSelezionati.updateValueAndValidity();
     });
 
-    this.titoliSelezionati.valueChanges
+    this.formService.titoliSelezionati.valueChanges
       .pipe(
-        filter((x) => this.titoliSelezionati.value !== null)
+        filter((x) => this.formService.titoliSelezionati.value !== null)
       )
       .subscribe((x: TitoloPreferenziale[]) => {
 
@@ -89,32 +92,25 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
         // @ts-ignore
         if (x.map(k => k.id).includes(17)) {
           console.log('required');
-          this.numeroFigliSelezionati.setValidators([Validators.required]);
+          this.formService.numeroFigliSelezionati.setValidators([Validators.required]);
 
           if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.numeroFigli !== 0) {
-            this.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numeroFigli.toString());
+            this.formService.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numeroFigli.toString());
           }
 
         } else {
-          this.numeroFigliSelezionati.setValidators([]);
-          this.numeroFigliSelezionati.patchValue(null);
+          this.formService.numeroFigliSelezionati.setValidators([]);
+          this.formService.numeroFigliSelezionati.patchValue(null);
         }
-        this.numeroFigliSelezionati.updateValueAndValidity();
+        this.formService.numeroFigliSelezionati.updateValueAndValidity();
 
     });
 
   }
 
-  get titoliSelezionati() {
-    return this.parent.get('formTitoliPreferenziali.titoliSelezionati');
-  }
 
-  get numeroFigliSelezionati() {
-    return this.parent.get('formTitoliPreferenziali.numeroFigliSelezionati');
-  }
-
-  get aventeTitoli() {
-    return this.parent.get('formTitoliPreferenziali.aventeTitoli');
+  getSingleForm(id: string) {
+    return this.parent.get('formTitoliPreferenziali.' + id);
   }
 
   allowNextStep() {

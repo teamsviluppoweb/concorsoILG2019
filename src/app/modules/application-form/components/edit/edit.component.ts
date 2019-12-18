@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {StepIstruzioneComponent} from './step-istruzione/step-istruzione.component';
 import {StepAnagraficaComponent} from './step-anagrafica/step-anagrafica.component';
@@ -14,6 +14,7 @@ import {FormService} from '../../../../core/services/form.service';
   selector: 'app-main-form',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
 export class EditComponent implements OnInit {
@@ -41,7 +42,6 @@ export class EditComponent implements OnInit {
     private formBuilder: FormBuilder,
     private domandaService: DomandaService,
     private formService: FormService,
-    private cd: ChangeDetectorRef
   ) {
 
     this.shouldBeLinear = !this.domandaService.isEditable;

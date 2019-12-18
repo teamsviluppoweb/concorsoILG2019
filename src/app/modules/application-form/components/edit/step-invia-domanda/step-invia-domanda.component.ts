@@ -27,6 +27,7 @@ export class StepInviaDomandaComponent  {
   }
 
   inviaDomanda() {
+
     this.isSendingDisabled = true;
 
     /*
@@ -86,7 +87,7 @@ export class StepInviaDomandaComponent  {
     if (this.formService.aventeTitoli.value === 'SI') {
       this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = this.formService.titoliSelezionati.value;
 
-      if (this.formService.titoliSelezionati.value.map(k => k.id).includes('17')) {
+      if (this.formService.titoliSelezionati.value.map(k => k.id).includes(17)) {
         this.domandaService.domandaobj.domanda.numeroFigli = this.formService.numeroFigliSelezionati.value;
       } else {
         this.domandaService.domandaobj.domanda.numeroFigli = 0;
