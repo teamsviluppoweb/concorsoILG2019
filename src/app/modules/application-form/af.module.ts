@@ -12,7 +12,6 @@ import {StepCategorieProtetteComponent} from './components/edit/step-categorie-p
 import {StepAnagraficaComponent} from './components/edit/step-anagrafica/step-anagrafica.component';
 import {EditComponent} from './components/edit/edit.component';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
-import { PaginaIntermediaComponent } from './components/pagina-intermedia/pagina-intermedia.component';
 
 
 @NgModule({
@@ -27,7 +26,6 @@ import { PaginaIntermediaComponent } from './components/pagina-intermedia/pagina
     StepRiserveComponent,
     StepTitoliPreferenzialiComponent,
     StepDichiarazioneComponent,
-    PaginaIntermediaComponent
   ],
   imports: [
     AfRoutingModule,

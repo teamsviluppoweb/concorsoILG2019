@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {DomandaService} from '../../../../core/services/domanda.service';
-import {DomandaObj} from '../../../../core/models';
-import {RestService} from '../../../../core/services/rest.service';
-import {InfoConorso} from '../../../../core/models/rest/rest-interface';
-import {SidenavContainer, SidenavService} from '../../../../core/services/sidenav.service';
+import {DomandaObj} from '../../../core/models';
+import {InfoConorso} from '../../../core/models/rest/rest-interface';
+import {DomandaService} from '../../../core/services/domanda.service';
+import {RestService} from '../../../core/services/rest.service';
+import {SidenavContainer, SidenavService} from '../../../core/services/sidenav.service';
+
 
 @Component({
   selector: 'app-pagina-intermedia',

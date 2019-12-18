@@ -2,6 +2,7 @@ import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {DomandaService} from '../../../core/services/domanda.service';
 import { DomandaObj} from '../../../core/models';
 import {SidenavContainer, SidenavService} from '../../../core/services/sidenav.service';
+import {globalRoutes} from '../../routes/global-routes';
 
 @Component({
   selector: 'app-menu-sidenav',
@@ -10,6 +11,7 @@ import {SidenavContainer, SidenavService} from '../../../core/services/sidenav.s
 })
 export class MenuSidenavComponent implements OnInit {
 
+  siteRoutes = globalRoutes;
   domanda: DomandaObj;
 
   dataInvio;

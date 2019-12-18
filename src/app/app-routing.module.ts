@@ -13,8 +13,7 @@ import {AuthGuard} from './core/guards';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'apf',
-    canActivate: [AuthGuard],
+    redirectTo: 'user',
     pathMatch: 'full'
   },
   {

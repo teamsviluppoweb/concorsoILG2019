@@ -2,11 +2,22 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {DomandaCandidatoComponent} from './components/domanda-candidato/domanda-candidato.component';
 import {DomandaCandidatoGuardService} from '../../core/guards';
+import {PaginaIntermediaComponent} from './pagina-intermedia/pagina-intermedia.component';
+import {globalRoutes} from '../../shared/routes/global-routes';
 export const routes: Routes = [
   {
     path: '',
+    redirectTo: globalRoutes.user.info,
+    pathMatch: 'full'
+  },
+  {
+    path:  globalRoutes.user.visualizzaDomanda,
     canActivate: [DomandaCandidatoGuardService],
     component: DomandaCandidatoComponent
+  },
+  {
+    path: globalRoutes.user.info,
+    component: PaginaIntermediaComponent
   },
 ];
 

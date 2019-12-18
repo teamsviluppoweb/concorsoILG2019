@@ -2,23 +2,18 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {EditComponent} from './components/edit/edit.component';
 import {EditGuard} from '../../core/guards/edit.guard';
-import {PaginaIntermediaComponent} from './components/pagina-intermedia/pagina-intermedia.component';
+import {globalRoutes} from '../../shared/routes/global-routes';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'info',
+    redirectTo: globalRoutes.apf.compilaDomanda,
   },
   {
-    path: 'compile',
+    path: globalRoutes.apf.compilaDomanda,
     canDeactivate: [EditGuard],
     component: EditComponent,
     // resolve: EditResolver,
-  },
-  {
-    path: 'info',
-    component: PaginaIntermediaComponent,
-    // resolve: EditResolver,
-  },
+  }
 ];
 
 @NgModule({
