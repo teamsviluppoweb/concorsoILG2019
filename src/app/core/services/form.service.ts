@@ -154,6 +154,15 @@ export class FormService {
     return this.parent.get('formTitoliPreferenziali.aventeTitoli');
   }
 
+  get riserveSelezionate() {
+    return this.parent.get('formRiserve.riserveSelezionate');
+  }
+
+  get aventeRiserve() {
+    return this.parent.get('formRiserve.aventeRiserve');
+  }
+
+
 
   // DROPDOWN
 

@@ -3,9 +3,9 @@ import {FormGroup, Validators} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {RestService} from '../../../../../core/services/rest.service';
-import {Riserva, TitoloPreferenziale} from '../../../../../core/models/rest/rest-interface';
+import {Riserva} from '../../../../../core/models/rest/rest-interface';
+import {FormService} from '../../../../../core/services/form.service';
 
-/* TODO: Cambiare mat toggle button con butotn per poter usare 2 way binding */
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -15,14 +15,14 @@ import {Riserva, TitoloPreferenziale} from '../../../../../core/models/rest/rest
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepRiserveComponent implements OnInit {
-  clicker: boolean;
   @Input() parent: FormGroup;
   elencoRiserve: Riserva[];
 
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
-  constructor(private domandaService: DomandaService, private rest: RestService) {
-    this.clicker = false;
+  constructor(private domandaService: DomandaService,
+              private formService: FormService,
+              private rest: RestService) {
   }
 
   ngOnInit() {
@@ -33,11 +33,11 @@ export class StepRiserveComponent implements OnInit {
 
         if (this.domandaService.domandaobj.operazione === 1) {
 
-          let riserveScelte = this.domandaService.domandaobj.domanda.lstRiserve;
+          const riserveScelte = this.domandaService.domandaobj.domanda.lstRiserve;
           if (riserveScelte.length > 0) {
 
 
-            this.aventeRiserve.patchValue('SI');
+            this.formService.aventeRiserve.patchValue('SI');
 
             const rs: Riserva[] = [];
 
@@ -51,10 +51,10 @@ export class StepRiserveComponent implements OnInit {
             }
 
 
-            this.riserveSelezionate.patchValue(rs);
+            this.formService.riserveSelezionate.patchValue(rs);
 
           } else {
-            this.aventeRiserve.patchValue('NO');
+            this.formService.aventeRiserve.patchValue('NO');
           }
         }
 
@@ -65,37 +65,22 @@ export class StepRiserveComponent implements OnInit {
   }
 
   onChanges() {
-    this.aventeRiserve.valueChanges.subscribe((x) => {
-      if (this.aventeRiserve.value === 'SI') {
-        this.riserveSelezionate.setValidators(Validators.required);
+    this.formService.aventeRiserve.valueChanges.subscribe((x) => {
+      if (this.formService.aventeRiserve.value === 'SI') {
+        this.formService.riserveSelezionate.setValidators(Validators.required);
       } else {
-        this.riserveSelezionate.clearValidators();
-        this.riserveSelezionate.reset();
-        this.riserveSelezionate.patchValue([]);
+        this.formService.riserveSelezionate.clearValidators();
+        this.formService.riserveSelezionate.reset();
+        this.formService.riserveSelezionate.patchValue([]);
       }
-      this.riserveSelezionate.updateValueAndValidity();
+      this.formService.riserveSelezionate.updateValueAndValidity();
     });
-
-    this.riserveSelezionate.valueChanges.subscribe( (x) => {
-      this.domandaService.domandaobj.domanda.lstRiserve = x;
-    });
-
   }
 
 
-  ParseRiserve() {
-    this.clicker = true;
-    console.log(this.domandaService.domandaobj.domanda);
+  getSingleForm(id: string) {
+    return this.parent.get('formRiserve.' + id);
   }
-
-  get riserveSelezionate() {
-    return this.parent.get('formRiserve.riserveSelezionate');
-  }
-
-  get aventeRiserve() {
-    return this.parent.get('formRiserve.aventeRiserve');
-  }
-
 
   allowNextStep() {
     return !this.parent.controls.formRiserve.valid;

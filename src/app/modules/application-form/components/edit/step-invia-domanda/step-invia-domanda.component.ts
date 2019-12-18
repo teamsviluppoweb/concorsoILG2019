@@ -96,6 +96,13 @@ export class StepInviaDomandaComponent  {
 
     //
 
+
+    /*
+         Serializzo le riserve qui
+     */
+
+    this.domandaService.domandaobj.domanda.lstRiserve = this.formService.riserveSelezionate.value;
+
     if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
       if (this.domandaService.domandaobj.domanda.invaliditaCivile.percentuale === 0) {
         this.domandaService.domandaobj.domanda.invaliditaCivile = null;

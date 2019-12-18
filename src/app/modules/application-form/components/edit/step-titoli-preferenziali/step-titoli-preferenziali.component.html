@@ -15,6 +15,7 @@
   <div *ngIf="getSingleForm('aventeTitoli').value === 'SI'" fxLayout="column" formGroupName="formTitoliPreferenziali">
     <mat-form-field appearance="outline">
       <mat-select formControlName="titoliSelezionati"
+                  panelClass="titoli-preferenziali"
                   class="mat-list-item-word-wrap"
                   multiple
                   placeholder="Seleziona Titoli">

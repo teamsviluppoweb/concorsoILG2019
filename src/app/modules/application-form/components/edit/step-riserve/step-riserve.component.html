@@ -3,19 +3,19 @@
   <p>Disponi di riserve ?</p>
   <div fxFlex.sm="100" fxFlex.xs="100" fxFlex="50" style="margin-bottom: 20px">
 
-    <mat-button-toggle-group fxLayout="row" [formControl]="aventeRiserve" [value]="aventeRiserve.value" >
+    <mat-button-toggle-group fxLayout="row" [formControl]="getSingleForm('aventeRiserve')" [value]="getSingleForm('aventeRiserve').value" >
       <mat-button-toggle value="NO" style="width: 50%;">NO</mat-button-toggle>
       <mat-button-toggle value="SI" style="width: 50%;">SI</mat-button-toggle>
     </mat-button-toggle-group>
 
   </div>
 
-  <mat-error *ngIf="aventeRiserve.invalid && clicker">Campo Obbligatorio</mat-error>
 
 
-  <div *ngIf="aventeRiserve.value === 'SI'" fxLayout="column">
+  <div *ngIf="getSingleForm('aventeRiserve').value === 'SI'" fxLayout="column">
    <mat-form-field appearance="outline" fxFlex="grow">
-     <mat-select [formControl]="riserveSelezionate"
+     <mat-select [formControl]="getSingleForm('riserveSelezionate')"
+                 panelClass="riserve"
                  class="mat-list-item-word-wrap"
                  multiple
                  placeholder="Seleziona Riserve">
@@ -31,7 +31,7 @@
 
      </mat-select>
    </mat-form-field>
-   <ul *ngFor="let i of riserveSelezionate.value" fxFlex="grow">
+   <ul *ngFor="let i of getSingleForm('riserveSelezionate').value" fxFlex="grow">
      <li>{{i.descrizione}}</li>
    </ul>
  </div>
