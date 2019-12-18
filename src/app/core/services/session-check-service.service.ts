@@ -13,7 +13,7 @@ export class SessionCheckServiceService {
 
   constructor(private router: Router, public dialog: MatDialog) {
 
-    this.token = localStorage.getItem('token');
+    this.token = sessionStorage.getItem('token');
     this.helper = new JwtHelperService();
     this.expirationDate = this.helper.getTokenExpirationDate(this.token);
   }
