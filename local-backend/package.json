@@ -1,0 +1,19 @@
+{
+  "name": "444626d3f627e1cfcc1691d90c5bcc67-718ab0fd1bdcf9882792f244e02cf595ef637a83",
+  "version": "1.0.0",
+  "description": "Backend test concorso ILG",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Robert Turturica",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
+    "node-fetch": "^2.6.0",
+    "simple-get": "^3.1.0"
+  },
+  "devDependencies": {}
+}
