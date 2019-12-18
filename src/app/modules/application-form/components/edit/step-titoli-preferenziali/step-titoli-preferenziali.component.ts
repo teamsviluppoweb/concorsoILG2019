@@ -87,11 +87,11 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
 
         // Da fare attenzione se 17 è un numero o stringa
         // @ts-ignore
-        if (x.map(k => k.id).includes('17')) {
+        if (x.map(k => k.id).includes(17)) {
           console.log('required');
           this.numeroFigliSelezionati.setValidators([Validators.required]);
 
-          if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.numeroFigli !== null) {
+          if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.numeroFigli !== 0) {
             this.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numeroFigli.toString());
           }
 

@@ -8,7 +8,7 @@
       <anagrafica-childform></anagrafica-childform>
       </mat-step>
 
-      <mat-step [stepControl]="istruzioneIsValid">
+      <mat-step [stepControl]="istruzioneIsValid" >
           <ng-template matStepLabel><h2 class="step_title">istruzione</h2></ng-template>
           <step-istruzione [parent]="moduloDomanda"></step-istruzione>
         </mat-step>
@@ -33,7 +33,7 @@
           <step-categorie-protette [parent]="moduloDomanda"></step-categorie-protette>
       </mat-step>
 
-      <mat-step [stepControl]="accettazioneValid" *ngIf="showDichiarazioni()">
+      <mat-step [stepControl]="accettazioneValid" *ngIf="displayDichiarazioni()">
           <ng-template matStepLabel><h2 class="step_title">dichiarazione</h2></ng-template>
           <app-step-dichiarazione [parent]="moduloDomanda"></app-step-dichiarazione>
       </mat-step>

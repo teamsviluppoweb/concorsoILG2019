@@ -5,7 +5,8 @@ import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Router} from '@angular/router';
 import {concatMap} from 'rxjs/operators';
 import {SidenavContainer, SidenavService} from '../../../../../core/services/sidenav.service';
-import {DomandaObj} from '../../../../../core/models';
+import {DomandaObj, IntTitoliStudioPossedutiEntity} from '../../../../../core/models';
+import {FormService} from '../../../../../core/services/form.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -19,7 +20,10 @@ export class StepInviaDomandaComponent  {
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
   isSendingDisabled = false;
 
-  constructor(private domandaService: DomandaService, private sidenav: SidenavService, private router: Router) {
+  constructor(private domandaService: DomandaService,
+              private sidenav: SidenavService,
+              private formService: FormService,
+              private router: Router) {
   }
 
   inviaDomanda() {
@@ -29,49 +33,63 @@ export class StepInviaDomandaComponent  {
     Serializzo i titoli di studio qui
      */
 
+    // Se è la prima volta che la domanda viene compilata tolgo il null alle sezioni obbligatorie
 
-    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = this.tipologia.value;
-    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = this.titolo.value;
 
-    if (this.indirizzo.value === null) {
+
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = this.formService.tipologia.value;
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = this.formService.titolo.value;
+
+    if (this.formService.indirizzo.value === null) {
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
     } else {
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = this.indirizzo.value;
-      if (this.indirizzo.value.id === '351') {
-        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = this.altroIndirizzo.value;
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = this.formService.indirizzo.value;
+      if (this.formService.indirizzo.value.id === '341') {
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = this.formService.altroIndirizzo.value;
       } else {
         this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
       }
     }
 
-    if (this.indirizzoFisico.value !== null) {
-      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto = this.indirizzoFisico.value;
+    if(this.formService.altroIndirizzo.value !== null) {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = this.formService.altroIndirizzo.value;
     }
 
-    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto = this.nomeIstituto.value;
-    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = this.dataConseguimento.value;
+    if (this.formService.indirizzoFisico.value !== null) {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto = this.formService.indirizzoFisico.value;
+    }
+
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto = this.formService.nomeIstituto.value;
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = this.formService.dataConseguimento.value;
     this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto = {
-      codice: this.comuneIstituto.value.codice,
-      nome: this.comuneIstituto.value.nome,
-      codiceProvincia: this.provinciaIstituto.value.codice,
+      codice: this.formService.comuneIstituto.value.codice,
+      nome: this.formService.comuneIstituto.value.nome,
+      codiceProvincia: this.formService.provinciaIstituto.value.codice,
     };
+
+
+    /*
+      Serializzo la lingua
+     */
+
+    this.domandaService.domandaobj.domanda.lingua = this.formService.linguaSelezionata.value;
 
     /*
         Serializzo i titoli preferenziali qui
     */
 
-    if (this.aventeTitoli.value === 'NO') {
+    if (this.formService.aventeTitoli.value === 'NO') {
       this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = [];
-      this.domandaService.domandaobj.domanda.numeroFigli = null;
+      this.domandaService.domandaobj.domanda.numeroFigli = 0;
     }
 
-    if (this.aventeTitoli.value === 'SI') {
-      this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = this.titoliSelezionati.value;
+    if (this.formService.aventeTitoli.value === 'SI') {
+      this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = this.formService.titoliSelezionati.value;
 
-      if (this.titoliSelezionati.value.map(k => k.id).includes('17')) {
-        this.domandaService.domandaobj.domanda.numeroFigli = this.numeroFigliSelezionati.value;
+      if (this.formService.titoliSelezionati.value.map(k => k.id).includes('17')) {
+        this.domandaService.domandaobj.domanda.numeroFigli = this.formService.numeroFigliSelezionati.value;
       } else {
-        this.domandaService.domandaobj.domanda.numeroFigli = null;
+        this.domandaService.domandaobj.domanda.numeroFigli = 0;
       }
     }
 
@@ -113,58 +131,6 @@ export class StepInviaDomandaComponent  {
     return this.parent.valid;
   }
 
-  /*
-      REACTIVE FORM BOILER TEMPLATE
-    */
-
-  get tipologia() {
-    return this.parent.get('formIstruzione.tipologia');
-  }
-
-  get titolo() {
-    return this.parent.get('formIstruzione.titolo');
-  }
-
-  get indirizzo() {
-    return this.parent.get('formIstruzione.indirizzo');
-  }
-
-  get dataConseguimento() {
-    return this.parent.get('formIstruzione.dataConseguimento');
-  }
-
-  get nomeIstituto() {
-    return this.parent.get('formIstruzione.nomeIstituto');
-  }
-
-  get indirizzoFisico() {
-    return this.parent.get('formIstruzione.indirizzoFisico');
-  }
-
-  get altroIndirizzo() {
-    return this.parent.get('formIstruzione.altroIndirizzo');
-  }
-
-  get provinciaIstituto() {
-    return this.parent.get('formIstruzione.provinciaIstituto');
-  }
-
-  get comuneIstituto() {
-    return this.parent.get('formIstruzione.comuneIstituto');
-  }
-
-
-  get titoliSelezionati() {
-    return this.parent.get('formTitoliPreferenziali.titoliSelezionati');
-  }
-
-  get numeroFigliSelezionati() {
-    return this.parent.get('formTitoliPreferenziali.numeroFigliSelezionati');
-  }
-
-  get aventeTitoli() {
-    return this.parent.get('formTitoliPreferenziali.aventeTitoli');
-  }
 
 }
 

@@ -18,8 +18,8 @@
           </mat-option>
         </mat-select>
 
-        <mat-error *ngIf="tipologia.hasError('required')">Campo Obbligatorio</mat-error>
-        <mat-error *ngIf="tipologiaDropdown.hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="getSingleForm('tipologia').hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="getSingleForm('tipologiaDropdown').hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
     </div>
@@ -40,8 +40,8 @@
         </mat-option>
       </mat-select>
 
-      <mat-error *ngIf="titolo.hasError('required')">Campo Obbligatorio</mat-error>
-      <mat-error *ngIf="titoloDropdown.hasError('required')">Campo Obbligatorio</mat-error>
+      <mat-error *ngIf="getSingleForm('titolo').hasError('required')">Campo Obbligatorio</mat-error>
+      <mat-error *ngIf="getSingleForm('titoloDropdown').hasError('required')">Campo Obbligatorio</mat-error>
     </mat-form-field>
 
    </div>
@@ -62,8 +62,8 @@
             {{ind.desc}}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="indirizzo.hasError('required')">Campo Obbligatorio</mat-error>
-        <mat-error *ngIf="indirizzoDropdown.hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="getSingleForm('indirizzo').hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="getSingleForm('indirizzoDropdown').hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
     </div>
@@ -105,11 +105,11 @@
                placeholder="Anno Diploma">
 
 
-        <mat-error *ngIf="dataConseguimento.hasError('required')">Campo Obbligatorio</mat-error>
-        <mat-error *ngIf="dataConseguimento.hasError('onlyNumber')">Inserire nel campo solo numberi</mat-error>
-        <mat-error *ngIf="dataConseguimento.hasError('max')">L'anno è superiore all'anno corrente</mat-error>
-        <mat-error *ngIf="dataConseguimento.hasError('minlength')">L'anno deve avere solo 4 numeri</mat-error>
-        <mat-error *ngIf="dataConseguimento.hasError('maxlength')">L'anno deve avere solo 4 numeri</mat-error>
+        <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('onlyNumber')">Inserire nel campo solo numberi</mat-error>
+        <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('max')">L'anno è superiore all'anno corrente</mat-error>
+        <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('minlength')">L'anno deve avere solo 4 numeri</mat-error>
+        <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('maxlength')">L'anno deve avere solo 4 numeri</mat-error>
       </mat-form-field>
 
 
@@ -132,10 +132,10 @@
           </mat-option>
         </mat-select>
 
-        <mat-error *ngIf="provinciaIstituto.hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="getSingleForm('provinciaIstituto').hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="outline" fxFlex="39" *ngIf="displayComune">
+      <mat-form-field appearance="outline" fxFlex="39">
         <mat-label>Comune Istituto</mat-label>
         <mat-select #comuneSelect
                     formControlName="comuneIstituto"
@@ -147,7 +147,7 @@
             {{com.nome}}
           </mat-option>
         </mat-select>
-        <mat-error *ngIf="comuneIstituto.hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="getSingleForm('comuneIstituto').hasError('required')">Campo Obbligatorio</mat-error>
       </mat-form-field>
 
     </div>

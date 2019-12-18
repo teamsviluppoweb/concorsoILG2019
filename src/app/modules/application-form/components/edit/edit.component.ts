@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ChangeDetectorRef, Component, Input, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup} from '@angular/forms';
 import {StepIstruzioneComponent} from './step-istruzione/step-istruzione.component';
 import {StepAnagraficaComponent} from './step-anagrafica/step-anagrafica.component';
 import {StepLinguaComponent} from './step-lingua/step-lingua.component';
@@ -8,21 +8,18 @@ import {StepRiserveComponent} from './step-riserve/step-riserve.component';
 import {StepCategorieProtetteComponent} from './step-categorie-protette/step-categorie-protette.component';
 import {StepInviaDomandaComponent} from './step-invia-domanda/step-invia-domanda.component';
 import {DomandaService} from '../../../../core/services/domanda.service';
-import {CustomValidators} from '../../../../shared/validators/customValidators';
 import {FormService} from '../../../../core/services/form.service';
 
 @Component({
   selector: 'app-main-form',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class EditComponent implements OnInit, OnDestroy {
-
+export class EditComponent implements OnInit {
   moduloDomanda: FormGroup;
-  domandaPrecedente;
   shouldBeLinear = true;
+  domandaPrecedente;
 
   @ViewChild(StepAnagraficaComponent, { static: false }) StepAnagraficaComponent: StepAnagraficaComponent;
   @ViewChild(StepIstruzioneComponent, { static: false }) StepIstruzioneComponent: StepIstruzioneComponent;
@@ -41,16 +38,20 @@ export class EditComponent implements OnInit, OnDestroy {
   accettazioneValid;
 
   constructor(
-    private http: DomandaService,
     private formBuilder: FormBuilder,
     private domandaService: DomandaService,
     private formService: FormService,
+    private cd: ChangeDetectorRef
   ) {
 
-    if (this.domandaService.domandaobj.operazione !== 0) {
-      this.shouldBeLinear = false;
+    this.shouldBeLinear = !this.domandaService.isEditable;
+    this.moduloDomanda = this.formService.createForm();
+
+
+    if (this.domandaService.isEditable) {
+      this.formService.patchForm(this.moduloDomanda);
+      this.formService.removeDichiarazioni(this.moduloDomanda);
     }
-    this.inizializzaDomanda();
 
     this.istruzioneIsValid = this.moduloDomanda.controls.formIstruzione;
     this.linguaValid = this.moduloDomanda.controls.formLingua;
@@ -60,90 +61,18 @@ export class EditComponent implements OnInit, OnDestroy {
     this.accettazioneValid = this.moduloDomanda.controls.formDichiarazione;
   }
 
-  inizializzaDomanda() {
-    this.moduloDomanda = this.formBuilder.group({
-      formIstruzione: this.formBuilder.group({
-        tipologia: ['', [Validators.required]],
-        titolo: [''],
-        indirizzo: [''],
-        nomeIstituto: ['', [Validators.required]],
-        indirizzoFisico: [''],
-        altroIndirizzo: [''],
-        dataConseguimento: ['', [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(4),
-          Validators.max(new Date().getFullYear()),
-          CustomValidators.onlyNumber]],
-          // DROPDOWN
-          provinciaIstituto: ['', Validators.required],
-          comuneIstituto: ['', Validators.required],
-          comuniDropdown: [],
-          provinceDropdown: [],
-          tipologiaDropdown: [],
-          titoloDropdown: [],
-          indirizzoDropdown: [],
-      }),
-      formLingua: this.formBuilder.group({
-        linguaSelezionata: ['', [Validators.required]],
-      }),
-      formTitoliPreferenziali: this.formBuilder.group({
-        aventeTitoli: ['', Validators.required],
-        titoliSelezionati: [[], []],
-        numeroFigliSelezionati: ['', []],
-      }),
-      formRiserve: this.formBuilder.group({
-        aventeRiserve: ['', Validators.required],
-        riserveSelezionate: [[], []],
-      }),
-      formCategorieProtette: this.formBuilder.group({
-        appartenenza: ['', [Validators.required]],
-        percInvalidita: [''],
-        dataCertificazione: [''],
-        comune: [''],
-        comuniDropdown: [''],
-        provincia: [''],
-        provinceDropdown: [''],
-        invaliditaEnte: [''],
-        ausiliProva: [''],
-        tempiAggiuntiviProva: [''],
-        esenzioneProvaSelettiva: [''],
-      }),
-      formDichiarazione: this.formBuilder.group({
-        approvazione: ['', [Validators.required]],
-      }),
-    });
-
-    this.formService.serializeForm(this.moduloDomanda);
-
-    if (this.domandaService.domandaobj.operazione === 1) {
-      this.moduloDomanda.get('formDichiarazione.approvazione').clearValidators();
-      this.moduloDomanda.get('formDichiarazione.approvazione').updateValueAndValidity();
-    }
-
+  ngOnInit(): void {
   }
+
 
   get isDirty(): boolean {
     this.moduloDomanda = this.moduloDomanda.value;
     return JSON.stringify(this.domandaPrecedente) !== JSON.stringify(this.moduloDomanda.value);
   }
 
-  showDichiarazioni() {
-    if (this.domandaService.domandaobj.domanda.stato === 1) {
-      this.moduloDomanda.get('formDichiarazione.approvazione').setValidators([]);
-      this.moduloDomanda.get('formDichiarazione.approvazione').clearValidators();
 
-      return false;
-    }
-    return true;
-  }
-
-
-  ngOnInit(): void {
-  }
-
-  ngOnDestroy(): void {
-
+  displayDichiarazioni() {
+    return !this.domandaService.isEditable;
   }
 
 }

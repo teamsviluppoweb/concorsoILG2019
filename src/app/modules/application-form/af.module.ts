@@ -35,8 +35,7 @@ import { PaginaIntermediaComponent } from './components/pagina-intermedia/pagina
     SharedModule,
     CommonModule,
   ],
-  providers: [
-  ],
+  providers: [],
 })
 
 export class AfModule {}

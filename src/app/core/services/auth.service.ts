@@ -3,7 +3,6 @@ import {Router} from '@angular/router';
 import {Observable, of} from 'rxjs';
 import {catchError, first, map, tap} from 'rxjs/operators';
 import {DomandaService} from './domanda.service';
-import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,19 +14,19 @@ export class AuthService {
   constructor( private router: Router, private restApi: DomandaService) { }
 
   getAccessToken(): string {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
 
   setAccessToken(token: string): void {
-    localStorage.setItem(this.TOKEN_KEY, token);
+    sessionStorage.setItem(this.TOKEN_KEY, token);
   }
 
   removeAccessToken(): void {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
   }
 
   logout(): void {
-    const tk = localStorage.getItem('token');
+    const tk = sessionStorage.getItem('token');
     this.removeAccessToken();
     window.location.href = '//sso.vigilfuoco.it/cas-test/logout?service=https://localhost:8080/testjwt/' + tk;
   }

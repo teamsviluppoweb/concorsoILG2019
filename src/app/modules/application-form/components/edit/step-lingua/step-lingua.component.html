@@ -9,7 +9,7 @@
                                fxLayout.xs="column"
                                #group="matButtonToggleGroup"
                                (change)="onValChange(group.value)"
-                               fxLayout="row" [formControl]="linguaSelezionata" [value]="linguaSelezionata">
+                               fxLayout="row" [formControl]="getSingleForm('linguaSelezionata')" value="getSingleForm('linguaSelezionata').value">
 
      <mat-button-toggle  *ngFor="let i of elencoLingue"
                          [value]="i"

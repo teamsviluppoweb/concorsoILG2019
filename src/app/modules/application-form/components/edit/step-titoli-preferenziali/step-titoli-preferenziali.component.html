@@ -10,12 +10,11 @@
 
   </div>
 
-  <mat-error *ngIf="aventeTitoli.invalid && clicker">Campo Obbligatorio</mat-error>
 
 
-  <div *ngIf="aventeTitoli.value === 'SI'" fxLayout="column">
+  <div *ngIf="aventeTitoli.value === 'SI'" fxLayout="column" formGroupName="formTitoliPreferenziali">
     <mat-form-field appearance="outline">
-      <mat-select [formControl]="titoliSelezionati"
+      <mat-select formControlName="titoliSelezionati"
                   class="mat-list-item-word-wrap"
                   multiple
                   placeholder="Seleziona Titoli">
@@ -41,7 +40,7 @@
         <div fxFlex.sm="100" fxFlex.xs="100" fxFlex="50" style="margin-bottom: 20px" >
           <mat-button-toggle-group fxLayout.sm="column"
                                    fxLayout.xs="column"
-                                   fxLayout="row" [formControl]="numeroFigliSelezionati" [value]="numeroFigliSelezionati.value" >
+                                   fxLayout="row" formControlName="numeroFigliSelezionati" [value]="numeroFigliSelezionati.value" >
 
             <mat-button-toggle [value]="'1'" fxFlex="25" fxFlex.sm="100" fxFlex.xs="100" >1</mat-button-toggle>
             <mat-button-toggle [value]="'2'" fxFlex="25" fxFlex.sm="100" fxFlex.xs="100" >2</mat-button-toggle>

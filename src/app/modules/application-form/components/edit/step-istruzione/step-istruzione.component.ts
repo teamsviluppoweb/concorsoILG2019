@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {MatSelect} from '@angular/material';
+import { MatSelect} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Observable, ReplaySubject, Subject} from 'rxjs';
-import {concatMap, filter, map, take, takeUntil, tap} from 'rxjs/operators';
+import {concatMap, filter, map, take, takeUntil} from 'rxjs/operators';
 import {
   Comune,
   Provincia,
@@ -12,7 +12,8 @@ import {
   TitoliTitoloStudio
 } from '../../../../../core/models/rest/rest-interface';
 import {RestService} from '../../../../../core/services/rest.service';
-import {IntTitoliStudioPossedutiEntity} from '../../../../../core/models';
+import {FormService} from '../../../../../core/services/form.service';
+
 
 /* ## Disabilita il required di istruzione */
 /*
@@ -21,6 +22,8 @@ import {IntTitoliStudioPossedutiEntity} from '../../../../../core/models';
   this.parent.get('formIstruzione.' + key).updateValueAndValidity();
 }
  */
+
+
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -55,13 +58,13 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   displayTitoli = false;
   displayIndirizzi = false;
   displayAltroIndirizzo = false;
-  displayComune = false;
   isDomandaInvita: boolean;
 
   private onDetroy = new Subject<void>();
 
   constructor(private formbuilder: FormBuilder,
               private rest: RestService,
+              private formService: FormService,
               private domandaService: DomandaService) {}
 
   ngOnInit() {
@@ -80,7 +83,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
             .filter(selected => selected.id === tipologiaIst.id)
             .map(selected => selected)
             .reduce(selected => selected);
-          this.tipologia.patchValue(tipologiaSceltaId);
+          this.formService.tipologia.patchValue(tipologiaSceltaId);
         }
       }
     );
@@ -95,7 +98,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         if (this.isDomandaInvita) {
           const codiceSelezionato = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
           const provinciaSelezionata = this.listaProvince.filter(x => x.codice === codiceSelezionato).map(x => x).reduce(x => x);
-          this.provinciaIstituto.patchValue(provinciaSelezionata);
+          this.formService.provinciaIstituto.patchValue(provinciaSelezionata);
         }
       }
     );
@@ -106,8 +109,8 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   // I form sono posizionati in ngOnChanges in modo da farli sempre restare in ascolte anche nel routing change
   ngOnChanges(changes: SimpleChanges): void {
 
-    this.tipologia.valueChanges.pipe(
-      filter((x) => this.tipologia.valid),
+    this.formService.tipologia.valueChanges.pipe(
+      filter((x) => this.formService.tipologia.valid),
       map((tipologia: TipologiaTitoloStudio) => tipologia.id),
       concatMap(id => this.rest.getTitoliTitoloStudio(id))
     ).subscribe((data: TitoliTitoloStudio[]) => {
@@ -118,8 +121,8 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       if (data.length > 0) {
         this.displayTitoli = true;
 
-        this.titolo.setValidators([Validators.required]);
-        this.titolo.updateValueAndValidity();
+        this.formService.titolo.setValidators([Validators.required]);
+        this.formService.titolo.updateValueAndValidity();
 
         this.listaTitoli = data;
         this.filtroTitolo.next(this.listaTitoli.slice());
@@ -133,20 +136,20 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
               .map(selected => selected)
               .reduce(selected => selected);
 
-          this.titolo.patchValue(tipologiaSceltaId);
+          this.formService.titolo.patchValue(tipologiaSceltaId);
         }
       }
     });
 
-    this.titolo.valueChanges.pipe(
-      filter(() => this.titolo.valid),
+    this.formService.titolo.valueChanges.pipe(
+      filter(() => this.formService.titolo.valid),
       map((titolo: TitoliTitoloIndirizzo) => titolo.id),
       concatMap(id => this.rest.getIndirizziTitoliStudio(id))
     ).subscribe((data: TitoliTitoloIndirizzo[]) => {
 
       if (data.length > 0) {
         this.displayIndirizzi = true;
-        this.indirizzo.setValidators([Validators.required]);
+        this.formService.indirizzo.setValidators([Validators.required]);
 
         this.listaIndirizzi = data;
         this.filtroIndirizzi.next(this.listaIndirizzi.slice());
@@ -160,54 +163,51 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
               .map(selected => selected)
               .reduce(selected => selected);
 
-          console.log(tipologiaSceltaId);
-
-          this.indirizzo.patchValue(tipologiaSceltaId);
+          this.formService.indirizzo.patchValue(tipologiaSceltaId);
         }
       }
       // Se l'array non è popolato allora non vi sono indirizzi da scegliere
       if ( !(data.length > 0)) {
         this.displayIndirizzi = false;
-        this.indirizzo.patchValue(null);
-        this.indirizzo.clearValidators();
+        this.formService.indirizzo.patchValue(null);
+        this.formService.indirizzo.clearValidators();
       }
 
-      this.indirizzo.updateValueAndValidity();
+      this.formService.indirizzo.updateValueAndValidity();
     });
 
 
-    this.indirizzo.valueChanges
+    this.formService.indirizzo.valueChanges
       .pipe(
-        filter(() => this.indirizzo.value !== null),
+        filter(() => this.formService.indirizzo.value !== null),
       )
       .subscribe(
         (data) => {
-          console.log(data);
           // Se è stato scelto ALTRO INDIRIZZO allora faccio inserire manualmente l'indirizzo
-          if (data.id === '351') {
+          console.log(data.id);
+          if (data.id === '341') {
             this.displayAltroIndirizzo = true;
-            this.altroIndirizzo.setValidators([Validators.required]);
-            this.altroIndirizzo.updateValueAndValidity();
+            this.formService.altroIndirizzo.setValidators([Validators.required]);
+            this.formService.altroIndirizzo.updateValueAndValidity();
 
             if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio !== null) {
-              this.altroIndirizzo.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
+              this.formService.altroIndirizzo.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
             }
           } else {
             this.displayAltroIndirizzo = false;
-            this.altroIndirizzo.setValidators([]);
-            this.altroIndirizzo.patchValue(null);
-            this.altroIndirizzo.updateValueAndValidity();
+            this.formService.altroIndirizzo.setValidators([]);
+            this.formService.altroIndirizzo.patchValue(null);
+            this.formService.altroIndirizzo.updateValueAndValidity();
           }
         });
 
 
-    this.provinciaIstituto.valueChanges
+    this.formService.provinciaIstituto.valueChanges
       .pipe(
-        filter(() => this.provinciaIstituto.valid),
+        filter(() => this.formService.provinciaIstituto.valid),
         concatMap((data: Provincia) => this.rest.getComuni(data.codice))
       )
       .subscribe((data: Comune[]) => {
-        this.displayComune = true;
         this.listaComuni = data;
         this.filtroComuni.next(this.listaComuni.slice());
         this.setInitialComuneValue(this.filtroComuni);
@@ -215,7 +215,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         if (this.isDomandaInvita) {
           const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
           const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune).map(x => x).reduce(x => x);
-          this.comuneIstituto.patchValue(comuneSelezionato);
+          this.formService.comuneIstituto.patchValue(comuneSelezionato);
         }
       });
 
@@ -223,35 +223,35 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
     /*
       Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei delle dropdown list
      */
-    this.comuniDropdown.valueChanges
+    this.formService.comuniDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
       .subscribe(() => {
-        this.filtraRicerca(this.listaComuni, this.comuniDropdown, this.filtroComuni);
+        this.filtraRicerca(this.listaComuni, this.formService.comuniDropdown, this.filtroComuni);
       });
 
     // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search delle province
-    this.provinceDropdown.valueChanges
+    this.formService.provinceDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
       .subscribe(() => {
-        this.filtraRicerca(this.listaProvince, this.provinceDropdown, this.filtroProvince);
+        this.filtraRicerca(this.listaProvince, this.formService.provinceDropdown, this.filtroProvince);
       });
 
-    this.tipologiaDropdown.valueChanges
+    this.formService.tipologiaDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
       .subscribe((x) => {
-        this.filtraRicercaIstruzione(this.listaTipologie, this.tipologiaDropdown, this.filtroTipologie);
+        this.filtraRicercaIstruzione(this.listaTipologie, this.formService.tipologiaDropdown, this.filtroTipologie);
       });
 
-    this.titoloDropdown.valueChanges
+    this.formService.titoloDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
       .subscribe(() => {
-        this.filtraRicercaIstruzione(this.listaTitoli, this.titoloDropdown, this.filtroTitolo);
+        this.filtraRicercaIstruzione(this.listaTitoli, this.formService.titoloDropdown, this.filtroTitolo);
       });
 
-    this.indirizzoDropdown.valueChanges
+    this.formService.indirizzoDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
       .subscribe(() => {
-        this.filtraRicercaIstruzione(this.listaIndirizzi, this.indirizzoDropdown, this.filtroIndirizzi);
+        this.filtraRicercaIstruzione(this.listaIndirizzi, this.formService.indirizzoDropdown, this.filtroIndirizzi);
       });
 
   }
@@ -278,6 +278,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   private setInitialTitoliValue(data: Observable<TitoliTitoloStudio[]>) {
     data
       .pipe(
+        filter(() => this.titoliSelect !== undefined),
         take(1),
         takeUntil(this.onDetroy))
       .subscribe(() => {
@@ -288,6 +289,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   private setInitialIndirizziValue(data: Observable<TitoliTitoloIndirizzo[]>) {
     data
       .pipe(
+        filter(() => this.indirizziSelect !== undefined),
         take(1), takeUntil(this.onDetroy))
       .subscribe(() => {
           this.indirizziSelect.compareWith = (a: string, b: string) => a && b && a === b;
@@ -369,70 +371,11 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  /*
-    REACTIVE FORM BOILER TEMPLATE
-  */
-
-  get tipologia() {
-    return this.parent.get('formIstruzione.tipologia');
-  }
-
-  get titolo() {
-    return this.parent.get('formIstruzione.titolo');
-  }
-
-  get indirizzo() {
-    return this.parent.get('formIstruzione.indirizzo');
-  }
-
-  get dataConseguimento() {
-    return this.parent.get('formIstruzione.dataConseguimento');
-  }
-
-  get nomeIstituto() {
-    return this.parent.get('formIstruzione.nomeIstituto');
-  }
-
-  get indirizzoFisico() {
-    return this.parent.get('formIstruzione.indirizzoFisico');
-  }
-
-  get altroIndirizzo() {
-    return this.parent.get('formIstruzione.altroIndirizzo');
-  }
-
-  get provinciaIstituto() {
-    return this.parent.get('formIstruzione.provinciaIstituto');
-  }
-
-  get comuneIstituto() {
-    return this.parent.get('formIstruzione.comuneIstituto');
+  getSingleForm(id: string) {
+    return this.parent.get('formIstruzione.' + id);
   }
 
 
-  // DROPDOWN
-
-
-
-  get comuniDropdown() {
-    return this.parent.get('formIstruzione.comuniDropdown');
-  }
-
-  get provinceDropdown() {
-    return this.parent.get('formIstruzione.provinceDropdown');
-  }
-
-  get tipologiaDropdown() {
-    return this.parent.get('formIstruzione.tipologiaDropdown');
-  }
-
-  get titoloDropdown() {
-    return this.parent.get('formIstruzione.titoloDropdown');
-  }
-
-  get indirizzoDropdown() {
-    return this.parent.get('formIstruzione.indirizzoDropdown');
-  }
 
 
 }

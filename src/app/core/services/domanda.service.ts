@@ -17,6 +17,7 @@ const domandaCacheBuster$ = new Subject<void>();
 export class DomandaService {
 
   domandaobj: DomandaObj;
+  isEditable: boolean;
 
   private testoMenuDomanda = new Subject<any>();
   private statoMiaDomanda = new Subject<any>();
@@ -24,6 +25,7 @@ export class DomandaService {
 
   constructor(private http: HttpClient, private d: DomandaObj, private sidenavService: SidenavService) {
     this.domandaobj = d;
+    this.isEditable = false;
   }
 
   sendDisplayAction(should: boolean) {
@@ -50,8 +52,13 @@ export class DomandaService {
     return this.http.get<DomandaObj>(environment.endpoint.domanda)
       .pipe(
         map( (response: DomandaObj) => {
-          this.domandaobj = response;
 
+          this.domandaobj = response;
+          this.isEditable = this.domandaobj.operazione === 1;
+
+          if (response.operazione === 0) {
+            this.removeNullableField();
+          }
           const obj: SidenavContainer = {
             dataInvio: this.domandaobj.domanda.dataInvio,
             ultimaModifica: this.domandaobj.domanda.dataModifica,
@@ -90,6 +97,32 @@ export class DomandaService {
   }
 
 
+  // Rimuovo null dagli oggetti con figli per poterci accedere
+  removeNullableField() {
+    this.domandaobj.domanda.titoloStudioPosseduto =  {
+      indirizzo: {
+        id: '',
+        desc: ''
+      },
+      indirizzoIstituto: '',
+      dataConseguimento: '',
+      istituto: '',
+      titolo: {
+        desc: '',
+        id: ''
+      },
+      tipologia: {
+        id: '',
+        desc: ''
+      },
+      luogoIstituto: {
+        codiceProvincia: '',
+        nome: '',
+        codice: ''
+      },
+      altroIndirizzoTitoloStudio: '',
+    };
+  }
 }
 
 
