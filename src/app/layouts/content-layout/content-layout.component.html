@@ -18,7 +18,7 @@
   <mat-sidenav #drawer
                fxFlex.lt-md="100"
                [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-               [mode]="'over'"
+               [mode]="'side'"
                [opened]="true"
                [fixedInViewport]="true"
                [class.mat-elevation-z8]="true"
@@ -27,19 +27,7 @@
 <!--    Create a div to trigger touch gesture on the entire sidenav-->
     <div class="sidenav_touch" (swipeleft)="closeDialog()" (click)="closeDialog()"></div>
 
-    <div fxLayout="column">
 
-      <mat-nav-list>
-        <mat-list>
-          <mat-list-item>
-            <mat-icon id="info-user">account_circle</mat-icon>
-            <p class="sidenav_name_displayed"> {{domanda.domanda.anagCandidato.nome + ' ' +  domanda.domanda.anagCandidato.cognome}}&nbsp;</p>
-          </mat-list-item>
-        </mat-list>
-      </mat-nav-list>
-
-      <span class="spacer"></span>
-    </div>
 
    <app-menu-sidenav></app-menu-sidenav>
 

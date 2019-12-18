@@ -12,6 +12,7 @@ import {StatoDomandaPipe} from '../pipes/stato-domanda.pipe';
 import {InfoAzioneDomandaPipe} from '../pipes/info-azione-domanda.pipe';
 import {DataConseguimentoPipe} from '../pipes/data-conseguimento.pipe';
 import {ToolbarIconStatePipe} from '../pipes/toolbar-icon-state.pipe';
+import {SnackBarComponent} from '../components/snack-bar/snack-bar.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {ToolbarIconStatePipe} from '../pipes/toolbar-icon-state.pipe';
     InfoAzioneDomandaPipe,
     DataConseguimentoPipe,
     ToolbarIconStatePipe,
+    SnackBarComponent,
   ],
   imports: [
     CommonModule,
@@ -47,9 +49,11 @@ import {ToolbarIconStatePipe} from '../pipes/toolbar-icon-state.pipe';
     InfoAzioneDomandaPipe,
     DataConseguimentoPipe,
     ToolbarIconStatePipe,
+    SnackBarComponent,
   ],
   entryComponents: [
     SessionExpiredComponent,
+    SnackBarComponent,
   ]
 })
 export class SharedModule { }

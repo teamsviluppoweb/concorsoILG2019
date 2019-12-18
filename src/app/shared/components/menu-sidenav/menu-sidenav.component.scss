@@ -1,3 +1,4 @@
+
 .menu {
   margin-bottom: 1px;
   padding-bottom: 0;
@@ -11,6 +12,7 @@
   }
 
   .menu_item {
+
     margin-left: 10px;
   }
 
@@ -19,20 +21,20 @@
   }
 
   .router-link-active {
-    border-left: 2px solid rgb(2, 103, 204);
+    border-left: 3px solid rgb(2, 103, 204);
   }
 
   .menu_style:hover{
-    border-left: 2px solid rgb(2, 103, 204);
+    border-left: 3px solid rgb(2, 103, 204);
   }
 
   .menu_info_text {
-    font-size: 14px;
+    font-size: 18px;
+    font-family: "Titillium Web", HelveticaNeue, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
   }
 
   .value {
     margin-right: 16px;
-    text-transform: uppercase;
   }
 
   .divider {
@@ -44,9 +46,22 @@
   }
 
   .action {
-    font-size: 14px;
+    font-family: "Titillium Web", HelveticaNeue, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+    font-size: 16px;
     margin-left: 24px;
     color: #2f2f2f
   }
 }
+#info-user {
+  font-size: 30px;
+  margin-bottom: 3px
+}
+
+.sidenav_name_displayed {
+  font-family: "Titillium Web", HelveticaNeue, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  margin-left: 15px;
+  font-size: 28px;
+  font-weight: 300;
+}
+
 

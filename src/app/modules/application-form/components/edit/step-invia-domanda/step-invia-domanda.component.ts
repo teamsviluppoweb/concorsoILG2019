@@ -1,12 +1,13 @@
 import {Component, Input, ViewChild} from '@angular/core';
 import {FormGroup} from '@angular/forms';
-import {MatStepper} from '@angular/material';
+import {MatSnackBar, MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Router} from '@angular/router';
 import {concatMap} from 'rxjs/operators';
 import {SidenavContainer, SidenavService} from '../../../../../core/services/sidenav.service';
 import {DomandaObj} from '../../../../../core/models';
 import {FormService} from '../../../../../core/services/form.service';
+import {SnackBarComponent} from '../../../../../shared/components/snack-bar/snack-bar.component';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -23,7 +24,16 @@ export class StepInviaDomandaComponent  {
   constructor(private domandaService: DomandaService,
               private sidenav: SidenavService,
               private formService: FormService,
+              private snackBar: MatSnackBar,
               private router: Router) {
+  }
+
+  openSnackBar() {
+    this.snackBar.openFromComponent(SnackBarComponent, {
+      duration: 1 * 1000,
+      panelClass: ['agid-snackbar'],
+      verticalPosition: 'top'
+    });
   }
 
   inviaDomanda() {
@@ -35,6 +45,8 @@ export class StepInviaDomandaComponent  {
     )
       .subscribe(
       (x: DomandaObj) => {
+
+        this.openSnackBar();
         const obj: SidenavContainer = {
           stato: x.operazione,
           ultimaModifica: x.domanda.dataModifica,

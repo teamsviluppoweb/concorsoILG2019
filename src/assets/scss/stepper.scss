@@ -1,10 +1,21 @@
 .stepper-btn {
   border-radius: 4px;
+  font-family: "Titillium Web", HelveticaNeue, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  margin: 16px 0px 16px 16px;
+}
+
+
+.stepper-btn.small {
   height: 40px;
   font-size: 20px;
-  font-family: "Titillium Web", HelveticaNeue, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
-  margin: 16px;
 }
+
+.stepper-btn.medium {
+    height:48px;
+    font-size: 24px;
+}
+
+
 
 .stepper-title {
   font-size: 24px;

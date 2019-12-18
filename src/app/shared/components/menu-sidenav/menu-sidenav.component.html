@@ -1,6 +1,12 @@
 <div class="menu">
   <mat-nav-list>
 
+    <mat-list-item>
+      <mat-icon id="info-user">account_circle</mat-icon>
+      <p class="sidenav_name_displayed"> {{domanda.domanda.anagCandidato.nome + ' ' +  domanda.domanda.anagCandidato.cognome}}&nbsp;</p>
+    </mat-list-item>
+    <span class="spacer"></span>
+
     <mat-list class="menu_info">
       <mat-list-item fxLayout="column" *ngIf="stato === 1">
         <span class="menu_info_text">DATA INVIO:</span>

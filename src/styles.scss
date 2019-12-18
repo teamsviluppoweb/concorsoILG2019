@@ -2,10 +2,12 @@
 @import "assets/scss/vvf-material";
 @import "./assets/spid2/css/spid-sp-access-button.min.css";
 
+
 html {
   height: 100%;
 
   body {
+    font-size: 16px;
     margin: 0 auto;
     font-family: 'Titillium Web', sans-serif;
     overflow: visible;
@@ -30,5 +32,14 @@ html {
 
 }
 
+
+.agid-snackbar {
+  font-family: "Titillium Web", HelveticaNeue, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  background-color: #FFFFFF;
+  color: #4c4c4c;
+  border-radius: 4px;
+  border-left: 8px solid #00cf86;
+  height: 70px;
+}
 
 
