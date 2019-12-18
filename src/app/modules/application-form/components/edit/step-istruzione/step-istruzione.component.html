@@ -7,10 +7,10 @@
       <mat-form-field appearance="outline" fxFlex="100">
         <mat-label>Tipologia istituto</mat-label>
         <mat-select #tipologiaSelect
-                    formControlName="tipologia"
+                    [formControl]="getSingleForm('tipologia')"
                     placeholder="Seleziona tipologia titolo di studio">
 
-          <ngx-mat-select-search  formControlName="tipologiaDropdown"
+          <ngx-mat-select-search  [formControl]="getSingleForm('tipologiaDropdown')"
                                   [noEntriesFoundLabel]="'Nessun risultato'"
                                   [placeholderLabel]="'Cerca tipologia . . '"></ngx-mat-select-search>
           <mat-option *ngFor="let tipo of (filtroTipologie | async)" [value]="tipo">
@@ -29,10 +29,10 @@
     <mat-form-field appearance="outline" fxFlex="100">
       <mat-label>Titolo di studio</mat-label>
       <mat-select #titoliSelect
-                  formControlName="titolo"
+                  [formControl]="getSingleForm('titolo')"
                   placeholder="Seleziona titolo di studio">
 
-        <ngx-mat-select-search  formControlName="titoloDropdown"
+        <ngx-mat-select-search  [formControl]="getSingleForm('titoloDropdown')"
                                 [noEntriesFoundLabel]="'Nessun risultato'"
                                 [placeholderLabel]="'Cerca tipologia . . '"></ngx-mat-select-search>
         <mat-option *ngFor="let titl of (filtroTitolo | async)" [value]="titl">
@@ -52,10 +52,10 @@
       <mat-form-field appearance="outline" fxFlex="100">
         <mat-label>Indirizzo di studio</mat-label>
         <mat-select #indirizziSelect
-                    formControlName="indirizzo"
+                    [formControl]="getSingleForm('indirizzo')"
                     placeholder="Seleziona indirizzo studio">
 
-          <ngx-mat-select-search  formControlName="indirizzoDropdown"
+          <ngx-mat-select-search  [formControl]="getSingleForm('indirizzoDropdown')"
                                   [noEntriesFoundLabel]="'Nessun risultato'"
                                   [placeholderLabel]="'Cerca tipologia . . '"></ngx-mat-select-search>
           <mat-option *ngFor="let ind of (filtroIndirizzi | async)" [value]="ind">
@@ -71,7 +71,7 @@
     <div *ngIf="displayAltroIndirizzo">
       <mat-form-field appearance="outline" fxFlex="100">
         <mat-label>Specificare altro indirizzo</mat-label>
-        <input formControlName="altroIndirizzo"
+        <input [formControl]="getSingleForm('altroIndirizzo')"
                matInput
                placeholder="altro indirizzo">
       </mat-form-field>
@@ -82,7 +82,7 @@
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
       <mat-form-field appearance="outline" fxFlex="40">
         <mat-label>Indirizzo fisico dell'istituto</mat-label>
-        <input formControlName="indirizzoFisico"
+        <input [formControl]="getSingleForm('indirizzoFisico')"
                matInput
                placeholder="Indirizzo dell'istituto">
 
@@ -90,7 +90,7 @@
 
       <mat-form-field appearance="outline" fxFlex="40">
         <mat-label>Nome istituto</mat-label>
-        <input formControlName="nomeIstituto"
+        <input [formControl]="getSingleForm('nomeIstituto')"
                matInput
                placeholder="Nome dell'istituto">
       </mat-form-field>
@@ -98,7 +98,7 @@
 
       <mat-form-field appearance="outline" fxFlex="20">
         <mat-label>Data conseguimento</mat-label>
-        <input formControlName="dataConseguimento"
+        <input [formControl]="getSingleForm('dataConseguimento')"
                matInput
                maxlength="4"
                minlength="4"
@@ -121,10 +121,10 @@
       <mat-form-field appearance="outline" fxFlex="39">
         <mat-label>Provincia Istituto</mat-label>
         <mat-select #provinceSelect
-                    formControlName="provinciaIstituto"
+                    [formControl]="getSingleForm('provinciaIstituto')"
                     placeholder="Seleziona Provincia istituto">
 
-          <ngx-mat-select-search  formControlName="provinceDropdown"
+          <ngx-mat-select-search  [formControl]="getSingleForm('provinceDropdown')"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
                                  [placeholderLabel]="'Cerca provincia . . '"></ngx-mat-select-search>
           <mat-option *ngFor="let prov of (filtroProvince | async)" [value]="prov">
@@ -138,9 +138,9 @@
       <mat-form-field appearance="outline" fxFlex="39">
         <mat-label>Comune Istituto</mat-label>
         <mat-select #comuneSelect
-                    formControlName="comuneIstituto"
+                    [formControl]="getSingleForm('comuneIstituto')"
                     placeholder="Seleziona Comune istituto">
-          <ngx-mat-select-search  formControlName="comuniDropdown"
+          <ngx-mat-select-search  [formControl]="getSingleForm('comuniDropdown')"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
                                  [placeholderLabel]="'Cerca comune . . '"></ngx-mat-select-search>
           <mat-option *ngFor="let com of (filtroComuni | async)" [value]="com">

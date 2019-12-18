@@ -11,7 +11,7 @@ export class FormService {
 
   parent: FormGroup;
 
-  constructor(private domanda: DomandaService, private http: RestService, private formBuilder: FormBuilder) { }
+  constructor(private domandaService: DomandaService, private http: RestService, private formBuilder: FormBuilder) { }
 
   createForm() {
     this.parent = this.formBuilder.group({
@@ -58,9 +58,9 @@ export class FormService {
         provincia: [''],
         provinceDropdown: [''],
         invaliditaEnte: [''],
-        ausiliProva: [''],
-        tempiAggiuntiviProva: [''],
-        esenzioneProvaSelettiva: [''],
+        ausiliProva: [false],
+        tempiAggiuntiviProva: [false],
+        esenzioneProvaSelettiva: [false],
       }),
       formDichiarazione: this.formBuilder.group({
         approvazione: ['', [Validators.required]],
@@ -77,19 +77,130 @@ export class FormService {
   // Esegue il patch solo ai dati statici, i dati dinamici vengono patchati nel componente
 
   patchForm(fg: FormGroup) {
-    fg.get('formIstruzione.dataConseguimento').patchValue(this.domanda.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
-    fg.get('formIstruzione.indirizzoFisico').patchValue(this.domanda.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
-    fg.get('formIstruzione.nomeIstituto').patchValue(this.domanda.domandaobj.domanda.titoloStudioPosseduto.istituto);
+    fg.get('formIstruzione.dataConseguimento').patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
+    fg.get('formIstruzione.indirizzoFisico').patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
+    fg.get('formIstruzione.nomeIstituto').patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
 
-    if (this.domanda.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio !== null) {
-      fg.get('formIstruzione.altroIndirizzo').patchValue(this.domanda.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
+    if (this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio !== null) {
+      fg.get('formIstruzione.altroIndirizzo').patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
     }
 
+
+    if (this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
+      const inv = this.domandaService.domandaobj.domanda.invaliditaCivile;
+
+      this.ausiliProva.patchValue(inv.ausili);
+      this.dataCertificazione.patchValue(inv.dataCertificazione);
+      this.invaliditaEnte.patchValue(inv.enteCertificatore);
+      this.esenzioneProvaSelettiva.patchValue(inv.esenteProvaPreselettiva);
+      this.percInvalidita.patchValue(inv.percentuale);
+      this.tempiAggiuntiviProva.patchValue(inv.tempiAggiuntivi);
+    }
 
 
   }
 
-  patchLingua() {
+  formToJson() {
+
+    /*
+    Serializzo i titoli di studio qui
+     */
+
+    // Se è la prima volta che la domanda viene compilata tolgo il null alle sezioni obbligatorie
+
+
+
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = this.tipologia.value;
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo = this.titolo.value;
+
+    if (this.indirizzo.value === null) {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
+    } else {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = this.indirizzo.value;
+      if (this.indirizzo.value.id === '341') {
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = this.altroIndirizzo.value;
+      } else {
+        this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
+      }
+    }
+
+    if (this.altroIndirizzo.value !== null) {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = this.altroIndirizzo.value;
+    }
+
+    if (this.indirizzoFisico.value !== null) {
+      this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto = this.indirizzoFisico.value;
+    }
+
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto = this.nomeIstituto.value;
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento = this.dataConseguimento.value;
+    this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto = {
+      codice: this.comuneIstituto.value.codice,
+      nome: this.comuneIstituto.value.nome,
+      codiceProvincia: this.provinciaIstituto.value.codice,
+    };
+
+
+    /*
+      Serializzo la lingua
+     */
+
+    this.domandaService.domandaobj.domanda.lingua = this.linguaSelezionata.value;
+
+    /*
+        Serializzo i titoli preferenziali qui
+    */
+
+    if (this.aventeTitoli.value === 'NO') {
+      this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = [];
+      this.domandaService.domandaobj.domanda.numeroFigli = 0;
+    }
+
+    if (this.aventeTitoli.value === 'SI') {
+      this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = this.titoliSelezionati.value;
+
+      if (this.titoliSelezionati.value.map(k => k.id).includes(17)) {
+        this.domandaService.domandaobj.domanda.numeroFigli = this.numeroFigliSelezionati.value;
+      } else {
+        this.domandaService.domandaobj.domanda.numeroFigli = 0;
+      }
+    }
+
+
+
+
+    /*
+         Serializzo le riserve qui
+     */
+
+    this.domandaService.domandaobj.domanda.lstRiserve = this.riserveSelezionate.value;
+
+
+
+    /*
+             Serializzo le categorie protette qui
+     */
+
+
+
+    if (this.appartenenza.value === 'SI') {
+      this.domandaService.domandaobj.domanda.invaliditaCivile = {
+        luogoRilascio: {
+          codice: this.comune.value.codice,
+          nome: this.comune.value.nome,
+          codiceProvincia: this.provincia.value.codice
+        },
+        dataCertificazione: this.dataCertificazione.value,
+        percentuale: this.percInvalidita.value,
+        enteCertificatore: this.invaliditaEnte.value,
+        ausili: this.ausiliProva.value,
+        esenteProvaPreselettiva: this.esenzioneProvaSelettiva.value,
+        tempiAggiuntivi: this.tempiAggiuntiviProva.value
+      };
+
+    } else {
+      this.domandaService.domandaobj.domanda.invaliditaCivile = null;
+    }
 
   }
 
@@ -164,6 +275,9 @@ export class FormService {
 
 
 
+
+
+
   // DROPDOWN
 
 
@@ -189,5 +303,56 @@ export class FormService {
   }
 
 
+  /**
+   *
+   * CATEGORIE PROTETTE
+   */
+
+  get appartenenza() {
+    return this.parent.get('formCategorieProtette.appartenenza');
+  }
+
+  get percInvalidita() {
+    return this.parent.get('formCategorieProtette.percInvalidita');
+  }
+
+  get dataCertificazione() {
+    return this.parent.get('formCategorieProtette.dataCertificazione');
+  }
+
+  get invaliditaEnte() {
+    return this.parent.get('formCategorieProtette.invaliditaEnte');
+  }
+
+  get ausiliProva() {
+    return this.parent.get('formCategorieProtette.ausiliProva');
+  }
+
+  get tempiAggiuntiviProva() {
+    return this.parent.get('formCategorieProtette.tempiAggiuntiviProva');
+  }
+
+  get esenzioneProvaSelettiva() {
+    return this.parent.get('formCategorieProtette.esenzioneProvaSelettiva');
+  }
+
+
+  // DROPDOWN
+
+  get comune() {
+    return this.parent.get('formCategorieProtette.comune');
+  }
+
+  get comuniDropdownCat() {
+    return this.parent.get('formCategorieProtette.comuniDropdown');
+  }
+
+  get provincia() {
+    return this.parent.get('formCategorieProtette.provincia');
+  }
+
+  get provinceDropdownCat() {
+    return this.parent.get('formCategorieProtette.provinceDropdown');
+  }
 
 }
