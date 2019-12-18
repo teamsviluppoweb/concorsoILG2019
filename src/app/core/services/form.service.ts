@@ -74,15 +74,17 @@ export class FormService {
     fg.get('formDichiarazione.approvazione').updateValueAndValidity();
   }
 
-  // Esegue il patch solo ai dati statici, i dati dinamici vengono patchati nel componente
+  // Esegue il patch solo dei dati primitivi, gli oggetti devono essere assegnati per referenza non valore
 
   patchForm(fg: FormGroup) {
-    fg.get('formIstruzione.dataConseguimento').patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
-    fg.get('formIstruzione.indirizzoFisico').patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
-    fg.get('formIstruzione.nomeIstituto').patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
+    this.dataConseguimento.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
+    if (this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto !== null) {
+      this.indirizzoFisico.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto);
+    }
+    this.nomeIstituto.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.istituto);
 
     if (this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio !== null) {
-      fg.get('formIstruzione.altroIndirizzo').patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
+      this.altroIndirizzo.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
     }
 
 
@@ -101,11 +103,14 @@ export class FormService {
   }
 
   formToJson() {
+    this.formIstruzioneToJson();
+    this.formLinguaToJson();
+    this.formTitoliToJson();
+    this.formRiserveToJson();
+    this.formInvaliditaToJson();
+  }
 
-    /*
-    Serializzo i titoli di studio qui
-     */
-
+  private formIstruzioneToJson() {
     // Se è la prima volta che la domanda viene compilata tolgo il null alle sezioni obbligatorie
 
 
@@ -139,18 +144,13 @@ export class FormService {
       nome: this.comuneIstituto.value.nome,
       codiceProvincia: this.provinciaIstituto.value.codice,
     };
+  }
 
-
-    /*
-      Serializzo la lingua
-     */
-
+  private formLinguaToJson() {
     this.domandaService.domandaobj.domanda.lingua = this.linguaSelezionata.value;
+  }
 
-    /*
-        Serializzo i titoli preferenziali qui
-    */
-
+  private formTitoliToJson() {
     if (this.aventeTitoli.value === 'NO') {
       this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = [];
       this.domandaService.domandaobj.domanda.numeroFigli = 0;
@@ -165,23 +165,13 @@ export class FormService {
         this.domandaService.domandaobj.domanda.numeroFigli = 0;
       }
     }
+  }
 
-
-
-
-    /*
-         Serializzo le riserve qui
-     */
-
+  private formRiserveToJson() {
     this.domandaService.domandaobj.domanda.lstRiserve = this.riserveSelezionate.value;
+  }
 
-
-
-    /*
-             Serializzo le categorie protette qui
-     */
-
-
+  private formInvaliditaToJson() {
 
     if (this.appartenenza.value === 'SI') {
       this.domandaService.domandaobj.domanda.invaliditaCivile = {
@@ -201,12 +191,7 @@ export class FormService {
     } else {
       this.domandaService.domandaobj.domanda.invaliditaCivile = null;
     }
-
   }
-
-
-
-
 
   /*
     REACTIVE FORM BOILER TEMPLATE
@@ -248,7 +233,6 @@ export class FormService {
     return this.parent.get('formIstruzione.comuneIstituto');
   }
 
-
   get linguaSelezionata() {
     return this.parent.get('formLingua.linguaSelezionata');
   }
@@ -273,15 +257,6 @@ export class FormService {
     return this.parent.get('formRiserve.aventeRiserve');
   }
 
-
-
-
-
-
-  // DROPDOWN
-
-
-
   get comuniDropdown() {
     return this.parent.get('formIstruzione.comuniDropdown');
   }
@@ -301,12 +276,6 @@ export class FormService {
   get indirizzoDropdown() {
     return this.parent.get('formIstruzione.indirizzoDropdown');
   }
-
-
-  /**
-   *
-   * CATEGORIE PROTETTE
-   */
 
   get appartenenza() {
     return this.parent.get('formCategorieProtette.appartenenza');
@@ -335,9 +304,6 @@ export class FormService {
   get esenzioneProvaSelettiva() {
     return this.parent.get('formCategorieProtette.esenzioneProvaSelettiva');
   }
-
-
-  // DROPDOWN
 
   get comune() {
     return this.parent.get('formCategorieProtette.comune');
