@@ -8,7 +8,7 @@ import {DomandaService} from '../../../../../core/services/domanda.service';
   templateUrl: './step-dichiarazione.component.html',
   styleUrls: ['./step-dichiarazione.component.scss'],
 })
-export class StepDichiarazioneComponent implements OnInit{
+export class StepDichiarazioneComponent {
 
   @Input() parent: FormGroup;
   testoDichiarazioni = [
@@ -27,16 +27,9 @@ export class StepDichiarazioneComponent implements OnInit{
   }
 
 
-  ngOnInit(): void {
-    this.approvazione.reset();
-  }
-
   get approvazione() {
     return this.parent.get('formDichiarazione.approvazione');
   }
 
-  showMeDataPls() {
-    console.log(this.domandaService.domandaobj.domanda);
-  }
 }
 

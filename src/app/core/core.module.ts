@@ -5,6 +5,7 @@ import {AuthGuard, NoAuthGuard} from './guards';
 import {throwIfAlreadyLoaded} from './guards/module-import.guard';
 import {TokenInterceptor, LoggingInterceptor} from './interceptors';
 import {HttpErrorHandler, MessageService} from './services';
+import {VisualizzaDomandaGuard} from './guards/visualizza-domanda.guard';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import {HttpErrorHandler, MessageService} from './services';
     AuthGuard,
     NoAuthGuard,
     MessageService,
+    VisualizzaDomandaGuard,
     HttpErrorHandler,
     {
       provide: HTTP_INTERCEPTORS,

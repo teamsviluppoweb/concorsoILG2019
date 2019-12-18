@@ -4,12 +4,12 @@
     mat-icon-button
     type="button">
     <mat-icon>
-      {{MenuIconState()}}
+      {{ 'open' | ToolbarIconState: drawer.opened}}
     </mat-icon>
   </button>
   <h2>ILG</h2>
   <span class="spacer"></span>
-  <button (click)="logout()" mat-button mat-flat-button style="background-color: transparent; color: white;">ESCI
+  <button (click)="logout()" mat-button mat-flat-button class="btn-logout">ESCI
     <mat-icon>exit_to_app</mat-icon>
   </button>
 </mat-toolbar>
@@ -28,13 +28,12 @@
     <div class="sidenav_touch" (swipeleft)="closeDialog()" (click)="closeDialog()"></div>
 
     <div fxLayout="column">
-<!--
-      <div style="background-color: #757575; width: 100%; height: 15px;"></div>
--->
+
       <mat-nav-list>
         <mat-list>
           <mat-list-item>
-            <mat-icon style="font-size: 30px; margin-bottom: 3px">account_circle</mat-icon><p class="sidenav_name_displayed"> {{domanda.domanda.anagCandidato.nome + ' ' +  domanda.domanda.anagCandidato.cognome}}&nbsp;</p>
+            <mat-icon id="info-user">account_circle</mat-icon>
+            <p class="sidenav_name_displayed"> {{domanda.domanda.anagCandidato.nome + ' ' +  domanda.domanda.anagCandidato.cognome}}&nbsp;</p>
           </mat-list-item>
         </mat-list>
       </mat-nav-list>
@@ -47,11 +46,6 @@
   </mat-sidenav>
 
   <mat-sidenav-content class="sidenav_content">
-
-
-
-
-
 
     <div class="sidenav_content_container">
         <router-outlet></router-outlet>

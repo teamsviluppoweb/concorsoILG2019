@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {DomandaCandidatoComponent} from './components/domanda-candidato/domanda-candidato.component';
-import {DomandaCandidatoGuardService} from '../../core/guards';
 import {PaginaIntermediaComponent} from './pagina-intermedia/pagina-intermedia.component';
 import {globalRoutes} from '../../shared/routes/global-routes';
+import {VisualizzaDomandaGuard} from '../../core/guards/visualizza-domanda.guard';
 export const routes: Routes = [
   {
     path: '',
@@ -12,7 +12,7 @@ export const routes: Routes = [
   },
   {
     path:  globalRoutes.user.visualizzaDomanda,
-    canActivate: [DomandaCandidatoGuardService],
+    canActivate: [VisualizzaDomandaGuard],
     component: DomandaCandidatoComponent
   },
   {

@@ -1,12 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
-import {StepIstruzioneComponent} from './step-istruzione/step-istruzione.component';
-import {StepAnagraficaComponent} from './step-anagrafica/step-anagrafica.component';
-import {StepLinguaComponent} from './step-lingua/step-lingua.component';
-import {StepTitoliPreferenzialiComponent} from './step-titoli-preferenziali/step-titoli-preferenziali.component';
-import {StepRiserveComponent} from './step-riserve/step-riserve.component';
-import {StepCategorieProtetteComponent} from './step-categorie-protette/step-categorie-protette.component';
-import {StepInviaDomandaComponent} from './step-invia-domanda/step-invia-domanda.component';
 import {DomandaService} from '../../../../core/services/domanda.service';
 import {FormService} from '../../../../core/services/form.service';
 
@@ -17,20 +10,12 @@ import {FormService} from '../../../../core/services/form.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class EditComponent implements OnInit {
+export class EditComponent {
   moduloDomanda: FormGroup;
   shouldBeLinear = true;
   domandaPrecedente;
 
-  @ViewChild(StepAnagraficaComponent, { static: false }) StepAnagraficaComponent: StepAnagraficaComponent;
-  @ViewChild(StepIstruzioneComponent, { static: false }) StepIstruzioneComponent: StepIstruzioneComponent;
-  @ViewChild(StepLinguaComponent, { static: false }) StepLinguaComponent: StepLinguaComponent;
-  @ViewChild(StepTitoliPreferenzialiComponent, { static: false }) StepTitoliPreferenzialiComponent: StepTitoliPreferenzialiComponent;
-  @ViewChild(StepRiserveComponent, { static: false }) StepRiserveComponent: StepRiserveComponent;
-  @ViewChild(StepCategorieProtetteComponent, { static: false }) StepCategorieProtetteComponent: StepCategorieProtetteComponent;
-  @ViewChild(StepInviaDomandaComponent, { static: false }) StepInviaDomandaComponent: StepInviaDomandaComponent;
-
-
+  // I seguenti check vengono usati per stabilire se l'utente può iniziare il prossimo step
   istruzioneIsValid;
   linguaValid;
   titoliValid;
@@ -60,10 +45,6 @@ export class EditComponent implements OnInit {
     this.categorieProtetteValid = this.moduloDomanda.controls.formCategorieProtette;
     this.accettazioneValid = this.moduloDomanda.controls.formDichiarazione;
   }
-
-  ngOnInit(): void {
-  }
-
 
   get isDirty(): boolean {
     this.moduloDomanda = this.moduloDomanda.value;

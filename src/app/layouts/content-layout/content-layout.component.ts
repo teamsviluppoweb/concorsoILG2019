@@ -36,15 +36,6 @@ export class ContentLayoutComponent implements OnDestroy {
         }
       }
     );
-
-  }
-
-
-  MenuIconState() {
-    if (this.topbarDrawer.opened ) {
-      return 'close';
-    }
-    return 'menu';
   }
 
   CloseNavBar() {

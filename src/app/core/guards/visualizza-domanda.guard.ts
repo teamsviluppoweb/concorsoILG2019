@@ -10,7 +10,7 @@ import {DomandaObj} from '../models';
 @Injectable({
   providedIn: 'root'
 })
-export class DomandaCandidatoGuardService implements CanActivate {
+export class VisualizzaDomandaGuard implements CanActivate {
 
   constructor(   private router: Router,
                  private authService: AuthService,

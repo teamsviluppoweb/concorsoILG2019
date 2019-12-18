@@ -13,6 +13,11 @@ export class FormService {
 
   constructor(private domandaService: DomandaService, private http: RestService, private formBuilder: FormBuilder) { }
 
+  /**
+   * Crea il form di base per la compilazione della domanda. Di default il form viene creato secondo
+   * le specifiche di una domanda ancora non inviata
+   * @param fg = Il formgroup che contiene tutta la domanda: anagrafica, titoli di studio, lingue straniere ecc . . .
+   */
   createForm() {
     this.parent = this.formBuilder.group({
       formIstruzione: this.formBuilder.group({
@@ -74,8 +79,11 @@ export class FormService {
     fg.get('formDichiarazione.approvazione').updateValueAndValidity();
   }
 
-  // Esegue il patch solo dei dati primitivi, gli oggetti devono essere assegnati per referenza non valore
-
+  /**
+   * Aggiorna i dati primitivi del form con i dati della domanda se essa è stat giò inviata. Gli oggetti
+   * non vengono patchati perchè si assegnano per referenza non valore.
+   * @param fg = Il formgroup che contiene tutta la domanda: anagrafica, titoli di studio, lingue straniere ecc . . .
+   */
   patchForm(fg: FormGroup) {
     this.dataConseguimento.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.dataConseguimento);
     if (this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzoIstituto !== null) {
@@ -102,6 +110,10 @@ export class FormService {
 
   }
 
+
+  /**
+   * Serializza i dati per farli combaciare con quelli del modello json della domanda
+   */
   formToJson() {
     this.formIstruzioneToJson();
     this.formLinguaToJson();

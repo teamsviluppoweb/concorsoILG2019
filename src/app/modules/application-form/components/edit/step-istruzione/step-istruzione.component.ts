@@ -106,7 +106,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  // I form sono posizionati in ngOnChanges in modo da farli sempre restare in ascolte anche nel routing change
+  // I form sono posizionati in ngOnChanges in modo da farli sempre restare in ascolt0 anche nel routing change
   ngOnChanges(changes: SimpleChanges): void {
 
     this.formService.tipologia.valueChanges.pipe(

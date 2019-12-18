@@ -15,7 +15,7 @@ export class SidenavService {
   private objects = new Subject<any>();
 
 
-  updateContainer(obj: SidenavContainer) {
+  refreshData(obj: SidenavContainer) {
     this.objects.next(obj);
   }
 

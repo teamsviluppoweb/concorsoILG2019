@@ -65,7 +65,7 @@ export class DomandaService {
             stato: this.domandaobj.operazione
           };
 
-          this.sidenavService.updateContainer(obj);
+          this.sidenavService.refreshData(obj);
           return response;
         }  ),
       );
@@ -82,7 +82,7 @@ export class DomandaService {
           stato: this.domandaobj.operazione
         };
 
-        this.sidenavService.updateContainer(obj);
+        this.sidenavService.refreshData(obj);
 
         return response;
       })

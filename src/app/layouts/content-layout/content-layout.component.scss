@@ -10,6 +10,12 @@
   top: 0;
   z-index: 999;
   position: fixed;
+
+  .btn-logout {
+    background-color: transparent;
+    color: white;
+  }
+
 }
 
 .sidenav_container {
@@ -17,16 +23,23 @@
   // https://stackoverflow.com/questions/43707076/position-sticky-not-working-css-and-html/47878455#47878455
   overflow: visible;
   margin-top: 64px;
+
+
 }
 
 .sidenav {
-  width: 350px;
+  max-width: 450px;
   margin-top: 64px;
 
   .sidenav_touch {
     position: absolute;
     width: 100%;
     height: 100%;
+  }
+
+  #info-user {
+    font-size: 30px;
+    margin-bottom: 3px
   }
 
   .sidenav_name_displayed {

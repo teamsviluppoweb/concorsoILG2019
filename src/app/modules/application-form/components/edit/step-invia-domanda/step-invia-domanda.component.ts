@@ -5,7 +5,7 @@ import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Router} from '@angular/router';
 import {concatMap} from 'rxjs/operators';
 import {SidenavContainer, SidenavService} from '../../../../../core/services/sidenav.service';
-import {DomandaObj, IntInvaliditaCivile} from '../../../../../core/models';
+import {DomandaObj} from '../../../../../core/models';
 import {FormService} from '../../../../../core/services/form.service';
 
 @Component({
@@ -41,7 +41,7 @@ export class StepInviaDomandaComponent  {
           dataInvio: x.domanda.dataInvio
         };
 
-        this.sidenav.updateContainer(obj);
+        this.sidenav.refreshData(obj);
         this.domandaService.sendMessage('Modifica Domanda');
         this.domandaService.sendStato(true);
 

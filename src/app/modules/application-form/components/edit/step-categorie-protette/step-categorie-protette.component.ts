@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import {MatSelect, MatStepper} from '@angular/material';
 import {CustomValidators} from '../../../../../shared/validators/customValidators';
@@ -7,7 +7,6 @@ import {Observable, ReplaySubject, Subject} from 'rxjs';
 import {Comune, Provincia} from '../../../../../core/models/rest/rest-interface';
 import {concatMap, filter, take, takeUntil} from 'rxjs/operators';
 import {RestService} from '../../../../../core/services/rest.service';
-import {IntInvaliditaCivile} from '../../../../../core/models';
 import {FormService} from '../../../../../core/services/form.service';
 
 @Component({
@@ -19,7 +18,7 @@ import {FormService} from '../../../../../core/services/form.service';
 export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChanges {
 
   @Input() parent: FormGroup;
-  maxDateDataCertificazione = new Date(Date.now());
+
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
   @ViewChild('provinceInvSelect', { static: true }) provinceInvSelect: MatSelect;
@@ -39,10 +38,13 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
   }
 
   ngOnInit(): void {
-
+    /**
+     * Prende la lista delle province, se la domanda ha operazione = 1, allora fa il mapping e assegna il riferimento corretto
+     * @param province = lista delle province ricevute
+     */
     this.rest.getProvince().subscribe(
-      (data: Provincia[]) => {
-        this.listaProvince = data;
+      (province: Provincia[]) => {
+        this.listaProvince = province;
         this.filtroProvince.next(this.listaProvince.slice());
         this.setInitialProvinceValue(this.filtroProvince);
 
@@ -65,17 +67,23 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
       }
 
 
+    /**
+     * Prende la provincia selezionata e gli passa l'id alla chiamata dei comuni per popolare il form con i dati già inseriti
+     * @param provincia = La provincia selezionata
+     * @param comune = La lista dei comuni relativo all'id della provincia
+     */
     this.formService.provincia.valueChanges
       .pipe(
         // Mi assicuro che il valore nel form sia valido
         filter(() => this.formService.provincia.value !== null && this.formService.provincia.value !== undefined),
-        concatMap((data: Provincia) => this.rest.getComuni(data.codice))
+        concatMap((provincia: Provincia) => this.rest.getComuni(provincia.codice))
       )
-      .subscribe((data: Comune[]) => {
-        this.listaComuni = data;
+      .subscribe((comune: Comune[]) => {
+        this.listaComuni = comune;
         this.filtroComuni.next(this.listaComuni.slice());
         this.setInitialComuneValue(this.filtroComuni);
 
+        /* Se la domanda è stata già inviata, si fa un mapping per trovare il riferimento al corretto comune scelto*/
         if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
           const codComune = this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice;
           const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune).map(x => x).reduce(x => x);
@@ -86,7 +94,11 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
 
     this.formService.appartenenza.valueChanges.subscribe((x) => {
       if (x === 'SI') {
-        this.formService.percInvalidita.setValidators([Validators.required, Validators.max(100), Validators.min(1), CustomValidators.onlyNumber]);
+        this.formService.percInvalidita.setValidators(
+          [ Validators.required,
+            Validators.max(100),
+            Validators.min(1),
+            CustomValidators.onlyNumber]);
         this.formService.dataCertificazione.setValidators(Validators.required);
         this.formService.invaliditaEnte.setValidators([Validators.required, Validators.maxLength(255)]);
         this.formService.comune.setValidators(Validators.required);
@@ -135,7 +147,10 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
 
 
 
-
+  /**
+   * Popola la dropdown delle province
+   * @param data = La lista delle province in formato observable
+   */
   private setInitialProvinceValue(data: Observable<Provincia[]> ) {
     data
       .pipe(
@@ -146,6 +161,10 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
       });
   }
 
+  /**
+   * Popola la dropdown dei comuni
+   * @param data = La lista dei comuni in formato observable
+   */
   private setInitialComuneValue(data: Observable<Comune[]>) {
     data
       .pipe(
@@ -162,6 +181,12 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
   }
 
 
+  /**
+   * Durante l'input nella filter list, si occupa di filtrare i dati
+   * @param data = La lista dei comuni o province in formato observable
+   * @param form = Il formcontrol della dropdown list
+   * @param filters = Il replay subject creato per il filtro della lista
+   */
   private filtraRicerca(data: (Provincia[] | Comune[]), form, filters) {
     if (!data) {
       return;
@@ -180,6 +205,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
     );
   }
 
+  /* Controlla se il formgroup ha lo stato valido */
   allowNextStep() {
     return !this.parent.controls.formCategorieProtette.valid;
   }

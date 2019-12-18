@@ -11,6 +11,7 @@ import {CustomDatePipe} from '../pipes/custom-date.pipe';
 import {StatoDomandaPipe} from '../pipes/stato-domanda.pipe';
 import {InfoAzioneDomandaPipe} from '../pipes/info-azione-domanda.pipe';
 import {DataConseguimentoPipe} from '../pipes/data-conseguimento.pipe';
+import {ToolbarIconStatePipe} from '../pipes/toolbar-icon-state.pipe';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import {DataConseguimentoPipe} from '../pipes/data-conseguimento.pipe';
     StatoDomandaPipe,
     InfoAzioneDomandaPipe,
     DataConseguimentoPipe,
+    ToolbarIconStatePipe,
   ],
   imports: [
     CommonModule,
@@ -44,6 +46,7 @@ import {DataConseguimentoPipe} from '../pipes/data-conseguimento.pipe';
     StatoDomandaPipe,
     InfoAzioneDomandaPipe,
     DataConseguimentoPipe,
+    ToolbarIconStatePipe,
   ],
   entryComponents: [
     SessionExpiredComponent,
