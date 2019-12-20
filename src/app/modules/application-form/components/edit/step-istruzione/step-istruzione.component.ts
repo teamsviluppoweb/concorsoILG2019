@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Subject} from 'rxjs';
@@ -21,6 +21,7 @@ import {IntTipologiaOrTitoloOrIndirizzo} from '../../../../../core/models';
   selector: 'step-istruzione',
   templateUrl: './step-istruzione.component.html',
   styleUrls: ['./step-istruzione.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 

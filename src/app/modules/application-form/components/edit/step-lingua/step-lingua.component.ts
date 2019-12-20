@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatStepper} from '@angular/material';
 import { DomandaService} from '../../../../../core/services/domanda.service';
 import {Lingua} from '../../../../../core/models/rest/rest-interface';
@@ -12,6 +12,7 @@ import {FormGroup} from '@angular/forms';
   selector: 'step-lingua',
   templateUrl: './step-lingua.component.html',
   styleUrls: ['./step-lingua.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepLinguaComponent implements OnInit {
   @Input() form: FormGroup;

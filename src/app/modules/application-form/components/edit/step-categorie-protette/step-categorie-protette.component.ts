@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import { MatStepper} from '@angular/material';
 import {CustomValidators} from '../../../../../shared/validators/customValidators';
@@ -19,6 +19,7 @@ import {Logger} from '../../../../../core/services';
   selector: 'step-categorie-protette',
   templateUrl: './step-categorie-protette.component.html',
   styleUrls: ['./step-categorie-protette.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepCategorieProtetteComponent implements OnInit, OnChanges {
   @Input() form: FormGroup;

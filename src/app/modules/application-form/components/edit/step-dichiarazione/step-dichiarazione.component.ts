@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
@@ -8,6 +8,7 @@ import {FormService} from '../../../../../core/services/form.service';
   selector: 'app-step-dichiarazione',
   templateUrl: './step-dichiarazione.component.html',
   styleUrls: ['./step-dichiarazione.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepDichiarazioneComponent {
   @Input() form: FormGroup;

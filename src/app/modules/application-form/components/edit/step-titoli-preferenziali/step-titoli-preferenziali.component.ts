@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 
@@ -14,6 +14,7 @@ import {dataDropdown} from '../../../data-dropdown';
   selector: 'step-titoli-preferenziali',
   templateUrl: './step-titoli-preferenziali.component.html',
   styleUrls: ['./step-titoli-preferenziali.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StepTitoliPreferenzialiComponent implements OnInit {
   aventeFigli = dataDropdown.aventeFigliId;
