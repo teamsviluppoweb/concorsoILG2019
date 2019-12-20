@@ -46,8 +46,9 @@ export class StepLinguaComponent implements OnInit {
 
   }
 
+
   getSingleForm(id: string) {
-    return this.formService.form.get('.' + id);
+    return this.formService.form.get('formLingua.' + id);
   }
 
 }

@@ -215,6 +215,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
           /** Controllo se l'indirizzo scelto ha come id 341. L'id 341 equivale ad altro indirizzo, dunque renderizzo il form di
            * input per farlo inserire a mano **/
           if (data.id === '341') {
+            this.log.debug('altro indirizzo');
             this.renderAltroIndirizzo = true;
             this.formService.altroIndirizzo.setValidators([Validators.required]);
             this.formService.altroIndirizzo.updateValueAndValidity();
