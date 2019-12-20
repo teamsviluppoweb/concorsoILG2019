@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutGap="20px">
   <div fxFlex="row" fxFlexAlign="center" >
-    <button  class="stepper-btn medium" [disabled]="!formready()"  (click)="inviaDomanda()" color="primary" mat-flat-button>
-      <a  *ngIf="!isSendingDisabled">INVIA LA DOMANDA </a>
+    <button *ngIf="!isSendingDisabled" class="stepper-btn medium" [disabled]="!formready()"  (click)="inviaDomanda()" color="primary" mat-flat-button>
+      <a>INVIA LA DOMANDA </a>
     </button>
     <a *ngIf="isSendingDisabled">
       <mat-spinner></mat-spinner>
