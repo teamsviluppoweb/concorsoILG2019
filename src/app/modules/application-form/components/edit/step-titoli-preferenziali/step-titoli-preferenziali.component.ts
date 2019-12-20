@@ -90,7 +90,7 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
       .subscribe((x: TitoloPreferenziale[]) => {
 
         /** Se è stato scelto il titolo con id 17 allora, rappresenta il titolo avente figli dunque visualizzo il form seleziona
-         * numero figli
+         * numero figlip
          */
         // @ts-ignore
         if (x.map(k => k.id).includes(this.aventeFigli)) {
