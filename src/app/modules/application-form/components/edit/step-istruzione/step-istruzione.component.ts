@@ -73,6 +73,9 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
 
+    this.log.debug(this.formService.comuneIstituto);
+
+
     /**
      * Prende la lista delle tipologie, se la domanda ha operazione = 1, allora fa il mapping e assegna il riferimento corretto
      */
@@ -121,8 +124,14 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       concatMap(id => this.rest.getTitoliTitoloStudio(id))
     ).subscribe((data: TitoliTitoloStudio[]) => {
 
-      // Se la tipologia cambia, non ha senso mostrare ancora gli indirizzi
+      // Se la tipologia cambia, annullo tutti i figli
+      this.formService.titolo.patchValue('');
+      this.formService.indirizzo.patchValue('');
+      this.formService.altroIndirizzo.patchValue('');
+
+      this.renderTitoli = false;
       this.renderIndirizzi = false;
+      this.renderAltroIndirizzo = false;
 
       /**
        Se il servizio mi ritorna un array con dati allora titoli di studio deve essere popolato, se il servizio mi ritorna un array
@@ -153,6 +162,13 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       map((titolo: TitoliTitoloIndirizzo) => titolo.id),
       concatMap(id => this.rest.getIndirizziTitoliStudio(id))
     ).subscribe((data: TitoliTitoloIndirizzo[]) => {
+
+      // Se il titolo cambia, annullo tutti i figli
+      this.formService.indirizzo.patchValue('');
+      this.formService.altroIndirizzo.patchValue('');
+
+      this.renderAltroIndirizzo = false;
+      this.renderIndirizzi = false;
 
       /**
        Se il servizio mi ritorna un array con dati allora indirizzo di studio deve essere popolato, se il servizio mi ritorna un array
@@ -191,6 +207,10 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       )
       .subscribe(
         (data) => {
+
+          // Se l'indirizzo cambia, annullo tutti i figli
+          this.formService.altroIndirizzo.patchValue('');
+
           // Se è stato scelto ALTRO INDIRIZZO allora faccio inserire manualmente l'indirizzo
           /** Controllo se l'indirizzo scelto ha come id 341. L'id 341 equivale ad altro indirizzo, dunque renderizzo il form di
            * input per farlo inserire a mano **/
@@ -218,17 +238,24 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         concatMap((data: Provincia) => this.rest.getComuni(data.codice))
       )
       .subscribe((data: Comune[]) => {
+
+        this.formService.comuneIstituto.patchValue('');
+
         this.listaComuni = data;
         this.filtroComuni.next(this.listaComuni.slice());
         this.setInitialComuneValue(this.filtroComuni);
+
 
         if (this.domandaService.isEditable) {
           const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
           const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune)[0];
 
-          this.log.debug(comuneSelezionato);
           this.formService.comuneIstituto.patchValue(comuneSelezionato);
         }
+
+
+        this.log.debug(this.formService.comuneIstituto);
+
       });
 
 

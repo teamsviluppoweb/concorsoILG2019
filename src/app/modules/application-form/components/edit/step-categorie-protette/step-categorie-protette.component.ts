@@ -8,6 +8,7 @@ import {Comune, Provincia} from '../../../../../core/models/rest/rest-interface'
 import {concatMap, filter, take, takeUntil} from 'rxjs/operators';
 import {RestService} from '../../../../../core/services/rest.service';
 import {FormService} from '../../../../../core/services/form.service';
+import {Logger} from '../../../../../core/services';
 
 /*
   Per la documentazione su come funziona ngx-mat-select-search leggere qui:
@@ -40,12 +41,50 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
   /** Subject che viene emesse quando il component è distrutto */
   private onDetroy = new Subject<void>();
 
+  log: Logger;
+
   constructor(private domandaService: DomandaService,
               private formService: FormService,
               private rest: RestService) {
+    this.log = new Logger('Step Categorie Protette');
   }
 
   ngOnInit(): void {
+
+    if (this.formService.appartenenza.value === 'SI') {
+      this.formService.percInvalidita.setValidators(
+        [ Validators.required,
+          Validators.max(100),
+          Validators.min(1),
+          CustomValidators.onlyNumber]);
+      this.formService.dataCertificazione.setValidators(Validators.required);
+      this.formService.invaliditaEnte.setValidators([Validators.required, Validators.maxLength(255)]);
+      this.formService.comune.setValidators(Validators.required);
+      this.formService.provincia.setValidators(Validators.required);
+
+    } else if (this.formService.appartenenza.value === 'NO') {
+      this.formService.percInvalidita.clearValidators();
+      this.formService.percInvalidita.reset();
+
+      this.formService.dataCertificazione.clearValidators();
+      this.formService.dataCertificazione.reset();
+
+      this.formService.invaliditaEnte.clearValidators();
+      this.formService.invaliditaEnte.reset();
+
+      this.formService.comune.clearValidators();
+      this.formService.comune.reset();
+
+      this.formService.provincia.clearValidators();
+      this.formService.provincia.reset();
+    }
+
+    this.formService.percInvalidita.updateValueAndValidity();
+    this.formService.dataCertificazione.updateValueAndValidity();
+    this.formService.invaliditaEnte.updateValueAndValidity();
+    this.formService.comune.updateValueAndValidity();
+    this.formService.provincia.updateValueAndValidity();
+
 
     /**
      * Prende la lista delle province, se la domanda ha operazione = 1, allora fa il mapping e assegna il riferimento corretto
@@ -85,14 +124,17 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
         concatMap((provincia: Provincia) => this.rest.getComuni(provincia.codice))
       )
       .subscribe((comune: Comune[]) => {
+        this.formService.comune.patchValue('');
         this.listaComuni = comune;
         this.filtroComuni.next(this.listaComuni.slice());
-        this.setInitialComuneValue(this.filtroComuni);
+        this.formService.comune.patchValue('');
+
+        this.log.debug(this.formService.comune);
 
         /* Se la domanda è stata già inviata, si fa un mapping per trovare il riferimento al corretto comune scelto*/
         if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
           const codComune = this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice;
-          const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune).map(x => x).reduce(x => x);
+          const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune)[0];
           this.formService.comune.patchValue(comuneSelezionato);
         }
       });

@@ -17,7 +17,7 @@ const domandaCacheBuster$ = new Subject<void>();
 export class DomandaService {
 
   domandaobj: DomandaObj;
-  isEditable: boolean;
+  isEditable = false;
   isReadonly: boolean;
 
   constructor(private http: HttpClient, private sidenavService: SidenavService) {

@@ -123,10 +123,8 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/GetDomanda', jwtMW /* Using the express jwt MW here */, (req, res) => {
-
-    setTimeout(() => {
-        res.send(data); //Sending some response when authenticated 
-    }, 5000);
+    
+    res.send(data); //Sending some response when authenticated
 });
 
 app.post('/SalvaDomanda', jwtMW /* Using the express jwt MW here */, (req, res) => {
@@ -254,7 +252,11 @@ app.get('/TitoliStudio/indirizzi/:id', jwtMW /* Using the express jwt MW here */
 
     if(req.params.id === '2') {
         res.send([]);
-    } else {
+    } 
+    if(req.params.id === 'undefined') {
+        res.send([]);
+    }
+    else {
         res.send(indirizzi);
     }
 
