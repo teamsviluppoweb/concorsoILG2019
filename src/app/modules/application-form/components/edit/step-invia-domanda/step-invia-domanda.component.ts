@@ -36,6 +36,8 @@ export class StepInviaDomandaComponent  {
 
   inviaDomanda() {
 
+    console.log(this.formService.tipologia.value);
+
     /* Disabilita momentaneamente il bottone di invio finquando il server non risponde 200 al post*/
     this.isSendingDisabled = true;
     /* Serializza i dati del form in formato json*/

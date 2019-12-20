@@ -116,6 +116,8 @@ export class FormService {
    * Serializza i dati per farli combaciare con quelli del modello json della domanda
    */
   formToJson() {
+
+
     this.formIstruzioneToJson();
     this.formLinguaToJson();
     this.formTitoliToJson();
@@ -125,7 +127,6 @@ export class FormService {
 
   private formIstruzioneToJson() {
     // Se è la prima volta che la domanda viene compilata tolgo il null alle sezioni obbligatorie
-
 
 
     this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia = this.tipologia.value;

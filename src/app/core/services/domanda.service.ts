@@ -34,6 +34,11 @@ export class DomandaService {
         map( (response: DomandaObj) => {
 
           this.domandaobj = response;
+
+          if (response.operazione === 0) {
+            this.removeNullableField();
+          }
+
           this.isEditable = this.domandaobj.operazione === 1;
 
           const obj: SidenavDati = {
@@ -58,6 +63,32 @@ export class DomandaService {
   }
 
 
+  // Rimuovo null dagli oggetti con figli per poterci accedere
+  removeNullableField() {
+    this.domandaobj.domanda.titoloStudioPosseduto =  {
+      indirizzo: {
+        id: '',
+        desc: ''
+      },
+      indirizzoIstituto: '',
+      dataConseguimento: '',
+      istituto: '',
+      titolo: {
+        desc: '',
+        id: ''
+      },
+      tipologia: {
+        id: '',
+        desc: ''
+      },
+      luogoIstituto: {
+        codiceProvincia: '',
+        nome: '',
+        codice: ''
+      },
+      altroIndirizzoTitoloStudio: '',
+    };
+  }
 
 
 }
