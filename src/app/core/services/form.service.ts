@@ -68,7 +68,7 @@ export class FormService {
         esenzioneProvaSelettiva: [false],
       }),
       formDichiarazione: this.formBuilder.group({
-        approvazione: ['', [Validators.required]],
+        approvazione: ['', [Validators.required, CustomValidators.onlyTrue]],
       }),
     });
     return this.form;

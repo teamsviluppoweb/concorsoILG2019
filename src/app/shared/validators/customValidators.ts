@@ -26,6 +26,12 @@ export class CustomValidators {
     }
   }
 
+  static onlyTrue(control: AbstractControl): ValidationErrors | null {
+    if (control.value !== true) {
+      return {onlyNumber: true};
+    }
+  }
+
   static onlyWhitespace(control: AbstractControl): ValidationErrors | null {
     if ((control.value.trim() === '')) {
       return {onlyWhitespace: true};
