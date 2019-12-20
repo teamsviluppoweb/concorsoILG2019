@@ -1,9 +1,5 @@
 @import "~src/assets/scss/colors";
 
-body {
-  margin: 0 auto;
-}
-
 .spacer {
   flex: 1 1 auto;
 }
@@ -28,8 +24,15 @@ body {
   overflow: visible;
   margin-top: 64px;
   height: 100%;
+  flex: 1 1 auto;
+}
 
-
+/*
+*  Se si passa dalla modalità mobile a quella desktop non rimane centrato il form. Cosi ci assicuriamo
+*  che sia sempre al 100% di lunghezza disponible
+**/
+::ng-deep .mat-drawer-content {
+  width: calc(100% - 400px) !important;
 }
 
 .sidenav {
@@ -69,21 +72,10 @@ body {
   // Serve per rendere la toolbar sticky
   // https://stackoverflow.com/questions/43707076/position-sticky-not-working-css-and-html/47878455#47878455
   overflow: visible;
-  margin: 0 auto;
+
 
   .sidenav_content_toolbar {
     position: sticky;
   }
-
-  .sidenav_content_container{
-    background-color: white;
-    border-radius: 15px;
-    padding-top: 10px;
-    height: 100%;
-    min-width: 300px;
-    margin: 0 auto;
-
-  }
-
 
 }
