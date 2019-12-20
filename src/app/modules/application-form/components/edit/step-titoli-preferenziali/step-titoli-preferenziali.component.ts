@@ -114,8 +114,6 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
     return this.formService.form.get('formTitoliPreferenziali.' + id);
   }
 
-  allowNextStep() {
-    return !this.formService.form.controls.formTitoliPreferenziali.valid;
-  }
+
 
 }

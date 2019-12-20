@@ -404,11 +404,6 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
     this.onDetroy.complete();
   }
 
-  // Se il form è valido permette di andare avanti al prossimo step
-  allowNextStep() {
-    return !this.form.controls.formIstruzione.valid;
-  }
-
   getSingleForm(id: string) {
     return this.form.get('formIstruzione.' + id);
   }

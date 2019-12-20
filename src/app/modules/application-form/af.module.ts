@@ -12,6 +12,7 @@ import {StepCategorieProtetteComponent} from './components/edit/step-categorie-p
 import {StepAnagraficaComponent} from './components/edit/step-anagrafica/step-anagrafica.component';
 import {EditComponent} from './components/edit/edit.component';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
+import { StepperComponent } from './components/edit/stepper/stepper.component';
 
 
 @NgModule({
@@ -26,6 +27,7 @@ import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
     StepRiserveComponent,
     StepTitoliPreferenzialiComponent,
     StepDichiarazioneComponent,
+    StepperComponent,
   ],
   imports: [
     AfRoutingModule,

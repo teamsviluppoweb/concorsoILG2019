@@ -84,9 +84,6 @@ export class StepRiserveComponent implements OnInit {
     return this.formService.form.get('formRiserve.' + id);
   }
 
-  allowNextStep() {
-    return !this.formService.form.controls.formRiserve.valid;
-  }
 
 }
 

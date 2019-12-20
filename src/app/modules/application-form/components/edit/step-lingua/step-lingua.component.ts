@@ -46,13 +46,8 @@ export class StepLinguaComponent implements OnInit {
 
   }
 
-
-  allowNextStep() {
-    return !this.formService.form.controls.formLingua.valid;
-  }
-
   getSingleForm(id: string) {
-    return this.formService.form.get('formLingua.' + id);
+    return this.formService.form.get('.' + id);
   }
 
 }

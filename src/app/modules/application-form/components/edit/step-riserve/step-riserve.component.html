@@ -37,12 +37,8 @@
 
 </div>
 
-<div fxLayout="column">
-  <div fxFlex="row" fxLayoutGap="15px" fxLayoutAlign="end center" fxLayoutAlign.gt-md="end center"  fxLayoutAlign.lt-md="space-between center">
-    <button class="stepper-btn small" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
-    <button class="stepper-btn small" color="primary" [disabled]="allowNextStep()" mat-flat-button matStepperNext>Avanti</button>
-  </div>
-</div>
+<app-stepper [isValid]="form.controls.formTitoliPreferenziali.valid"></app-stepper>
+
 
 
 
