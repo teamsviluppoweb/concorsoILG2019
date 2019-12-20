@@ -9,17 +9,15 @@ import {CustomValidators} from '../../shared/validators/customValidators';
 })
 export class FormService {
 
-  parent: FormGroup;
+  form: FormGroup;
 
-  constructor(private domandaService: DomandaService, private http: RestService, private formBuilder: FormBuilder) { }
+  constructor(private domandaService: DomandaService,
+              private http: RestService,
+              private formBuilder: FormBuilder) { }
 
-  /**
-   * Crea il form di base per la compilazione della domanda. Di default il form viene creato secondo
-   * le specifiche di una domanda ancora non inviata
-   * @param fg = Il formgroup che contiene tutta la domanda: anagrafica, titoli di studio, lingue straniere ecc . . .
-   */
+
   createForm() {
-    this.parent = this.formBuilder.group({
+    this.form = this.formBuilder.group({
       formIstruzione: this.formBuilder.group({
         tipologia: ['', [Validators.required]],
         titolo: [''],
@@ -71,12 +69,13 @@ export class FormService {
         approvazione: ['', [Validators.required]],
       }),
     });
-    return this.parent;
+    return this.form;
   }
 
+  /* Se la domanda è modificabile allora rimuovo il form delle dichiarazioni */
   removeDichiarazioni(fg: FormGroup) {
-    fg.get('formDichiarazione.approvazione').clearValidators();
-    fg.get('formDichiarazione.approvazione').updateValueAndValidity();
+    this.approvazione.clearValidators();
+    this.approvazione.updateValueAndValidity();
   }
 
   /**
@@ -210,127 +209,131 @@ export class FormService {
   */
 
   get tipologia() {
-    return this.parent.get('formIstruzione.tipologia');
+    return this.form.get('formIstruzione.tipologia');
   }
 
   get titolo() {
-    return this.parent.get('formIstruzione.titolo');
+    return this.form.get('formIstruzione.titolo');
   }
 
   get indirizzo() {
-    return this.parent.get('formIstruzione.indirizzo');
+    return this.form.get('formIstruzione.indirizzo');
   }
 
   get dataConseguimento() {
-    return this.parent.get('formIstruzione.dataConseguimento');
+    return this.form.get('formIstruzione.dataConseguimento');
   }
 
   get nomeIstituto() {
-    return this.parent.get('formIstruzione.nomeIstituto');
+    return this.form.get('formIstruzione.nomeIstituto');
   }
 
   get indirizzoFisico() {
-    return this.parent.get('formIstruzione.indirizzoFisico');
+    return this.form.get('formIstruzione.indirizzoFisico');
   }
 
   get altroIndirizzo() {
-    return this.parent.get('formIstruzione.altroIndirizzo');
+    return this.form.get('formIstruzione.altroIndirizzo');
   }
 
   get provinciaIstituto() {
-    return this.parent.get('formIstruzione.provinciaIstituto');
+    return this.form.get('formIstruzione.provinciaIstituto');
   }
 
   get comuneIstituto() {
-    return this.parent.get('formIstruzione.comuneIstituto');
+    return this.form.get('formIstruzione.comuneIstituto');
   }
 
   get linguaSelezionata() {
-    return this.parent.get('formLingua.linguaSelezionata');
+    return this.form.get('formLingua.linguaSelezionata');
   }
 
   get titoliSelezionati() {
-    return this.parent.get('formTitoliPreferenziali.titoliSelezionati');
+    return this.form.get('formTitoliPreferenziali.titoliSelezionati');
   }
 
   get numeroFigliSelezionati() {
-    return this.parent.get('formTitoliPreferenziali.numeroFigliSelezionati');
+    return this.form.get('formTitoliPreferenziali.numeroFigliSelezionati');
   }
 
   get aventeTitoli() {
-    return this.parent.get('formTitoliPreferenziali.aventeTitoli');
+    return this.form.get('formTitoliPreferenziali.aventeTitoli');
   }
 
   get riserveSelezionate() {
-    return this.parent.get('formRiserve.riserveSelezionate');
+    return this.form.get('formRiserve.riserveSelezionate');
   }
 
   get aventeRiserve() {
-    return this.parent.get('formRiserve.aventeRiserve');
+    return this.form.get('formRiserve.aventeRiserve');
   }
 
   get comuniDropdown() {
-    return this.parent.get('formIstruzione.comuniDropdown');
+    return this.form.get('formIstruzione.comuniDropdown');
   }
 
   get provinceDropdown() {
-    return this.parent.get('formIstruzione.provinceDropdown');
+    return this.form.get('formIstruzione.provinceDropdown');
   }
 
   get tipologiaDropdown() {
-    return this.parent.get('formIstruzione.tipologiaDropdown');
+    return this.form.get('formIstruzione.tipologiaDropdown');
   }
 
   get titoloDropdown() {
-    return this.parent.get('formIstruzione.titoloDropdown');
+    return this.form.get('formIstruzione.titoloDropdown');
   }
 
   get indirizzoDropdown() {
-    return this.parent.get('formIstruzione.indirizzoDropdown');
+    return this.form.get('formIstruzione.indirizzoDropdown');
   }
 
   get appartenenza() {
-    return this.parent.get('formCategorieProtette.appartenenza');
+    return this.form.get('formCategorieProtette.appartenenza');
   }
 
   get percInvalidita() {
-    return this.parent.get('formCategorieProtette.percInvalidita');
+    return this.form.get('formCategorieProtette.percInvalidita');
   }
 
   get dataCertificazione() {
-    return this.parent.get('formCategorieProtette.dataCertificazione');
+    return this.form.get('formCategorieProtette.dataCertificazione');
   }
 
   get invaliditaEnte() {
-    return this.parent.get('formCategorieProtette.invaliditaEnte');
+    return this.form.get('formCategorieProtette.invaliditaEnte');
   }
 
   get ausiliProva() {
-    return this.parent.get('formCategorieProtette.ausiliProva');
+    return this.form.get('formCategorieProtette.ausiliProva');
   }
 
   get tempiAggiuntiviProva() {
-    return this.parent.get('formCategorieProtette.tempiAggiuntiviProva');
+    return this.form.get('formCategorieProtette.tempiAggiuntiviProva');
   }
 
   get esenzioneProvaSelettiva() {
-    return this.parent.get('formCategorieProtette.esenzioneProvaSelettiva');
+    return this.form.get('formCategorieProtette.esenzioneProvaSelettiva');
   }
 
   get comune() {
-    return this.parent.get('formCategorieProtette.comune');
+    return this.form.get('formCategorieProtette.comune');
   }
 
   get comuniDropdownCat() {
-    return this.parent.get('formCategorieProtette.comuniDropdown');
+    return this.form.get('formCategorieProtette.comuniDropdown');
   }
 
   get provincia() {
-    return this.parent.get('formCategorieProtette.provincia');
+    return this.form.get('formCategorieProtette.provincia');
   }
 
   get provinceDropdownCat() {
-    return this.parent.get('formCategorieProtette.provinceDropdown');
+    return this.form.get('formCategorieProtette.provinceDropdown');
+  }
+
+  get approvazione() {
+  return this.form.get('formDichiarazione.approvazione');
   }
 
 }

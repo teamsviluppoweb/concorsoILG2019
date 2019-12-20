@@ -1,46 +1,46 @@
-<form [formGroup]="moduloDomanda">
+<form [formGroup]="form">
 
   <div class="container">
-    <mat-vertical-stepper #stepper [linear]="shouldBeLinear">
+    <mat-vertical-stepper #stepper [linear]="isStepperLinear">
 
       <mat-step>
           <ng-template matStepLabel><span class="stepper-title">anagrafica</span></ng-template>
       <anagrafica-childform></anagrafica-childform>
       </mat-step>
 
-      <mat-step [stepControl]="istruzioneIsValid" >
+      <mat-step [stepControl]="isIstruzioneFormValid">
           <ng-template matStepLabel><span class="stepper-title">istruzione</span></ng-template>
-          <step-istruzione [parent]="moduloDomanda"></step-istruzione>
+          <step-istruzione [form]="form"></step-istruzione>
         </mat-step>
 
-      <mat-step [stepControl]="linguaValid">
+      <mat-step [stepControl]="isLinguaFormValid">
         <ng-template matStepLabel><span class="stepper-title">lingua straniera</span></ng-template>
-        <step-lingua [parent]="moduloDomanda"></step-lingua>
+        <step-lingua [form]="form"></step-lingua>
       </mat-step>
 
-      <mat-step [stepControl]="titoliValid">
+      <mat-step [stepControl]="isTitoliFormValid">
           <ng-template matStepLabel><span class="stepper-title">titoli preferenziali</span></ng-template>
-          <step-titoli-preferenziali [parent]="moduloDomanda"></step-titoli-preferenziali>
+          <step-titoli-preferenziali  [form]="form"></step-titoli-preferenziali>
       </mat-step>
 
-      <mat-step [stepControl]="riserveValid" label="riserve">
+      <mat-step [stepControl]="isRiserveFormValid">
           <ng-template matStepLabel><span class="stepper-title">riserve</span></ng-template>
-          <step-riserve [parent]="moduloDomanda"></step-riserve>
+          <step-riserve [form]="form"></step-riserve>
       </mat-step>
 
-      <mat-step [stepControl]="categorieProtetteValid">
+      <mat-step [stepControl]="isInvaliditaValid">
           <ng-template matStepLabel><span class="stepper-title">categorie protette</span></ng-template>
-          <step-categorie-protette [parent]="moduloDomanda"></step-categorie-protette>
+          <step-categorie-protette [form]="form"></step-categorie-protette>
       </mat-step>
 
-      <mat-step [stepControl]="accettazioneValid" *ngIf="displayDichiarazioni()">
+      <mat-step [stepControl]="isDichiarazioneValid" *ngIf="displayDichiarazioni">
           <ng-template matStepLabel><span class="stepper-title">dichiarazione</span></ng-template>
-          <app-step-dichiarazione [parent]="moduloDomanda"></app-step-dichiarazione>
+          <app-step-dichiarazione [form]="form"></app-step-dichiarazione>
       </mat-step>
 
-      <mat-step label="invia Ddomanda">
+      <mat-step>
           <ng-template matStepLabel><span class="stepper-title">invia domanda</span></ng-template>
-          <step-invia-domanda [parent]="moduloDomanda"></step-invia-domanda>
+          <step-invia-domanda></step-invia-domanda>
       </mat-step>
 
     </mat-vertical-stepper>

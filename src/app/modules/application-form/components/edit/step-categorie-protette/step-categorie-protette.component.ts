@@ -9,6 +9,11 @@ import {concatMap, filter, take, takeUntil} from 'rxjs/operators';
 import {RestService} from '../../../../../core/services/rest.service';
 import {FormService} from '../../../../../core/services/form.service';
 
+/*
+  Per la documentazione su come funziona ngx-mat-select-search leggere qui:
+    https://www.npmjs.com/package/ngx-mat-select-search
+ */
+
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'step-categorie-protette',
@@ -16,20 +21,23 @@ import {FormService} from '../../../../../core/services/form.service';
   styleUrls: ['./step-categorie-protette.component.scss'],
 })
 export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChanges {
-
-  @Input() parent: FormGroup;
+  @Input() form: FormGroup;
 
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
   @ViewChild('provinceInvSelect', { static: true }) provinceInvSelect: MatSelect;
+  /** lista delle province filtrate dalla ricerca **/
   public filtroProvince: ReplaySubject<Provincia[]> = new ReplaySubject<Provincia[]>(1);
+  /** lista delle province **/
   listaProvince: Provincia[];
 
   @ViewChild('comuneInvSelect', { static: true }) comuneInvSelect: MatSelect;
+  /** lista dei comuni filtrate dalla ricerca **/
   public filtroComuni: ReplaySubject<Comune[]> = new ReplaySubject<Comune[]>(1);
+  /** lista dei comuni **/
   listaComuni: Comune[];
 
-
+  /** Subject che viene emesse quando il component è distrutto */
   private onDetroy = new Subject<void>();
 
   constructor(private domandaService: DomandaService,
@@ -38,9 +46,9 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
   }
 
   ngOnInit(): void {
+
     /**
      * Prende la lista delle province, se la domanda ha operazione = 1, allora fa il mapping e assegna il riferimento corretto
-     * @param province = lista delle province ricevute
      */
     this.rest.getProvince().subscribe(
       (province: Provincia[]) => {
@@ -49,9 +57,9 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
         this.setInitialProvinceValue(this.filtroProvince);
 
         // Se la domanda è stata già mi popolo la dropdown list con i dati rest
-        if (this.domandaService.isEditable) {
+        if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
           const codiceSelezionato = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
-          const provinciaSelezionata = this.listaProvince.filter(x => x.codice === codiceSelezionato).map(x => x).reduce(x => x);
+          const provinciaSelezionata = this.listaProvince.filter(x => x.codice === codiceSelezionato)[0];
           this.formService.provincia.patchValue(provinciaSelezionata);
         }
       }
@@ -69,8 +77,6 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
 
     /**
      * Prende la provincia selezionata e gli passa l'id alla chiamata dei comuni per popolare il form con i dati già inseriti
-     * @param provincia = La provincia selezionata
-     * @param comune = La lista dei comuni relativo all'id della provincia
      */
     this.formService.provincia.valueChanges
       .pipe(
@@ -207,11 +213,12 @@ export class StepCategorieProtetteComponent implements OnInit, OnDestroy, OnChan
 
   /* Controlla se il formgroup ha lo stato valido */
   allowNextStep() {
-    return !this.parent.controls.formCategorieProtette.valid;
+    return !this.formService.form.controls.formCategorieProtette.valid;
   }
 
   getSingleForm(id: string) {
-    return this.parent.get('formCategorieProtette.' + id);
+    return this.formService.form.get('formCategorieProtette.' + id);
   }
+
 }
 

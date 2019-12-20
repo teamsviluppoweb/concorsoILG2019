@@ -5,20 +5,28 @@ import {
   Comune, InfoConorso,
   Lingua,
   Riserva,
-  TipologiaTitoloStudio,
   TitoliTitoloIndirizzo,
   TitoliTitoloStudio,
   TitoloPreferenziale
 } from '../models/rest/rest-interface';
 import {environment} from '../../../environments/environment';
 import {Cacheable} from 'ngx-cacheable';
+import {Logger} from './logger.service';
+
+
+/**
+Il decoratore @Cacheable si occupa solo del caching delle chiamate https
+ */
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestService {
+    log: Logger;
+  constructor(private http: HttpClient) {
+    const log = new Logger('RestService');
 
-  constructor(private http: HttpClient) { }
+  }
 
   @Cacheable()
   getTitoliPreferenziali(): Observable<TitoloPreferenziale[]> {

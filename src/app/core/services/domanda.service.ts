@@ -6,7 +6,7 @@ import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {DomandaObj} from '../models';
 import {Cacheable, CacheBuster} from 'ngx-cacheable';
-import {SidenavContainer, SidenavService} from './sidenav.service';
+import {SidenavDati, SidenavService} from './sidenav.service';
 
 const domandaCacheBuster$ = new Subject<void>();
 
@@ -18,33 +18,13 @@ export class DomandaService {
 
   domandaobj: DomandaObj;
   isEditable: boolean;
+  isReadonly: boolean;
 
-  private testoMenuDomanda = new Subject<any>();
-  private statoMiaDomanda = new Subject<any>();
-  private displayMiaDomanda = new Subject<boolean>();
-
-  constructor(private http: HttpClient, private d: DomandaObj, private sidenavService: SidenavService) {
-    this.domandaobj = d;
+  constructor(private http: HttpClient, private sidenavService: SidenavService) {
     this.isEditable = false;
   }
 
-  sendDisplayAction(should: boolean) {
-    this.displayMiaDomanda.next(should);
-  }
-
-  getDisplayMiaDomanda() {
-    return this.displayMiaDomanda.asObservable();
-  }
-
-  sendMessage(message: string) {
-    this.testoMenuDomanda.next({ text: message });
-  }
-
-  sendStato(message: boolean) {
-    this.statoMiaDomanda.next({ text: message });
-  }
-
-
+  /** Fa il cache di di getDomanda e lo salva in domandaCacheBuster **/
   @Cacheable({
     cacheBusterObserver: domandaCacheBuster$
   })
@@ -56,39 +36,20 @@ export class DomandaService {
           this.domandaobj = response;
           this.isEditable = this.domandaobj.operazione === 1;
 
-          if (response.operazione === 0) {
-            this.removeNullableField();
-          }
-          const obj: SidenavContainer = {
-            dataInvio: this.domandaobj.domanda.dataInvio,
-            ultimaModifica: this.domandaobj.domanda.dataModifica,
+          const obj: SidenavDati = {
+            dataPrimoInvio: this.domandaobj.domanda.dataInvio,
+            dataUltimaModifica: this.domandaobj.domanda.dataModifica,
             stato: this.domandaobj.operazione
           };
 
-          this.sidenavService.refreshData(obj);
+          this.sidenavService.aggiornaDati(obj);
           return response;
         }  ),
       );
   }
 
-  getFreshDomanda(): Observable<DomandaObj> {
-    return this.http.get<DomandaObj>(environment.endpoint.domanda).pipe(
-      map( (response: DomandaObj) => {
-        this.domandaobj = response;
 
-        const obj: SidenavContainer = {
-          dataInvio: this.domandaobj.domanda.dataInvio,
-          ultimaModifica: this.domandaobj.domanda.dataModifica,
-          stato: this.domandaobj.operazione
-        };
-
-        this.sidenavService.refreshData(obj);
-
-        return response;
-      })
-    );
-  }
-
+  /** Il cachebuste pulisce la cache di getDomanda di pulire la cache **/
   @CacheBuster({
     cacheBusterNotifier: domandaCacheBuster$
   })
@@ -97,32 +58,6 @@ export class DomandaService {
   }
 
 
-  // Rimuovo null dagli oggetti con figli per poterci accedere
-  removeNullableField() {
-    this.domandaobj.domanda.titoloStudioPosseduto =  {
-      indirizzo: {
-        id: '',
-        desc: ''
-      },
-      indirizzoIstituto: '',
-      dataConseguimento: '',
-      istituto: '',
-      titolo: {
-        desc: '',
-        id: ''
-      },
-      tipologia: {
-        id: '',
-        desc: ''
-      },
-      luogoIstituto: {
-        codiceProvincia: '',
-        nome: '',
-        codice: ''
-      },
-      altroIndirizzoTitoloStudio: '',
-    };
-  }
 
 
 }

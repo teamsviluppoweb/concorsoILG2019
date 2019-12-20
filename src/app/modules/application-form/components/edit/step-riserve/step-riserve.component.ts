@@ -15,7 +15,9 @@ import {FormService} from '../../../../../core/services/form.service';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepRiserveComponent implements OnInit {
-  @Input() parent: FormGroup;
+  @Input() form: FormGroup;
+
+
   elencoRiserve: Riserva[];
 
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
@@ -79,12 +81,13 @@ export class StepRiserveComponent implements OnInit {
 
 
   getSingleForm(id: string) {
-    return this.parent.get('formRiserve.' + id);
+    return this.formService.form.get('formRiserve.' + id);
   }
 
   allowNextStep() {
-    return !this.parent.controls.formRiserve.valid;
+    return !this.formService.form.controls.formRiserve.valid;
   }
+
 }
 
 

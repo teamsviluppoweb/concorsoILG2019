@@ -9,11 +9,15 @@ import {Logger} from './core/services';
 })
 export class AppComponent implements OnInit {
   title = 'Portale-Gestione-Domande';
+  isLoading = true;
+  constructor() {
+  }
 
   ngOnInit() {
     if (environment.production) {
       Logger.enableProductionMode();
     }
   }
+
 
 }

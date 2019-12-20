@@ -2,6 +2,7 @@ import {Component, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/c
 import {FormGroup} from '@angular/forms';
 import {MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
+import {FormService} from '../../../../../core/services/form.service';
 
 @Component({
   selector: 'app-step-dichiarazione',
@@ -9,8 +10,8 @@ import {DomandaService} from '../../../../../core/services/domanda.service';
   styleUrls: ['./step-dichiarazione.component.scss'],
 })
 export class StepDichiarazioneComponent {
+  @Input() form: FormGroup;
 
-  @Input() parent: FormGroup;
   testoDichiarazioni = [
     'il possesso della cittadinanza italiana e il godimento dei diritti politici',
     'l’idoneità fisica all’impiego e di essere a conoscenza che l’amministrazione ha la facoltà di sottoporre a visita medica di controllo i vincitori di concorso, in base alla normativa vigente;\n',
@@ -23,13 +24,14 @@ export class StepDichiarazioneComponent {
 
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
-  constructor(private domandaService: DomandaService) {
+  constructor(private domandaService: DomandaService, private formService: FormService) {
   }
 
 
   get approvazione() {
-    return this.parent.get('formDichiarazione.approvazione');
+    return this.formService.form.get('formDichiarazione.approvazione');
   }
+
 
 }
 

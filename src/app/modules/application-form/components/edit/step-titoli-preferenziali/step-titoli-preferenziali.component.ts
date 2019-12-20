@@ -8,8 +8,6 @@ import {RestService} from '../../../../../core/services/rest.service';
 import {filter} from 'rxjs/operators';
 import {FormService} from '../../../../../core/services/form.service';
 
-/* TODO: Cambiare mat toggle button con butotn per poter usare 2 way binding */
-
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'step-titoli-preferenziali',
@@ -17,11 +15,10 @@ import {FormService} from '../../../../../core/services/form.service';
   styleUrls: ['./step-titoli-preferenziali.component.scss'],
 })
 export class StepTitoliPreferenzialiComponent implements OnInit {
+  @Input() form: FormGroup;
 
-  @Input() parent: FormGroup;
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
   elencoTitoliPreferenziali: TitoloPreferenziale[];
-  isDomandaInvita: boolean;
 
 
 
@@ -32,18 +29,21 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.isDomandaInvita = this.domandaService.domandaobj.operazione ===  1;
 
     this.onChanges();
     this.rest.getTitoliPreferenziali().subscribe( (data: TitoloPreferenziale[]) => {
       this.elencoTitoliPreferenziali = data;
 
       // Se le domanda è stata già inviata controllo se ci sono titoli altrimenti setto a NO
-      if (this.isDomandaInvita) {
+      if (this.domandaService.isEditable) {
         if (this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.length > 0) {
           this.formService.aventeTitoli.patchValue('SI');
 
           const titoliScelti: TitoloPreferenziale[] = [];
+
+          /**
+           * Confronta i titoli scelti con quelli della lista, e assegna i titoli alla lista usando come datasource ElencoTitoliPreferenziali
+           */
           // tslint:disable-next-line:prefer-for-of
           for (let i = 0; i < this.elencoTitoliPreferenziali.length; i++) {
             // tslint:disable-next-line:prefer-for-of
@@ -53,7 +53,6 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
               }
             }
           }
-
           this.formService.titoliSelezionati.patchValue(titoliScelti);
 
           } else {
@@ -88,13 +87,15 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
       )
       .subscribe((x: TitoloPreferenziale[]) => {
 
-        // Da fare attenzione se 17 è un numero o stringa
+        /** Se è stato scelto il titolo con id 17 allora, rappresenta il titolo avente figli dunque visualizzo il form seleziona
+         * numero figli
+         */
         // @ts-ignore
         if (x.map(k => k.id).includes(17)) {
           console.log('required');
           this.formService.numeroFigliSelezionati.setValidators([Validators.required]);
 
-          if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.numeroFigli !== 0) {
+          if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.numeroFigli !== 0) {
             this.formService.numeroFigliSelezionati.patchValue(this.domandaService.domandaobj.domanda.numeroFigli.toString());
           }
 
@@ -110,10 +111,11 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
 
 
   getSingleForm(id: string) {
-    return this.parent.get('formTitoliPreferenziali.' + id);
+    return this.formService.form.get('formTitoliPreferenziali.' + id);
   }
 
   allowNextStep() {
-    return !this.parent.controls.formTitoliPreferenziali.valid;
+    return !this.formService.form.controls.formTitoliPreferenziali.valid;
   }
+
 }

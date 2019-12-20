@@ -1,20 +1,22 @@
-<div [formGroup]="parent" >
+<div [formGroup]="form">
 
   <div formGroupName="formIstruzione">
 
     <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
-
       <mat-form-field appearance="outline" fxFlex="100">
         <mat-label>Tipologia istituto</mat-label>
         <mat-select #tipologiaSelect
                     [formControl]="getSingleForm('tipologia')"
                     placeholder="Seleziona tipologia titolo di studio">
 
-          <ngx-mat-select-search  [formControl]="getSingleForm('tipologiaDropdown')"
-                                  [noEntriesFoundLabel]="'Nessun risultato'"
-                                  [placeholderLabel]="'Cerca tipologia . . '"></ngx-mat-select-search>
-          <mat-option *ngFor="let tipo of (filtroTipologie | async)" [value]="tipo">
-            {{tipo.desc}}
+          <ngx-mat-select-search
+            [formControl]="getSingleForm('tipologiaDropdown')"
+            [noEntriesFoundLabel]="'Nessun risultato'"
+            [placeholderLabel]="'Cerca tipologia . . '">
+          </ngx-mat-select-search>
+
+          <mat-option *ngFor="let x of (filtroTipologie | async)" [value]="x">
+            {{x.desc}}
           </mat-option>
         </mat-select>
 
@@ -24,30 +26,32 @@
 
     </div>
 
-   <div fxLayout="row wrap" *ngIf="displayTitoli" fxLayout.sm="column" fxLayout.xs="column">
+    <div fxLayout="row wrap" *ngIf="renderTitoli" fxLayout.sm="column" fxLayout.xs="column">
 
-    <mat-form-field appearance="outline" fxFlex="100">
-      <mat-label>Titolo di studio</mat-label>
-      <mat-select #titoliSelect
-                  [formControl]="getSingleForm('titolo')"
-                  placeholder="Seleziona titolo di studio">
+      <mat-form-field appearance="outline" fxFlex="100">
+        <mat-label>Titolo di studio</mat-label>
+        <mat-select #titoliSelect
+                    [formControl]="getSingleForm('titolo')"
+                    placeholder="Seleziona titolo di studio">
 
-        <ngx-mat-select-search  [formControl]="getSingleForm('titoloDropdown')"
-                                [noEntriesFoundLabel]="'Nessun risultato'"
-                                [placeholderLabel]="'Cerca tipologia . . '"></ngx-mat-select-search>
-        <mat-option *ngFor="let titl of (filtroTitolo | async)" [value]="titl">
-          {{titl.desc}}
-        </mat-option>
-      </mat-select>
+          <ngx-mat-select-search
+            [formControl]="getSingleForm('titoloDropdown')"
+            [noEntriesFoundLabel]="'Nessun risultato'"
+            [placeholderLabel]="'Cerca tipologia . . '">
+          </ngx-mat-select-search>
 
-      <mat-error *ngIf="getSingleForm('titolo').hasError('required')">Campo Obbligatorio</mat-error>
-      <mat-error *ngIf="getSingleForm('titoloDropdown').hasError('required')">Campo Obbligatorio</mat-error>
-    </mat-form-field>
+          <mat-option *ngFor="let x of (filtroTitolo | async)" [value]="x">
+            {{x.desc}}
+          </mat-option>
+        </mat-select>
 
-   </div>
+        <mat-error *ngIf="getSingleForm('titolo').hasError('required')">Campo Obbligatorio</mat-error>
+        <mat-error *ngIf="getSingleForm('titoloDropdown').hasError('required')">Campo Obbligatorio</mat-error>
+      </mat-form-field>
 
+    </div>
 
-    <div fxLayout="row wrap" *ngIf="displayIndirizzi" fxLayout.sm="column" fxLayout.xs="column">
+    <div fxLayout="row wrap" *ngIf="renderIndirizzi" fxLayout.sm="column" fxLayout.xs="column">
 
       <mat-form-field appearance="outline" fxFlex="100">
         <mat-label>Indirizzo di studio</mat-label>
@@ -55,11 +59,12 @@
                     [formControl]="getSingleForm('indirizzo')"
                     placeholder="Seleziona indirizzo studio">
 
-          <ngx-mat-select-search  [formControl]="getSingleForm('indirizzoDropdown')"
-                                  [noEntriesFoundLabel]="'Nessun risultato'"
-                                  [placeholderLabel]="'Cerca tipologia . . '"></ngx-mat-select-search>
-          <mat-option *ngFor="let ind of (filtroIndirizzi | async)" [value]="ind">
-            {{ind.desc}}
+          <ngx-mat-select-search [formControl]="getSingleForm('indirizzoDropdown')"
+                                 [noEntriesFoundLabel]="'Nessun risultato'"
+                                 [placeholderLabel]="'Cerca tipologia . . '">
+          </ngx-mat-select-search>
+          <mat-option *ngFor="let x of (filtroIndirizzi | async)" [value]="x">
+            {{x.desc}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="getSingleForm('indirizzo').hasError('required')">Campo Obbligatorio</mat-error>
@@ -68,42 +73,28 @@
 
     </div>
 
-    <div *ngIf="displayAltroIndirizzo">
+    <div *ngIf="renderAltroIndirizzo">
       <mat-form-field appearance="outline" fxFlex="100">
         <mat-label>Specificare altro indirizzo</mat-label>
-        <input [formControl]="getSingleForm('altroIndirizzo')"
-               matInput
-               placeholder="altro indirizzo">
+        <input matInput [formControl]="getSingleForm('altroIndirizzo')" placeholder="altro indirizzo">
       </mat-form-field>
-
     </div>
 
-
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
+
       <mat-form-field appearance="outline" fxFlex="40">
         <mat-label>Indirizzo fisico dell'istituto</mat-label>
-        <input [formControl]="getSingleForm('indirizzoFisico')"
-               matInput
-               placeholder="Indirizzo dell'istituto">
-
+        <input [formControl]="getSingleForm('indirizzoFisico')" matInput placeholder="Indirizzo dell'istituto">
       </mat-form-field>
 
       <mat-form-field appearance="outline" fxFlex="40">
         <mat-label>Nome istituto</mat-label>
-        <input [formControl]="getSingleForm('nomeIstituto')"
-               matInput
-               placeholder="Nome dell'istituto">
+        <input [formControl]="getSingleForm('nomeIstituto')" matInput placeholder="Nome dell'istituto">
       </mat-form-field>
-
 
       <mat-form-field appearance="outline" fxFlex="20">
         <mat-label>Data conseguimento</mat-label>
-        <input [formControl]="getSingleForm('dataConseguimento')"
-               matInput
-               maxlength="4"
-               minlength="4"
-               placeholder="Anno Diploma">
-
+        <input [formControl]="getSingleForm('dataConseguimento')" matInput maxlength="4" minlength="4" placeholder="Anno Diploma">
 
         <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('required')">Campo Obbligatorio</mat-error>
         <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('onlyNumber')">Inserire nel campo solo numberi</mat-error>
@@ -112,9 +103,7 @@
         <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('maxlength')">L'anno deve avere solo 4 numeri</mat-error>
       </mat-form-field>
 
-
     </div>
-
 
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column">
 
@@ -124,9 +113,11 @@
                     [formControl]="getSingleForm('provinciaIstituto')"
                     placeholder="Seleziona Provincia istituto">
 
-          <ngx-mat-select-search  [formControl]="getSingleForm('provinceDropdown')"
+          <ngx-mat-select-search [formControl]="getSingleForm('provinceDropdown')"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
-                                 [placeholderLabel]="'Cerca provincia . . '"></ngx-mat-select-search>
+                                 [placeholderLabel]="'Cerca provincia . . '">
+          </ngx-mat-select-search>
+
           <mat-option *ngFor="let prov of (filtroProvince | async)" [value]="prov">
             {{prov.nome}}
           </mat-option>
@@ -140,11 +131,14 @@
         <mat-select #comuneSelect
                     [formControl]="getSingleForm('comuneIstituto')"
                     placeholder="Seleziona Comune istituto">
-          <ngx-mat-select-search  [formControl]="getSingleForm('comuniDropdown')"
+
+          <ngx-mat-select-search [formControl]="getSingleForm('comuniDropdown')"
                                  [noEntriesFoundLabel]="'Nessun risultato'"
-                                 [placeholderLabel]="'Cerca comune . . '"></ngx-mat-select-search>
-          <mat-option *ngFor="let com of (filtroComuni | async)" [value]="com">
-            {{com.nome}}
+                                 [placeholderLabel]="'Cerca comune . . '">
+          </ngx-mat-select-search>
+
+          <mat-option *ngFor="let x of (filtroComuni | async)" [value]="x">
+            {{x.nome}}
           </mat-option>
         </mat-select>
         <mat-error *ngIf="getSingleForm('comuneIstituto').hasError('required')">Campo Obbligatorio</mat-error>
@@ -152,16 +146,12 @@
 
     </div>
 
-
-
-  <div fxLayout="column">
-    <div fxFlex="row" fxLayoutGap="15px" fxLayoutAlign="end center" fxLayoutAlign.gt-md="end center"  fxLayoutAlign.lt-md="space-between center">
-      <button class="stepper-btn small" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
-      <button class="stepper-btn small" color="primary" [disabled]="allowNextStep()" mat-flat-button matStepperNext>Avanti</button>
+    <div fxLayout="column">
+      <div fxFlex="row" fxLayoutGap="15px" fxLayoutAlign="end center" fxLayoutAlign.gt-md="end center" fxLayoutAlign.lt-md="space-between center">
+        <button class="stepper-btn small" color="primary" mat-flat-button matStepperPrevious>Indietro</button>
+        <button class="stepper-btn small" color="primary" [disabled]="allowNextStep()" mat-flat-button matStepperNext>Avanti</button>
+      </div>
     </div>
-  </div>
 
   </div>
 </div>
-
-

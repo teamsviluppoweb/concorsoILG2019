@@ -4,20 +4,18 @@ import {MatSnackBar, MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Router} from '@angular/router';
 import {concatMap} from 'rxjs/operators';
-import {SidenavContainer, SidenavService} from '../../../../../core/services/sidenav.service';
+import {SidenavDati, SidenavService} from '../../../../../core/services/sidenav.service';
 import {DomandaObj} from '../../../../../core/models';
 import {FormService} from '../../../../../core/services/form.service';
 import {SnackBarComponent} from '../../../../../shared/components/snack-bar/snack-bar.component';
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'step-invia-domanda',
   templateUrl: './step-invia-domanda.component.html',
   styleUrls: ['./step-invia-domanda.component.scss'],
 })
 export class StepInviaDomandaComponent  {
 
-  @Input() parent: FormGroup;
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
   isSendingDisabled = false;
 
@@ -30,7 +28,8 @@ export class StepInviaDomandaComponent  {
 
   openSnackBar() {
     this.snackBar.openFromComponent(SnackBarComponent, {
-      duration: 1 * 1000,
+      duration: 1000,
+      /* Lo stile del panel class si trova in style.css */
       panelClass: ['agid-snackbar'],
       verticalPosition: 'top'
     });
@@ -38,24 +37,27 @@ export class StepInviaDomandaComponent  {
 
   inviaDomanda() {
 
+    /* Disabilita momentaneamente il bottone di invio finquando il server non risponde 200 al post*/
     this.isSendingDisabled = true;
+    /* Serializza i dati del form in formato json*/
     this.formService.formToJson();
+
     this.domandaService.postDomanda(this.domandaService.domandaobj.domanda).pipe(
-      concatMap(() => this.domandaService.getFreshDomanda())
+      concatMap(() => this.domandaService.getDomanda())
     )
       .subscribe(
       (x: DomandaObj) => {
 
         this.openSnackBar();
-        const obj: SidenavContainer = {
-          stato: x.operazione,
-          ultimaModifica: x.domanda.dataModifica,
-          dataInvio: x.domanda.dataInvio
-        };
 
-        this.sidenav.refreshData(obj);
-        this.domandaService.sendMessage('Modifica Domanda');
-        this.domandaService.sendStato(true);
+
+        const obj: SidenavDati = {
+          stato: x.operazione,
+          dataUltimaModifica: x.domanda.dataModifica,
+          dataPrimoInvio: x.domanda.dataInvio
+        };
+        /* Aggiorna i dati della sidenav con i dati dell'ultime operazioni eseguite sulla navbar */
+        this.sidenav.aggiornaDati(obj);
 
         this.router.navigate(['/user']);
         this.isSendingDisabled = false;
@@ -65,7 +67,7 @@ export class StepInviaDomandaComponent  {
 
 
   formready() {
-    return this.parent.valid;
+    return this.formService.form.valid;
   }
 
 

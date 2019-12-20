@@ -123,7 +123,10 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/GetDomanda', jwtMW /* Using the express jwt MW here */, (req, res) => {
-    res.send(data); //Sending some response when authenticated
+
+    setTimeout(() => {
+        res.send(data); //Sending some response when authenticated 
+    }, 5000);
 });
 
 app.post('/SalvaDomanda', jwtMW /* Using the express jwt MW here */, (req, res) => {
@@ -211,9 +214,9 @@ app.get('/Province', jwtMW /* Using the express jwt MW here */, (req, res) => {
 });
 
 app.get('/Province/:id', jwtMW /* Using the express jwt MW here */, (req, res) => {
-    const alessandria = [ {codice: '1', nome: 'Alessandria', codiceProvincia: 'LO'}, {codice: '1', nome: 'Novi Ligure', codiceProvincia: 'LO'}, {codice: '3', nome  : 'Predosa', codiceProvincia: 'LO'}];
-    const ancona = [ {codice: '1', nome: 'Ancona', codiceProvincia: 'LO'}, {codice: '1', nome: 'Senigallia', codiceProvincia: 'LO'}, {codice: '3', nome  : 'Jesi', codiceProvincia: 'LO'}];
-    const roma = [ {codice: '1', nome: 'Roma', codiceProvincia: 'LO'}, {codice: '1', nome: 'Pomezia', codiceProvincia: 'LO'}, {codice: '3', nome  : 'Ciampino', codiceProvincia: 'LO'}];
+    const alessandria = [ {codice: '11', nome: 'Alessandria', codiceProvincia: 'LO'}, {codice: '21', nome: 'Novi Ligure', codiceProvincia: 'LO'}, {codice: '31', nome  : 'Predosa', codiceProvincia: 'LO'}];
+    const ancona = [ {codice: '12', nome: 'Ancona', codiceProvincia: 'LO'}, {codice: '22', nome: 'Senigallia', codiceProvincia: 'LO'}, {codice: '32', nome  : 'Jesi', codiceProvincia: 'LO'}];
+    const roma = [ {codice: '13', nome: 'Roma', codiceProvincia: 'LO'}, {codice: '23', nome: 'Pomezia', codiceProvincia: 'LO'}, {codice: '33', nome  : 'Ciampino', codiceProvincia: 'LO'}];
 
     console.log(req.params.id);
     switch(req.params.id) {

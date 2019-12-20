@@ -1,14 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {MatStepper} from '@angular/material';
 import { DomandaService} from '../../../../../core/services/domanda.service';
-import {HttpClient} from '@angular/common/http';
 import {Lingua} from '../../../../../core/models/rest/rest-interface';
 import {RestService} from '../../../../../core/services/rest.service';
 import {FormService} from '../../../../../core/services/form.service';
-
-/* TODO: BUG: Mat toggle button una volta che è stato poopolato non accetta il primo input, si deve cliccare due volte*/
-
+import {FormGroup} from '@angular/forms';
 
 
 @Component({
@@ -18,11 +14,8 @@ import {FormService} from '../../../../../core/services/form.service';
   styleUrls: ['./step-lingua.component.scss'],
 })
 export class StepLinguaComponent implements OnInit {
+  @Input() form: FormGroup;
 
-  /* Lo uso per triggerare l'errore in caso l'utente vada avanti senza aver scelto la lingua, mat-error non funziona
-   su mat toggle button perchè non è 2 way binding,  */
-  clicker;
-  @Input() parent: FormGroup;
   elencoLingue: Lingua[];
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
@@ -30,7 +23,6 @@ export class StepLinguaComponent implements OnInit {
   constructor(private domandaService: DomandaService,
               private formService: FormService,
               private rest: RestService) {
-    this.clicker = false;
   }
 
   /* Assegna la lingua al form dal mat button toggle */
@@ -56,10 +48,11 @@ export class StepLinguaComponent implements OnInit {
 
 
   allowNextStep() {
-    return !this.parent.controls.formLingua.valid;
+    return !this.formService.form.controls.formLingua.valid;
   }
 
   getSingleForm(id: string) {
-    return this.parent.get('formLingua.' + id);
+    return this.formService.form.get('formLingua.' + id);
   }
+
 }

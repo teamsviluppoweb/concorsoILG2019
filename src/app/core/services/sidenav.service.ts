@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import {Observable, Subject} from 'rxjs';
 
-export interface SidenavContainer {
-  dataInvio: string;
-  ultimaModifica: string;
+export interface SidenavDati {
+  dataPrimoInvio: string;
+  dataUltimaModifica: string;
   stato: number;
+
 }
 
 @Injectable({
@@ -15,13 +16,12 @@ export class SidenavService {
   private objects = new Subject<any>();
 
 
-  refreshData(obj: SidenavContainer) {
+  aggiornaDati(obj: SidenavDati) {
     this.objects.next(obj);
   }
 
-  getContainer(): Observable<SidenavContainer> {
+  getContainer(): Observable<SidenavDati> {
     return this.objects.asObservable();
   }
 
-  constructor() { }
 }

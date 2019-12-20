@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate} from '@angular/router';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {AuthService} from '../services';
 
 @Injectable({
@@ -14,30 +14,30 @@ export class AuthGuard implements CanActivate {
     this.url = window.location.href;
   }
 
+
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
+    let validationState = of(false);
 
     switch (this.ispectUrl(this.url)) {
 
       case true: {
         const token = this.refactorUrl(this.url);
         this.auth.setAccessToken(token);
-        return this.auth.validateJwt();
+        validationState = this.auth.validateJwt();
         break;
       }
 
       case false: {
-        return this.auth.validateJwt();
+        validationState = this.auth.validateJwt();
         break;
       }
 
       default: {
         this.auth.logout();
-        return false;
       }
-
     }
 
-
+    return validationState;
   }
 
 

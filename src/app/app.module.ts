@@ -8,7 +8,6 @@ import {CoreModule} from './core';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {DateAdapter, MAT_DATE_LOCALE} from '@angular/material';
-import {SessionCheckServiceService} from './core/services/session-check-service.service';
 
 
 @NgModule({
@@ -28,8 +27,7 @@ import {SessionCheckServiceService} from './core/services/session-check-service.
     //  app
   ],
   providers: [
-    {provide: MAT_DATE_LOCALE, useValue: 'it-IT'},
-    SessionCheckServiceService],
+    {provide: MAT_DATE_LOCALE, useValue: 'it-IT'}],
   bootstrap: [AppComponent],
 
 })

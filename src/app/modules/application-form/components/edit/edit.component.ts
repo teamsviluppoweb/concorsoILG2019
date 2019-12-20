@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, OnInit, ViewChild} from '@angular/core';
-import {FormBuilder, FormGroup} from '@angular/forms';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {DomandaService} from '../../../../core/services/domanda.service';
 import {FormService} from '../../../../core/services/form.service';
 
@@ -11,49 +11,59 @@ import {FormService} from '../../../../core/services/form.service';
 })
 
 export class EditComponent {
-  moduloDomanda: FormGroup;
-  shouldBeLinear = true;
-  domandaPrecedente;
-
-  // I seguenti check vengono usati per stabilire se l'utente può iniziare il prossimo step
-  istruzioneIsValid;
-  linguaValid;
-  titoliValid;
-  riserveValid;
-  categorieProtetteValid;
-  accettazioneValid;
+  /* Se la domanda è stata già inviata l'utente non è più obbligato a seguire gli step lineari del mat-stepper */
+  isStepperLinear = true;
 
   constructor(
     private formBuilder: FormBuilder,
     private domandaService: DomandaService,
     private formService: FormService,
   ) {
-
-    this.shouldBeLinear = !this.domandaService.isEditable;
-    this.moduloDomanda = this.formService.createForm();
-
+    this.formService.createForm();
 
     if (this.domandaService.isEditable) {
-      this.formService.patchForm(this.moduloDomanda);
-      this.formService.removeDichiarazioni(this.moduloDomanda);
+      this.isStepperLinear = false;
+      this.formService.patchForm(this.formService.form);
+      this.formService.removeDichiarazioni(this.formService.form);
     }
 
-    this.istruzioneIsValid = this.moduloDomanda.controls.formIstruzione;
-    this.linguaValid = this.moduloDomanda.controls.formLingua;
-    this.titoliValid = this.moduloDomanda.controls.formTitoliPreferenziali;
-    this.riserveValid = this.moduloDomanda.controls.formRiserve;
-    this.categorieProtetteValid = this.moduloDomanda.controls.formCategorieProtette;
-    this.accettazioneValid = this.moduloDomanda.controls.formDichiarazione;
   }
 
-  get isDirty(): boolean {
-    this.moduloDomanda = this.moduloDomanda.value;
-    return JSON.stringify(this.domandaPrecedente) !== JSON.stringify(this.moduloDomanda.value);
+  get form() {
+    return this.formService.form;
   }
 
-
-  displayDichiarazioni() {
+  /* Se la domanda è stata già inviata l'utente non deve più accettare le dichiarazioni */
+  get displayDichiarazioni() {
     return !this.domandaService.isEditable;
   }
+
+  /* I seguenti get controllano la validità del form per permettere all'utente il next step */
+
+  get isIstruzioneFormValid(): AbstractControl {
+    return this.formService.form.controls.formIstruzione;
+  }
+
+  get isLinguaFormValid(): AbstractControl {
+    return this.formService.form.controls.formLingua;
+  }
+
+  get isTitoliFormValid(): AbstractControl {
+    return this.formService.form.controls.formTitoliPreferenziali;
+  }
+
+  get isRiserveFormValid(): AbstractControl {
+    return this.formService.form.controls.formRiserve;
+  }
+
+  get isInvaliditaValid(): AbstractControl {
+    return this.formService.form.controls.formCategorieProtette;
+  }
+  get isDichiarazioneValid(): AbstractControl {
+    return this.formService.form.controls.formDichiarazione;
+  }
+
+
+
 
 }

@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { MatSelect} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
@@ -13,63 +13,69 @@ import {
 } from '../../../../../core/models/rest/rest-interface';
 import {RestService} from '../../../../../core/services/rest.service';
 import {FormService} from '../../../../../core/services/form.service';
-
-
-/* ## Disabilita il required di istruzione */
-/*
-  for (const key in this.parent['controls'].formIstruzione['controls']) {
-  this.parent.get('formIstruzione.' + key).clearValidators();
-  this.parent.get('formIstruzione.' + key).updateValueAndValidity();
-}
- */
-
+import {Logger} from '../../../../../core/services';
 
 
 @Component({
-  // tslint:disable-next-line:component-selector
   selector: 'step-istruzione',
   templateUrl: './step-istruzione.component.html',
   styleUrls: ['./step-istruzione.component.scss'],
 })
 export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Input() parent: FormGroup;
+  @Input() form: FormGroup;
 
   @ViewChild('provinceSelect', { static: true }) provinceSelect: MatSelect;
+  /** lista delle province filtrate dalla ricerca **/
   public filtroProvince: ReplaySubject<Provincia[]> = new ReplaySubject<Provincia[]>(1);
+  /** lista delle province **/
   listaProvince: Provincia[];
 
   @ViewChild('comuneSelect', { static: true }) comuneSelect: MatSelect;
+  /** lista dei comuni filtrati dalla ricerca **/
   public filtroComuni: ReplaySubject<Comune[]> = new ReplaySubject<Comune[]>(1);
+  /** lista dei comuni **/
   listaComuni: Comune[];
 
   @ViewChild('tipologiaSelect', { static: true }) tipologiaSelect: MatSelect;
+  /** lista delle tipologie titoli di studio filtrate dalla ricerca **/
   public filtroTipologie: ReplaySubject<TipologiaTitoloStudio[]> = new ReplaySubject<TipologiaTitoloStudio[]>(1);
+  /** lista delle tipologie titoli di studio **/
   listaTipologie: TipologiaTitoloStudio[];
 
   @ViewChild('titoliSelect', { static: false }) titoliSelect: MatSelect;
+  /** lista dei titoli di studio filtrate dalla ricerca **/
   public filtroTitolo: ReplaySubject<TitoliTitoloStudio[]> = new ReplaySubject<TitoliTitoloStudio[]>(1);
+  /** lista dei titoli di studio **/
   listaTitoli: TitoliTitoloStudio[];
 
   @ViewChild('indirizziSelect', { static: true }) indirizziSelect: MatSelect;
+  /** lista degli indirizzi di studio filtrate dalla ricerca **/
   public filtroIndirizzi: ReplaySubject<TitoliTitoloIndirizzo[]> = new ReplaySubject<TitoliTitoloIndirizzo[]>(1);
+  /** lista degli indirizzi di studio **/
   listaIndirizzi: TitoliTitoloIndirizzo[];
 
-  displayTitoli = false;
-  displayIndirizzi = false;
-  displayAltroIndirizzo = false;
-  isDomandaInvita: boolean;
+  renderTitoli = false;
+  renderIndirizzi = false;
+  renderAltroIndirizzo = false;
 
+  log: Logger;
+
+  /** Subject che viene emesse quando il component è distrutto */
   private onDetroy = new Subject<void>();
 
   constructor(private formbuilder: FormBuilder,
               private rest: RestService,
               private formService: FormService,
-              private domandaService: DomandaService) {}
+              private domandaService: DomandaService) {
+    this.log = new Logger('Step-Istruzione');
+  }
 
   ngOnInit() {
-    this.isDomandaInvita = this.domandaService.domandaobj.operazione ===  1;
 
+    /**
+     * Prende la lista delle tipologie, se la domanda ha operazione = 1, allora fa il mapping e assegna il riferimento corretto
+     */
     this.rest.getTipologiaTitoloStudio().subscribe(
       (data: TipologiaTitoloStudio[]) => {
         this.listaTipologie = data;
@@ -77,17 +83,18 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.setInitialTipologieValue(this.filtroTipologie);
 
         // Se la domanda è stata già mi popolo la dropdown list con i dati rest
-        if (this.isDomandaInvita) {
+        if (this.domandaService.isEditable) {
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia;
           const tipologiaSceltaId = this.listaTipologie
-            .filter(selected => selected.id === tipologiaIst.id)
-            .map(selected => selected)
-            .reduce(selected => selected);
+            .filter(selected => selected.id === tipologiaIst.id)[0];
           this.formService.tipologia.patchValue(tipologiaSceltaId);
         }
       }
     );
 
+    /**
+     * Prende la lista delle province, se la domanda ha operazione = 1, allora fa il mapping e assegna il riferimento corretto
+     */
     this.rest.getProvince().subscribe(
       (data: Provincia[]) => {
         this.listaProvince = data;
@@ -95,9 +102,9 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.setInitialProvinceValue(this.filtroProvince);
 
         // Se la domanda è stata già mi popolo la dropdown list con i dati rest
-        if (this.isDomandaInvita) {
+        if (this.domandaService.isEditable) {
           const codiceSelezionato = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
-          const provinciaSelezionata = this.listaProvince.filter(x => x.codice === codiceSelezionato).map(x => x).reduce(x => x);
+          const provinciaSelezionata = this.listaProvince.filter(x => x.codice === codiceSelezionato)[0];
           this.formService.provinciaIstituto.patchValue(provinciaSelezionata);
         }
       }
@@ -106,7 +113,6 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   }
 
 
-  // I form sono posizionati in ngOnChanges in modo da farli sempre restare in ascolt0 anche nel routing change
   ngOnChanges(changes: SimpleChanges): void {
 
     this.formService.tipologia.valueChanges.pipe(
@@ -116,10 +122,14 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
     ).subscribe((data: TitoliTitoloStudio[]) => {
 
       // Se la tipologia cambia, non ha senso mostrare ancora gli indirizzi
-      this.displayIndirizzi = false;
+      this.renderIndirizzi = false;
 
+      /**
+       Se il servizio mi ritorna un array con dati allora titoli di studio deve essere popolato, se il servizio mi ritorna un array
+       vuoto allora titoli di studio non deve essere popolato
+       **/
       if (data.length > 0) {
-        this.displayTitoli = true;
+        this.renderTitoli = true;
 
         this.formService.titolo.setValidators([Validators.required]);
         this.formService.titolo.updateValueAndValidity();
@@ -128,14 +138,11 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.filtroTitolo.next(this.listaTitoli.slice());
         this.setInitialTitoliValue(this.filtroTitolo);
 
-        // Se la domanda è stata già mi popolo la dropdown list con i dati rest
-        if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo !== null) {
+        /** Se la domanda è stata inviata già mi popolo la dropdown list con i dati rest **/
+        if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo !== null) {
           const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo;
           const tipologiaSceltaId = this.listaTitoli
-              .filter(selected => selected.id === tipologiaIst.id)
-              .map(selected => selected)
-              .reduce(selected => selected);
-
+              .filter(selected => selected.id === tipologiaIst.id)[0];
           this.formService.titolo.patchValue(tipologiaSceltaId);
         }
       }
@@ -147,32 +154,33 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       concatMap(id => this.rest.getIndirizziTitoliStudio(id))
     ).subscribe((data: TitoliTitoloIndirizzo[]) => {
 
+      /**
+       Se il servizio mi ritorna un array con dati allora indirizzo di studio deve essere popolato, se il servizio mi ritorna un array
+       vuoto allora indirizzo di studio non deve essere popolato
+       **/
       if (data.length > 0) {
-        this.displayIndirizzi = true;
+        this.renderIndirizzi = true;
         this.formService.indirizzo.setValidators([Validators.required]);
 
         this.listaIndirizzi = data;
         this.filtroIndirizzi.next(this.listaIndirizzi.slice());
         this.setInitialIndirizziValue(this.filtroIndirizzi);
 
-        if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo !== null) {
+        if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo !== null) {
           const indirizzo = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo;
 
           const tipologiaSceltaId = this.listaIndirizzi
-              .filter(selected => selected.id === indirizzo.id)
-              .map(selected => selected)
-              .reduce(selected => selected);
+              .filter(selected => selected.id === indirizzo.id)[0];
 
           this.formService.indirizzo.patchValue(tipologiaSceltaId);
         }
       }
-      // Se l'array non è popolato allora non vi sono indirizzi da scegliere
+      /** Se l'array non è popolato allora non vi sono indirizzi da scegliere **/
       if ( !(data.length > 0)) {
-        this.displayIndirizzi = false;
+        this.renderIndirizzi = false;
         this.formService.indirizzo.patchValue(null);
         this.formService.indirizzo.clearValidators();
       }
-
       this.formService.indirizzo.updateValueAndValidity();
     });
 
@@ -184,17 +192,19 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(
         (data) => {
           // Se è stato scelto ALTRO INDIRIZZO allora faccio inserire manualmente l'indirizzo
-          console.log(data.id);
+          /** Controllo se l'indirizzo scelto ha come id 341. L'id 341 equivale ad altro indirizzo, dunque renderizzo il form di
+           * input per farlo inserire a mano **/
           if (data.id === '341') {
-            this.displayAltroIndirizzo = true;
+            this.renderAltroIndirizzo = true;
             this.formService.altroIndirizzo.setValidators([Validators.required]);
             this.formService.altroIndirizzo.updateValueAndValidity();
 
-            if (this.isDomandaInvita && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio !== null) {
-              this.formService.altroIndirizzo.patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
+            if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio !== null) {
+              this.formService.altroIndirizzo
+                .patchValue(this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio);
             }
           } else {
-            this.displayAltroIndirizzo = false;
+            this.renderAltroIndirizzo = false;
             this.formService.altroIndirizzo.setValidators([]);
             this.formService.altroIndirizzo.patchValue(null);
             this.formService.altroIndirizzo.updateValueAndValidity();
@@ -212,16 +222,18 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.filtroComuni.next(this.listaComuni.slice());
         this.setInitialComuneValue(this.filtroComuni);
 
-        if (this.isDomandaInvita) {
+        if (this.domandaService.isEditable) {
           const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
-          const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune).map(x => x).reduce(x => x);
+          const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune)[0];
+
+          this.log.debug(comuneSelezionato);
           this.formService.comuneIstituto.patchValue(comuneSelezionato);
         }
       });
 
 
     /*
-      Analizza i cambiamenti del testo nel campo di ricerca del dropdown search dei delle dropdown list
+      I seguenti valueChanges analizzano i cambiamenti del testo nel campo di ricerca del dropdown search dei delle dropdown list
      */
     this.formService.comuniDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
@@ -229,7 +241,6 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.filtraRicerca(this.listaComuni, this.formService.comuniDropdown, this.filtroComuni);
       });
 
-    // Analizza i cambiamenti del testo nel campo di ricerca del dropdown search delle province
     this.formService.provinceDropdown.valueChanges
       .pipe(takeUntil(this.onDetroy))
       .subscribe(() => {
@@ -253,6 +264,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(() => {
         this.filtraRicercaIstruzione(this.listaIndirizzi, this.formService.indirizzoDropdown, this.filtroIndirizzi);
       });
+
 
   }
 
@@ -367,15 +379,11 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
   // Se il form è valido permette di andare avanti al prossimo step
   allowNextStep() {
-    return !this.parent.controls.formIstruzione.valid;
+    return !this.form.controls.formIstruzione.valid;
   }
-
 
   getSingleForm(id: string) {
-    return this.parent.get('formIstruzione.' + id);
+    return this.form.get('formIstruzione.' + id);
   }
-
-
-
 
 }

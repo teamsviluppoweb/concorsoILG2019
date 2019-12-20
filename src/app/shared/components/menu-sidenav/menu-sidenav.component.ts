@@ -1,7 +1,7 @@
-import {Component, OnChanges, OnInit, SimpleChanges} from '@angular/core';
+import {Component} from '@angular/core';
 import {DomandaService} from '../../../core/services/domanda.service';
 import { DomandaObj} from '../../../core/models';
-import {SidenavContainer, SidenavService} from '../../../core/services/sidenav.service';
+import {SidenavDati, SidenavService} from '../../../core/services/sidenav.service';
 import {globalRoutes} from '../../routes/global-routes';
 
 @Component({
@@ -9,35 +9,31 @@ import {globalRoutes} from '../../routes/global-routes';
   templateUrl: './menu-sidenav.component.html',
   styleUrls: ['./menu-sidenav.component.scss']
 })
-export class MenuSidenavComponent implements OnInit {
-
+export class MenuSidenavComponent  {
   siteRoutes = globalRoutes;
-  domanda: DomandaObj;
 
-  dataInvio;
-  dataModifica;
+  dataPrimoInvio;
+  dataUltimaModifica;
   stato;
 
   constructor(private domandaService: DomandaService, private sidenavService: SidenavService) {
-    this.domanda = this.domandaService.domandaobj;
-    this.dataInvio = this.domanda.domanda.dataInvio;
-    this.dataModifica = this.domanda.domanda.dataModifica;
-    this.stato = this.domanda.operazione;
+
+    this.dataPrimoInvio = this.domandaService.domandaobj.domanda.dataInvio;
+    this.dataUltimaModifica = this.domandaService.domandaobj.domanda.dataModifica;
+    this.stato = this.domandaService.domandaobj.operazione;
 
     this.sidenavService.getContainer().subscribe(
-      (x: SidenavContainer) => {
-        this.dataInvio = x.dataInvio;
-        this.dataModifica = x.ultimaModifica;
+      (x: SidenavDati) => {
+        this.dataPrimoInvio = x.dataPrimoInvio;
+        this.dataUltimaModifica = x.dataUltimaModifica;
         this.stato = x.stato;
       }
     );
-
-  }
-
-  ngOnInit() {
   }
 
 
-
+  get domanda(): DomandaObj {
+    return this.domandaService.domandaobj;
+  }
 
 }
