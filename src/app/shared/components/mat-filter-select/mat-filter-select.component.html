@@ -1,0 +1,29 @@
+<mat-form-field appearance="outline" fxFlex="100">
+  <mat-label>Test</mat-label>
+  <mat-select #select
+              [multiple]="multiple"
+              [formControl]="bindedForm"
+              placeholder="Seleziona tipologia titolo di studio">
+
+    <ngx-mat-select-search
+      [formControl]="filter"
+      [noEntriesFoundLabel]="'Nessun risultato'"
+      [placeholderLabel]="'Cerca tipologia . . '">
+    </ngx-mat-select-search>
+
+
+    <mat-select-trigger *ngIf="iterateOver === 'descrizione'">
+      SELEZIONATI
+    </mat-select-trigger>
+
+    <mat-option  *ngFor="let x of (filtro | async)" [value]="x">
+      {{x[iterateOver]}}
+    </mat-option>
+  </mat-select>
+
+
+
+</mat-form-field>
+
+
+

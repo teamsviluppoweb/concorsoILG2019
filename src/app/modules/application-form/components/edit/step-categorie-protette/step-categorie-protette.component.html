@@ -42,29 +42,17 @@
 
     <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" formGroupName="formCategorieProtette">
 
-      <mat-form-field appearance="outline" fxFlex>
-        <mat-label>Provincia ente</mat-label>
-        <mat-select #provinceInvSelect formControlName="provincia" placeholder="Seleziona Provincia istituto">
+      <mat-filter-select fxFlex="100"
+                         [dataSet]="listaProvince"
+                         [bindedForm]="getSingleForm('provincia')"
+                         [iterateOver]="'nome'"
+      ></mat-filter-select>
 
-          <ngx-mat-select-search formControlName="provinceDropdown" [noEntriesFoundLabel]="'Nessun risultato'" [placeholderLabel]="'Cerca provincia . . '"></ngx-mat-select-search>
-          <mat-option *ngFor="let prov of (filtroProvince | async)" [value]="prov">
-            {{prov.nome}}
-          </mat-option>
-        </mat-select>
-
-        <mat-error *ngIf="getSingleForm('provincia').hasError('required')">Campo Obbligatorio</mat-error>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" fxFlex>
-        <mat-label>Comune ente</mat-label>
-        <mat-select #comuneInvSelect formControlName="comune" placeholder="Seleziona Comune istituto">
-          <ngx-mat-select-search formControlName="comuniDropdown" [noEntriesFoundLabel]="'Nessun risultato'" [placeholderLabel]="'Cerca comune . . '"></ngx-mat-select-search>
-          <mat-option *ngFor="let com of (filtroComuni | async)" [value]="com">
-            {{com.nome}}
-          </mat-option>
-        </mat-select>
-        <mat-error *ngIf="getSingleForm('comune').hasError('required')">Campo Obbligatorio</mat-error>
-      </mat-form-field>
+      <mat-filter-select fxFlex="100"
+                         [dataSet]="listaComuni"
+                         [bindedForm]="getSingleForm('comune')"
+                         [iterateOver]="'nome'"
+      ></mat-filter-select>
 
     </div>
 

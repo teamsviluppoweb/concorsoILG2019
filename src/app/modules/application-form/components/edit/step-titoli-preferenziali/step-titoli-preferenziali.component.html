@@ -12,26 +12,15 @@
 
 
   <div *ngIf="getSingleForm('aventeTitoli').value === 'SI'" fxLayout="column" formGroupName="formTitoliPreferenziali">
-    <mat-form-field appearance="outline">
-      <mat-select formControlName="titoliSelezionati"
-                  panelClass="titoli-preferenziali"
-                  class="mat-list-item-word-wrap"
-                  multiple
-                  placeholder="Seleziona Titoli">
 
 
-        <mat-select-trigger>
-          TITOLI SELEZIONATI
-        </mat-select-trigger>
+    <mat-filter-select fxFlex="100"
+                       [dataSet]="elencoTitoliPreferenziali"
+                       [bindedForm]="getSingleForm('titoliSelezionati')"
+                       [iterateOver]="'descrizione'"
+                       [multiple]="true"
+    ></mat-filter-select>
 
-        <mat-option *ngFor="let i of elencoTitoliPreferenziali" [value]="i">
-          {{i.descrizione}}
-        </mat-option>
-
-
-      </mat-select>
-
-    </mat-form-field>
 
     <ul *ngFor="let i of getSingleForm('titoliSelezionati').value">
       <li style="margin-bottom: 10px;">{{i.descrizione}}</li>

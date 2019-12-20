@@ -13,6 +13,8 @@ import {DataConseguimentoPipe} from '../pipes/data-conseguimento.pipe';
 import {ToolbarIconStatePipe} from '../pipes/toolbar-icon-state.pipe';
 import {SnackBarComponent} from '../components/snack-bar/snack-bar.component';
 import {NgxSpinnerModule} from 'ngx-spinner';
+import {MatFilterSelectComponent} from '../components/mat-filter-select/mat-filter-select.component';
+import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 
 
 @NgModule({
@@ -25,6 +27,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     DataConseguimentoPipe,
     ToolbarIconStatePipe,
     SnackBarComponent,
+    MatFilterSelectComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +37,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     FlexLayoutModule,
     MaterialModule,
     NgxSpinnerModule,
+    NgxMatSelectSearchModule,
   ],
   exports: [
     FormsModule,
@@ -50,6 +54,7 @@ import {NgxSpinnerModule} from 'ngx-spinner';
     ToolbarIconStatePipe,
     SnackBarComponent,
     NgxSpinnerModule,
+    MatFilterSelectComponent
   ],
   entryComponents: [
     SnackBarComponent,

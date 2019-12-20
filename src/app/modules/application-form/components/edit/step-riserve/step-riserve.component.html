@@ -12,24 +12,13 @@
 
 
   <div *ngIf="getSingleForm('aventeRiserve').value === 'SI'" fxLayout="column">
-   <mat-form-field appearance="outline" fxFlex="grow">
-     <mat-select [formControl]="getSingleForm('riserveSelezionate')"
-                 panelClass="riserve"
-                 class="mat-list-item-word-wrap"
-                 multiple
-                 placeholder="Seleziona Riserve">
+    <mat-filter-select fxFlex="100"
+                       [dataSet]="elencoRiserve"
+                       [bindedForm]="getSingleForm('riserveSelezionate')"
+                       [iterateOver]="'descrizione'"
+                       [multiple]="true"
+    ></mat-filter-select>
 
-
-       <mat-select-trigger>
-         Riserve selezionate
-       </mat-select-trigger>
-
-       <mat-option *ngFor="let i of elencoRiserve"  [value]="i">
-         {{i.descrizione}}
-       </mat-option>
-
-     </mat-select>
-   </mat-form-field>
    <ul *ngFor="let i of getSingleForm('riserveSelezionate').value" fxFlex="grow">
      <li>{{i.descrizione}}</li>
    </ul>
