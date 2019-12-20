@@ -133,7 +133,7 @@ export class FormService {
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
     } else {
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = this.indirizzo.value;
-      if (this.indirizzo.value.id === '341') {
+      if (this.indirizzo.value.id === '351') {
         this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = this.altroIndirizzo.value;
       } else {
         this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
