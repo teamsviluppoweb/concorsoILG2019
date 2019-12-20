@@ -93,8 +93,8 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline" fxFlex="20">
-        <mat-label>Data conseguimento</mat-label>
-        <input [formControl]="getSingleForm('dataConseguimento')" matInput maxlength="4" minlength="4" placeholder="Anno Diploma">
+        <mat-label>Anno conseguimento</mat-label>
+        <input [formControl]="getSingleForm('dataConseguimento')" matInput maxlength="4" minlength="4" placeholder="ex: 2001">
 
         <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('required')">Campo Obbligatorio</mat-error>
         <mat-error *ngIf="getSingleForm('dataConseguimento').hasError('onlyNumber')">Inserire nel campo solo numberi</mat-error>
