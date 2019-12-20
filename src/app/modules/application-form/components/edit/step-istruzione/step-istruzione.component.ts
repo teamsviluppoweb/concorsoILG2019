@@ -15,6 +15,7 @@ import {RestService} from '../../../../../core/services/rest.service';
 import {FormService} from '../../../../../core/services/form.service';
 import {Logger} from '../../../../../core/services';
 import {dataDropdown} from '../../../data-dropdown';
+import {IntTipologiaOrTitoloOrIndirizzo} from '../../../../../core/models';
 
 
 @Component({
@@ -208,7 +209,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         filter(() => this.formService.indirizzo.value !== null),
       )
       .subscribe(
-        (data) => {
+        (data: IntTipologiaOrTitoloOrIndirizzo) => {
 
           // Se l'indirizzo cambia, annullo tutti i figli
           this.formService.altroIndirizzo.patchValue('');
@@ -217,7 +218,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
           /** Controllo se l'indirizzo scelto ha come id 351. L'id 351 equivale ad altro indirizzo, dunque renderizzo il form di
            * input per farlo inserire a mano **/
 
-          if (data.id === this.altriIndirizziId) {
+          if (data.desc === this.altriIndirizziId) {
             this.renderAltroIndirizzo = true;
             this.formService.altroIndirizzo.setValidators([Validators.required]);
             this.formService.altroIndirizzo.updateValueAndValidity();
