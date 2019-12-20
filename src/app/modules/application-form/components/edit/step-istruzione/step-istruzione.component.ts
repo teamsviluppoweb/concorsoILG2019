@@ -14,6 +14,7 @@ import {
 import {RestService} from '../../../../../core/services/rest.service';
 import {FormService} from '../../../../../core/services/form.service';
 import {Logger} from '../../../../../core/services';
+import {dataDropdown} from '../../../data-dropdown';
 
 
 @Component({
@@ -23,6 +24,7 @@ import {Logger} from '../../../../../core/services';
 })
 export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
+  altriIndirizziId = dataDropdown.altriIndirizziId;
   @Input() form: FormGroup;
 
   @ViewChild('provinceSelect', { static: true }) provinceSelect: MatSelect;
@@ -215,7 +217,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
           /** Controllo se l'indirizzo scelto ha come id 351. L'id 351 equivale ad altro indirizzo, dunque renderizzo il form di
            * input per farlo inserire a mano **/
 
-          if (data.id === '351') {
+          if (data.id === this.altriIndirizziId) {
             this.renderAltroIndirizzo = true;
             this.formService.altroIndirizzo.setValidators([Validators.required]);
             this.formService.altroIndirizzo.updateValueAndValidity();

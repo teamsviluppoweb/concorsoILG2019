@@ -7,6 +7,7 @@ import {TitoloPreferenziale} from '../../../../../core/models/rest/rest-interfac
 import {RestService} from '../../../../../core/services/rest.service';
 import {filter} from 'rxjs/operators';
 import {FormService} from '../../../../../core/services/form.service';
+import {dataDropdown} from '../../../data-dropdown';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -15,6 +16,7 @@ import {FormService} from '../../../../../core/services/form.service';
   styleUrls: ['./step-titoli-preferenziali.component.scss'],
 })
 export class StepTitoliPreferenzialiComponent implements OnInit {
+  aventeFigli = dataDropdown.aventeFigliId;
   @Input() form: FormGroup;
 
   @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
@@ -91,7 +93,7 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
          * numero figli
          */
         // @ts-ignore
-        if (x.map(k => k.id).includes(17)) {
+        if (x.map(k => k.id).includes(this.aventeFigli)) {
           console.log('required');
           this.formService.numeroFigliSelezionati.setValidators([Validators.required]);
 

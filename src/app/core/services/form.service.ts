@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from './domanda.service';
 import {RestService} from './rest.service';
 import {CustomValidators} from '../../shared/validators/customValidators';
+import {environment} from '../../../environments/environment';
+import {dataDropdown} from '../../modules/application-form/data-dropdown';
 
 @Injectable({
   providedIn: 'root'
@@ -133,7 +135,7 @@ export class FormService {
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = null;
     } else {
       this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo = this.indirizzo.value;
-      if (this.indirizzo.value.id === '351') {
+      if (this.indirizzo.value.id === dataDropdown.altriIndirizziId) {
         this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = this.altroIndirizzo.value;
       } else {
         this.domandaService.domandaobj.domanda.titoloStudioPosseduto.altroIndirizzoTitoloStudio = null;
@@ -170,7 +172,7 @@ export class FormService {
     if (this.aventeTitoli.value === 'SI') {
       this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = this.titoliSelezionati.value;
 
-      if (this.titoliSelezionati.value.map(k => k.id).includes(17)) {
+      if (this.titoliSelezionati.value.map(k => k.id).includes(dataDropdown.aventeFigliId)) {
         this.domandaService.domandaobj.domanda.numeroFigli = this.numeroFigliSelezionati.value;
       } else {
         this.domandaService.domandaobj.domanda.numeroFigli = 0;
