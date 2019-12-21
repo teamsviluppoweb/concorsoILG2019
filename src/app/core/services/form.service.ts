@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from './domanda.service';
 import {RestService} from './rest.service';
 import {CustomValidators} from '../../shared/validators/customValidators';
@@ -216,6 +216,45 @@ export class FormService {
     }
   }
 
+  patchFromObject(jsonData: string | number, dataSet: any[], formControl: AbstractControl, iterateOver: string) {
+    formControl.patchValue(
+      dataSet.filter(x => x[iterateOver] === jsonData)[0]
+    );
+  }
+
+  /* Se il candidato non ha invalidità rimuove i validators assegnati in caso abbia selezionato si e poi ricliccati su no */
+  clearValidatorsInvalidita() {
+    this.percInvalidita.clearValidators();
+    this.percInvalidita.updateValueAndValidity();
+
+    this.dataCertificazione.clearValidators();
+    this.dataCertificazione.updateValueAndValidity();
+
+    this.invaliditaEnte.clearValidators();
+    this.invaliditaEnte.updateValueAndValidity();
+
+    this.provincia.clearValidators();
+    this.provincia.updateValueAndValidity();
+
+    this.comune.clearValidators();
+    this.comune.updateValueAndValidity();
+
+  }
+
+
+  setValidatorsInvalidita() {
+    this.percInvalidita.setValidators(
+      [ Validators.required,
+        Validators.max(100),
+        Validators.min(1),
+        CustomValidators.onlyNumber]);
+    this.dataCertificazione.setValidators(Validators.required);
+    this.invaliditaEnte.setValidators([Validators.required, Validators.maxLength(255)]);
+    this.comune.setValidators(Validators.required);
+    this.provincia.setValidators(Validators.required);
+
+    this.form.get('formCategorieProtette').updateValueAndValidity();
+  }
 
 
   /*

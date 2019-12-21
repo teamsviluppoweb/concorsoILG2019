@@ -42,50 +42,6 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
 
-    this.log.debug('ngOnInit');
-    this.log.debug('val comune: ', this.formService.comune.value);
-
-    if (this.formService.appartenenza.value === 'SI') {
-      this.formService.percInvalidita.setValidators(
-        [ Validators.required,
-          Validators.max(100),
-          Validators.min(1),
-          CustomValidators.onlyNumber]);
-      this.formService.dataCertificazione.setValidators(Validators.required);
-      this.formService.invaliditaEnte.setValidators([Validators.required, Validators.maxLength(255)]);
-      this.formService.comune.setValidators(Validators.required);
-      this.formService.provincia.setValidators(Validators.required);
-
-    } else if (this.formService.appartenenza.value === 'NO') {
-      this.formService.percInvalidita.clearValidators();
-      this.formService.percInvalidita.reset();
-
-      this.formService.dataCertificazione.clearValidators();
-      this.formService.dataCertificazione.reset();
-
-      this.formService.invaliditaEnte.clearValidators();
-      this.formService.invaliditaEnte.reset();
-
-      this.formService.comune.clearValidators();
-      this.formService.comune.reset();
-
-      this.formService.provincia.clearValidators();
-      this.formService.provincia.reset();
-
-
-      this.formService.ausiliProva.reset();
-      this.formService.tempiAggiuntiviProva.reset();
-      this.formService.esenzioneProvaSelettiva.reset();
-
-    }
-
-    this.formService.percInvalidita.updateValueAndValidity();
-    this.formService.dataCertificazione.updateValueAndValidity();
-    this.formService.invaliditaEnte.updateValueAndValidity();
-    this.formService.comune.updateValueAndValidity();
-    this.formService.provincia.updateValueAndValidity();
-
-
     /**
      * Prende la lista delle province, se la domanda ha operazione = 1, allora fa il mapping e assegna il riferimento corretto
      */
@@ -95,9 +51,8 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
 
         // Se la domanda è stata già mi popolo la dropdown list con i dati rest
         if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
-          const codiceSelezionato = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
-          const provinciaSelezionata = this.listaProvince.filter(x => x.codice === codiceSelezionato)[0];
-          this.formService.provincia.patchValue(provinciaSelezionata);
+          const codSelezionato = this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codiceProvincia;
+          this.formService.patchFromObject(codSelezionato, this.listaProvince, this.formService.provincia, 'codice');
         }
       }
     );
@@ -125,14 +80,11 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
         this.listaComuni = comune;
         this.formService.comune.patchValue('');
 
-        this.log.debug(this.formService.comune);
-        this.log.debug('cambiato');
 
         /* Se la domanda è stata già inviata, si fa un mapping per trovare il riferimento al corretto comune scelto*/
         if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
           const codComune = this.domandaService.domandaobj.domanda.invaliditaCivile.luogoRilascio.codice;
-          const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune)[0];
-          this.formService.comune.patchValue(comuneSelezionato);
+          this.formService.patchFromObject(codComune, this.listaComuni, this.formService.comune, 'codice');
         }
 
         this.detectionChange.markForCheck();
@@ -141,45 +93,10 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
 
     this.formService.appartenenza.valueChanges.subscribe((x) => {
       if (x === 'SI') {
-        this.formService.percInvalidita.setValidators(
-          [ Validators.required,
-            Validators.max(100),
-            Validators.min(1),
-            CustomValidators.onlyNumber]);
-        this.formService.dataCertificazione.setValidators(Validators.required);
-        this.formService.invaliditaEnte.setValidators([Validators.required, Validators.maxLength(255)]);
-        this.formService.comune.setValidators(Validators.required);
-        this.formService.provincia.setValidators(Validators.required);
-
+        this.formService.setValidatorsInvalidita();
       } else if (x === 'NO') {
-        this.formService.percInvalidita.clearValidators();
-        this.formService.percInvalidita.reset();
-
-        this.formService.dataCertificazione.clearValidators();
-        this.formService.dataCertificazione.reset();
-
-        this.formService.invaliditaEnte.clearValidators();
-        this.formService.invaliditaEnte.reset();
-
-        this.formService.comune.clearValidators();
-        this.formService.comune.reset();
-
-        this.formService.provincia.clearValidators();
-        this.formService.provincia.reset();
-
-        this.formService.ausiliProva.reset();
-        this.formService.tempiAggiuntiviProva.reset();
-        this.formService.esenzioneProvaSelettiva.reset();
+       this.formService.clearValidatorsInvalidita();
       }
-
-      this.formService.percInvalidita.updateValueAndValidity();
-      this.formService.dataCertificazione.updateValueAndValidity();
-      this.formService.invaliditaEnte.updateValueAndValidity();
-      this.formService.comune.updateValueAndValidity();
-      this.formService.provincia.updateValueAndValidity();
-      this.formService.ausiliProva.updateValueAndValidity();
-      this.formService.tempiAggiuntiviProva.updateValueAndValidity();
-      this.formService.esenzioneProvaSelettiva.updateValueAndValidity();
     });
   }
 

@@ -23,10 +23,10 @@ import {IntTipologiaOrTitoloOrIndirizzo} from '../../../../../core/models';
   styleUrls: ['./step-istruzione.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
+export class StepIstruzioneComponent implements OnInit, OnChanges {
+  @Input() form: FormGroup;
 
   altriIndirizziId = dataDropdown.altriIndirizziId;
-  @Input() form: FormGroup;
 
   listaProvince: Provincia[];
   listaComuni: Comune[];
@@ -42,8 +42,6 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
   log: Logger;
 
-  /** Subject che viene emesse quando il component è distrutto */
-  private onDetroy = new Subject<void>();
 
   constructor(private formbuilder: FormBuilder,
               private rest: RestService,
@@ -56,7 +54,6 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
   ngOnInit() {
 
 
-
     /**
      * Prende la lista delle tipologie, se la domanda ha operazione = 1, allora fa il mapping e assegna il riferimento corretto
      */
@@ -65,11 +62,10 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.listaTipologie = data;
         // Se la domanda è stata già mi popolo la dropdown list con i dati rest
         if (this.domandaService.isEditable) {
-          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia;
-          const tipologiaSceltaId = this.listaTipologie
-            .filter(selected => selected.id === tipologiaIst.id)[0];
-          this.formService.tipologia.patchValue(tipologiaSceltaId);
+          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.tipologia.id;
+          this.formService.patchFromObject(tipologiaIst, this.listaTipologie, this.formService.tipologia, 'id');
         }
+
       }
     );
 
@@ -81,8 +77,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.listaProvince = data;
         if (this.domandaService.isEditable) {
           const codiceSelezionato = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codiceProvincia;
-          const provinciaSelezionata = this.listaProvince.filter(x => x.codice === codiceSelezionato)[0];
-          this.formService.provinciaIstituto.patchValue(provinciaSelezionata);
+          this.formService.patchFromObject(codiceSelezionato, this.listaProvince, this.formService.provinciaIstituto, 'codice');
         }
       }
     );
@@ -122,10 +117,8 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
         /** Se la domanda è stata inviata già mi popolo la dropdown list con i dati rest **/
         if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo !== null) {
-          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo;
-          const tipologiaSceltaId = this.listaTitoli
-              .filter(selected => selected.id === tipologiaIst.id)[0];
-          this.formService.titolo.patchValue(tipologiaSceltaId);
+          const tipologiaIst = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.titolo.id;
+          this.formService.patchFromObject(tipologiaIst, this.listaTitoli, this.formService.titolo, 'id');
         }
       }
     });
@@ -154,12 +147,9 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.listaIndirizzi = data;
 
         if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo !== null) {
-          const indirizzo = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo;
+          const indirizzo = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.indirizzo.id;
+          this.formService.patchFromObject(indirizzo, this.listaIndirizzi, this.formService.indirizzo, 'id');
 
-          const tipologiaSceltaId = this.listaIndirizzi
-              .filter(selected => selected.id === indirizzo.id)[0];
-
-          this.formService.indirizzo.patchValue(tipologiaSceltaId);
         }
       }
       /** Se l'array non è popolato allora non vi sono indirizzi da scegliere **/
@@ -221,27 +211,13 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.formService.comuneIstituto.patchValue('');
         this.formService.altroIndirizzo.updateValueAndValidity();
 
-
-
         if (this.domandaService.isEditable) {
           const codComune = this.domandaService.domandaobj.domanda.titoloStudioPosseduto.luogoIstituto.codice;
-          const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune)[0];
+          this.formService.patchFromObject(codComune, this.listaComuni, this.formService.comuneIstituto, 'codice');
 
-          this.formService.comuneIstituto.patchValue(comuneSelezionato);
         }
-
-
-        this.log.debug(this.listaComuni);
-
       });
 
-  }
-
-
-
-  ngOnDestroy() {
-    this.onDetroy.next();
-    this.onDetroy.complete();
   }
 
   getSingleForm(id: string) {
