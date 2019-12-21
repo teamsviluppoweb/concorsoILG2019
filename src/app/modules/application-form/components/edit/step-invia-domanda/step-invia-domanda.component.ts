@@ -41,7 +41,7 @@ export class StepInviaDomandaComponent  {
     /* Disabilita momentaneamente il bottone di invio finquando il server non risponde 200 al post*/
     this.isSendingDisabled = true;
     /* Serializza i dati del form in formato json*/
-    this.formService.formToJson();
+    this.formService.serializeForm();
 
     this.domandaService.postDomanda(this.domandaService.domandaobj.domanda).pipe(
       concatMap(() => this.domandaService.getDomanda())

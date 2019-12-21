@@ -20,58 +20,67 @@ export class FormService {
 
   createForm() {
     this.form = this.formBuilder.group({
-      formIstruzione: this.formBuilder.group({
-        tipologia: ['', [Validators.required]],
-        titolo: [''],
-        indirizzo: [''],
-        nomeIstituto: ['', [Validators.required]],
-        indirizzoFisico: [''],
-        altroIndirizzo: [''],
-        dataConseguimento: ['', [
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(4),
-          Validators.max(new Date().getFullYear()),
-          CustomValidators.onlyNumber]],
-        // DROPDOWN
-        provinciaIstituto: ['', Validators.required],
-        comuneIstituto: ['', Validators.required],
-        comuniDropdown: [],
-        provinceDropdown: [],
-        tipologiaDropdown: [],
-        titoloDropdown: [],
-        indirizzoDropdown: [],
-      }),
-      formLingua: this.formBuilder.group({
-        linguaSelezionata: ['', [Validators.required]],
-      }),
-      formTitoliPreferenziali: this.formBuilder.group({
-        aventeTitoli: ['', Validators.required],
-        titoliSelezionati: [[], []],
-        numeroFigliSelezionati: [null, []],
-      }),
+      formIstruzione: this.createIstruzioneFg(),
+      formLingua: this.createLinguaFg(),
+      formTitoliPreferenziali: this.createTitoliPreferenzialiFg(),
       formRiserve: this.formBuilder.group({
-        aventeRiserve: ['', Validators.required],
+        aventeRiserve: [null, Validators.required],
         riserveSelezionate: [[], []],
       }),
-      formCategorieProtette: this.formBuilder.group({
-        appartenenza: ['', [Validators.required]],
-        percInvalidita: [''],
-        dataCertificazione: [''],
-        comune: [''],
-        comuniDropdown: [''],
-        provincia: [''],
-        provinceDropdown: [''],
-        invaliditaEnte: [''],
-        ausiliProva: [false],
-        tempiAggiuntiviProva: [false],
-        esenzioneProvaSelettiva: [false],
-      }),
-      formDichiarazione: this.formBuilder.group({
-        approvazione: ['', [Validators.required, CustomValidators.onlyTrue]],
-      }),
+      formCategorieProtette: this.createCategorieProtetteFg(),
+      formDichiarazione: this.createDichiarazioniFg(),
     });
     return this.form;
+  }
+
+  private createIstruzioneFg() {
+    return this.formBuilder.group({
+      tipologia: [null, [Validators.required]],
+      titolo: [null],
+      indirizzo: [null],
+      nomeIstituto: [null, [Validators.required]],
+      indirizzoFisico: [null],
+      altroIndirizzo: [null],
+      dataConseguimento: [null, [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(4),
+        Validators.max(new Date().getFullYear()),
+        CustomValidators.onlyNumber]],
+      // DROPDOWN
+      provinciaIstituto: [null, Validators.required],
+      comuneIstituto: [null, Validators.required],
+    });
+  }
+  private createLinguaFg() {
+    return  this.formBuilder.group({
+      linguaSelezionata: [null, [Validators.required]],
+    });
+  }
+  private createTitoliPreferenzialiFg() {
+    return  this.formBuilder.group({
+      aventeTitoli: [null, Validators.required],
+      titoliSelezionati: [[], []],
+      numeroFigliSelezionati: [null, []],
+    });
+  }
+  private createCategorieProtetteFg() {
+    return this.formBuilder.group({
+      appartenenza: [null, [Validators.required]],
+      percInvalidita: [null],
+      dataCertificazione: [null],
+      comune: [null],
+      provincia: [null],
+      invaliditaEnte: [null],
+      ausiliProva: [false],
+      tempiAggiuntiviProva: [false],
+      esenzioneProvaSelettiva: [false],
+    });
+  }
+  private createDichiarazioniFg() {
+    return this.formBuilder.group({
+      approvazione: [false, [Validators.required, CustomValidators.onlyTrue]],
+    });
   }
 
   /* Se la domanda è modificabile allora rimuovo il form delle dichiarazioni */
@@ -81,7 +90,7 @@ export class FormService {
   }
 
   /**
-   * Aggiorna i dati primitivi del form con i dati della domanda se essa è stat giò inviata. Gli oggetti
+   * Aggiorna i dati primitivi del form con i dati della domanda se essa è stata giò inviata. Gli oggetti
    * non vengono patchati perchè si assegnano per referenza non valore.
    * @param fg = Il formgroup che contiene tutta la domanda: anagrafica, titoli di studio, lingue straniere ecc . . .
    */
@@ -115,17 +124,17 @@ export class FormService {
   /**
    * Serializza i dati per farli combaciare con quelli del modello json della domanda
    */
-  formToJson() {
+  serializeForm() {
 
 
-    this.formIstruzioneToJson();
-    this.formLinguaToJson();
-    this.formTitoliToJson();
-    this.formRiserveToJson();
-    this.formInvaliditaToJson();
+    this.serializeIstruzioneFg();
+    this.serializeLingueFg();
+    this.serializeTitoliFg();
+    this.serializeRiserveFg();
+    this.serializeInvaliditaFg();
   }
 
-  private formIstruzioneToJson() {
+  private serializeIstruzioneFg() {
     // Se è la prima volta che la domanda viene compilata tolgo il null alle sezioni obbligatorie
 
 
@@ -160,11 +169,11 @@ export class FormService {
     };
   }
 
-  private formLinguaToJson() {
+  private serializeLingueFg() {
     this.domandaService.domandaobj.domanda.lingua = this.linguaSelezionata.value;
   }
 
-  private formTitoliToJson() {
+  private serializeTitoliFg() {
     if (this.aventeTitoli.value === 'NO') {
       this.domandaService.domandaobj.domanda.lstTitoliPreferenziali = [];
       this.domandaService.domandaobj.domanda.numeroFigli = 0;
@@ -181,11 +190,11 @@ export class FormService {
     }
   }
 
-  private formRiserveToJson() {
+  private serializeRiserveFg() {
     this.domandaService.domandaobj.domanda.lstRiserve = this.riserveSelezionate.value;
   }
 
-  private formInvaliditaToJson() {
+  private serializeInvaliditaFg() {
 
     if (this.appartenenza.value === 'SI') {
       this.domandaService.domandaobj.domanda.invaliditaCivile = {
@@ -206,6 +215,8 @@ export class FormService {
       this.domandaService.domandaobj.domanda.invaliditaCivile = null;
     }
   }
+
+
 
   /*
     REACTIVE FORM BOILER TEMPLATE
@@ -271,26 +282,6 @@ export class FormService {
     return this.form.get('formRiserve.aventeRiserve');
   }
 
-  get comuniDropdown() {
-    return this.form.get('formIstruzione.comuniDropdown');
-  }
-
-  get provinceDropdown() {
-    return this.form.get('formIstruzione.provinceDropdown');
-  }
-
-  get tipologiaDropdown() {
-    return this.form.get('formIstruzione.tipologiaDropdown');
-  }
-
-  get titoloDropdown() {
-    return this.form.get('formIstruzione.titoloDropdown');
-  }
-
-  get indirizzoDropdown() {
-    return this.form.get('formIstruzione.indirizzoDropdown');
-  }
-
   get appartenenza() {
     return this.form.get('formCategorieProtette.appartenenza');
   }
@@ -323,16 +314,8 @@ export class FormService {
     return this.form.get('formCategorieProtette.comune');
   }
 
-  get comuniDropdownCat() {
-    return this.form.get('formCategorieProtette.comuniDropdown');
-  }
-
   get provincia() {
     return this.form.get('formCategorieProtette.provincia');
-  }
-
-  get provinceDropdownCat() {
-    return this.form.get('formCategorieProtette.provinceDropdown');
   }
 
   get approvazione() {

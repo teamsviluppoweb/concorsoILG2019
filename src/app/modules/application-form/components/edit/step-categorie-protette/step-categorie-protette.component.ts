@@ -71,6 +71,12 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
 
       this.formService.provincia.clearValidators();
       this.formService.provincia.reset();
+
+
+      this.formService.ausiliProva.reset();
+      this.formService.tempiAggiuntiviProva.reset();
+      this.formService.esenzioneProvaSelettiva.reset();
+
     }
 
     this.formService.percInvalidita.updateValueAndValidity();
@@ -160,6 +166,10 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
 
         this.formService.provincia.clearValidators();
         this.formService.provincia.reset();
+
+        this.formService.ausiliProva.reset();
+        this.formService.tempiAggiuntiviProva.reset();
+        this.formService.esenzioneProvaSelettiva.reset();
       }
 
       this.formService.percInvalidita.updateValueAndValidity();
@@ -167,7 +177,9 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
       this.formService.invaliditaEnte.updateValueAndValidity();
       this.formService.comune.updateValueAndValidity();
       this.formService.provincia.updateValueAndValidity();
-
+      this.formService.ausiliProva.updateValueAndValidity();
+      this.formService.tempiAggiuntiviProva.updateValueAndValidity();
+      this.formService.esenzioneProvaSelettiva.updateValueAndValidity();
     });
   }
 
