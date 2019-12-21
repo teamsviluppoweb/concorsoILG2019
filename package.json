@@ -10,7 +10,8 @@
     "host": "http-server dist/concorsoILG/",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e --webdriver-update=false"
+    "e2e": "ng e2e",
+    "e2e-locale": "ng e2e --port 4300 -c locale"
   },
   "private": true,
   "dependencies": {
@@ -35,6 +36,7 @@
     "ngx-spinner": "^8.1.0",
     "rxjs": "~6.4.0",
     "tslib": "^1.9.0",
+    "webdriver": "^5.18.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
@@ -46,15 +48,15 @@
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.2.1",
-    "jasmine-core": "~3.4.0",
+    "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",
-    "karma": "~4.1.0",
+    "karma": "~3.1.1",
     "karma-chrome-launcher": "~2.2.0",
     "karma-coverage": "^1.1.2",
-    "karma-coverage-istanbul-reporter": "^2.0.6",
+    "karma-coverage-istanbul-reporter": "~2.0.1",
     "karma-coveralls": "^2.1.0",
-    "karma-jasmine": "~2.0.1",
-    "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-jasmine": "~1.1.2",
+    "karma-jasmine-html-reporter": "^0.2.2",
     "protractor": "~5.4.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",

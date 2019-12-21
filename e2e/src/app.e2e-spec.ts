@@ -1,17 +1,25 @@
 import { AppPage } from './app.po';
-import { browser, logging } from 'protractor';
+import {browser, by, element, logging} from 'protractor';
+
+
 
 describe('workspace-project App', () => {
   let page: AppPage;
-
   beforeEach(() => {
+
     page = new AppPage();
   });
 
-  it('should display welcome message', () => {
-    page.navigateTo();
-    expect(page.getTitleText()).toEqual('Welcome to concorsoILG!');
+  it('Should display the application form', async () => {
+    page.loginWithToken();
+    browser.driver.sleep(1000);
+    expect(browser.getCurrentUrl()).toEqual("http://localhost:4200/#/apf/compila");
+    browser.driver.sleep(1000);
   });
+
+
+
+
 
   afterEach(async () => {
     // Assert that there are no errors emitted from the browser

@@ -29,17 +29,17 @@ const app = express();
         dataInvio: '12/12/1995',
         dataModifica: '12/12/1995',
         anagCandidato: {
-            codiceFiscale: 'TRTRRERERRE',
-            cognome: 'Turturica',
-            nome: 'Robert',
-            dataNascita: '02/12/1995',
+            codiceFiscale: 'RSSMRA99D20F205R',
+            cognome: 'Rossi',
+            nome: 'Mario',
+            dataNascita: '20/04/1999',
             comuneNascita: {
                 codice: 'H501',
                 nome: 'Roma',
                 codiceProvincia: 'RM'
             },
             residenza: 'Roma',
-            telefono: '1111',
+            telefono: '3203200022',
             email: 'mail@me.com'
         },
         titoloStudioPosseduto: {
@@ -98,11 +98,10 @@ let users = [
 ];
 
 // LOGIN ROUTE
-app.post('/login', (req, res) => {
-    const { username, password } = req.body;
+app.get('/token', (req, res) => {
     // Use your DB ORM logic here to find user and compare password
     for (let user of users) { // I am using a simple array users which i made above
-        if (username == user.username && password == user.password /* Use your password hash checking logic here !*/) {
+        if ('demo' == user.username && 'demo' == user.password /* Use your password hash checking logic here !*/) {
             //If all credentials are correct do this
             let token = jwt.sign({ id: user.id, username: user.username }, 'keyboard cat 4 ever', { expiresIn }); // Sigining the token
             res.json({
@@ -289,7 +288,7 @@ app.use(function (err, req, res, next) {
 
 // Starting the app on PORT 3000
 const PORT = 8080;
-app.listen(PORT, '192.168.1.152', () => {
+app.listen(PORT, () => {
     // eslint-disable-next-line
     console.log(`Magic happens on port ${PORT}`);
 });

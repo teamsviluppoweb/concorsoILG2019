@@ -48,6 +48,8 @@ export class StepTitoliPreferenzialiComponent implements OnInit {
            * Confronta i titoli scelti con quelli della lista, e assegna i titoli alla lista usando come datasource ElencoTitoliPreferenziali
            */
           // tslint:disable-next-line:prefer-for-of
+
+
           for (let i = 0; i < this.elencoTitoliPreferenziali.length; i++) {
             // tslint:disable-next-line:prefer-for-of
             for (let k = 0; k < this.domandaService.domandaobj.domanda.lstTitoliPreferenziali.length; k++) {

@@ -11,18 +11,18 @@ export const environment = {
   localIp: 'pc39548.dipvvf.it',
   hostredirect: 'https://pc39548.dipvvf.it:4200/',
   endpoint: {
-    domanda: 'http://192.168.1.152:8080/GetDomanda',
-    salvaDomanda: 'http://192.168.1.152:8080/SalvaDomanda',
-    titoli: 'http://192.168.1.152:8080/TitoliPreferenziali',
-    riserve: 'http://192.168.1.152:8080/Riserve',
-    lingue: 'http://192.168.1.152:8080/Lingue',
-    province: 'http://192.168.1.152:8080/Province',
-    comuni: 'http://192.168.1.152:8080/Province/',
-    tipologia: 'http://192.168.1.152:8080/TitoliStudio/Tipologie',
-    titolo: 'http://192.168.1.152:8080/TitoliStudio/titoli/',
-    indirizzi: 'http://192.168.1.152:8080/TitoliStudio/indirizzi/',
-    infoConcorso: 'http://192.168.1.152:8080/info',
-    pathSpidLogin: 'https://sso.vigilfuoco.it/cas-test/login?service=https://192.168.1.152:8080/testjwt/',
-    pathSpidLogout: 'https://sso.vigilfuoco.it/cas-test/logout?service=https://192.168.1.152:8080/testjwt/'
+    domanda: 'http://localhost:8080/GetDomanda',
+    salvaDomanda: 'http://localhost:8080/SalvaDomanda',
+    titoli: 'http://localhost:8080/TitoliPreferenziali',
+    riserve: 'http://localhost:8080/Riserve',
+    lingue: 'http://localhost:8080/Lingue',
+    province: 'http://localhost:8080/Province',
+    comuni: 'http://localhost:8080/Province/',
+    tipologia: 'http://localhost:8080/TitoliStudio/Tipologie',
+    titolo: 'http://localhost:8080/TitoliStudio/titoli/',
+    indirizzi: 'http://localhost:8080/TitoliStudio/indirizzi/',
+    infoConcorso: 'http://localhost:8080/info',
+    pathSpidLogin: 'https://sso.vigilfuoco.it/cas-test/login?service=https://localhost:8080/testjwt/',
+    pathSpidLogout: 'https://sso.vigilfuoco.it/cas-test/logout?service=https://localhost:8080/testjwt/'
   }
 };
