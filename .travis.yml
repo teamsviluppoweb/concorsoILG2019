@@ -23,12 +23,13 @@ install:
   - npm install
 
 before_script:
+  - node ./node_modules/protractor/bin/webdriver-manager update --versions.chrome 79.0.3945.88
   - npm run test -- --no-watch --no-progress --browsers=ChromeHeadlessCI
 
 script:
+  - node ./local-backend app.js
   - codecov
-  - node ./node_modules/protractor/bin/webdriver-manager update --versions.chrome 79.0.3945.88
 
 after_script:
-  - npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
   - cat ./coverage/*/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+  - npm run e2e -- --protractor-config=e2e/protractor-ci.conf.js
