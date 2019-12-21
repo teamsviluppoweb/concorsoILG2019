@@ -18,7 +18,7 @@ const get = require('simple-get')
 var expiresIn = 30000;
 // Instantiating the express app
 const app = express();
-  
+
    var data = {
     domanda: {
         id: '1',
@@ -66,8 +66,8 @@ const app = express();
      errore: 'no',
      operazione: 0
    }
-   
-   
+
+
 
 // See the react auth blog in which cors is required for access
 app.use((req, res, next) => {
@@ -123,7 +123,7 @@ app.post('/login', (req, res) => {
 });
 
 app.get('/GetDomanda', jwtMW /* Using the express jwt MW here */, (req, res) => {
-    
+
     res.send(data); //Sending some response when authenticated
 });
 
@@ -237,7 +237,7 @@ app.get('/TitoliStudio/Tipologie', jwtMW /* Using the express jwt MW here */, (r
 });
 
 app.get('/TitoliStudio/titoli/:id', jwtMW /* Using the express jwt MW here */, (req, res) => {
-    
+
     let titoli = [ {id: 1, desc: 'titolo 1'}, {id: '2', desc: 'END'} ];
 
     switch(req.params.id) {
@@ -247,12 +247,12 @@ app.get('/TitoliStudio/titoli/:id', jwtMW /* Using the express jwt MW here */, (
 });
 
 app.get('/TitoliStudio/indirizzi/:id', jwtMW /* Using the express jwt MW here */, (req, res) => {
-    
-    let indirizzi = [ {id: 1, desc: 'indirizzo 1'}, {id: 2, desc: 'END'}, {id: "341", desc: 'ALTRO'}];
+
+    let indirizzi = [ {id: 1, desc: 'indirizzo 1'}, {id: 2, desc: 'END'}, {id: "341", desc: 'ALTRO INDIRIZZO'}];
 
     if(req.params.id === '2') {
         res.send([]);
-    } 
+    }
     if(req.params.id === 'undefined') {
         res.send([]);
     }
