@@ -1,10 +1,9 @@
 import { AppPage } from './app.po';
 import {browser, by, element, logging} from 'protractor';
 
-
-
 describe('workspace-project App', () => {
   let page: AppPage;
+
   beforeEach(() => {
 
     page = new AppPage();
@@ -16,6 +15,7 @@ describe('workspace-project App', () => {
     expect(browser.getCurrentUrl()).toEqual("http://localhost:4200/#/apf/compila");
     browser.driver.sleep(1000);
   });
+
 
 
 
