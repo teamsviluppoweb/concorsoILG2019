@@ -69,11 +69,15 @@
                          [iterateOver]="'nome'">
 
       </mat-filter-select>
-      <mat-filter-select fxFlex="100"
-                           [dataSet]="listaComuni"
-                           [bindedForm]="getSingleForm('comuneIstituto')"
-                           [iterateOver]="'nome'">
+      <div fxFlex="100">
+        <mat-filter-select
+          *ngIf="renderComuni"
+          [dataSet]="listaComuni"
+          [bindedForm]="getSingleForm('comuneIstituto')"
+          [iterateOver]="'nome'">
         </mat-filter-select>
+
+      </div>
 
 
 
