@@ -15,6 +15,7 @@
   },
   "private": true,
   "dependencies": {
+    "444626d3f627e1cfcc1691d90c5bcc67-718ab0fd1bdcf9882792f244e02cf595ef637a83": "file:local-backend",
     "@angular/animations": "^8.2.14",
     "@angular/cdk": "^8.2.3",
     "@angular/common": "~8.0.0",

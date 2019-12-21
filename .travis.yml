@@ -19,6 +19,7 @@ cache:
 install:
   - npm install -g codecov
   - npm install coveralls
+  - npm install local-backend
   - npm install
 
 before_script:
