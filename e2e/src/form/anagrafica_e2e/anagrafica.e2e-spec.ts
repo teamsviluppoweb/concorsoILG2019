@@ -29,10 +29,7 @@ describe('workspace-anagrafica', () => {
   });
 
 
-  it('Expect data nascita to be 20/04/1999', async () => {
-    const dataNascita = anagrafica.anagraficaForm().dataNascita;
-    expect(dataNascita).toEqual('20/04/1999');
-  });
+
 
   it('Expect cf to be RSSMRA99D20F205R', async () => {
     const cf = anagrafica.anagraficaForm().codiceFiscale;

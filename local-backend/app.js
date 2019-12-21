@@ -103,7 +103,7 @@ app.get('/token', (req, res) => {
     for (let user of users) { // I am using a simple array users which i made above
         if ('demo' == user.username && 'demo' == user.password /* Use your password hash checking logic here !*/) {
             //If all credentials are correct do this
-            let token = jwt.sign({ id: user.id, username: user.username }, 'keyboard cat 4 ever', { expiresIn }); // Sigining the token
+            let token = jwt.sign({ id: user.id, username: user.username }, 'keyboard cat 4 ever'); // Sigining the token
             res.json({
                 sucess: true,
                 err: null,
