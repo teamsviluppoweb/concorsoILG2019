@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {Subject} from 'rxjs';
@@ -47,6 +47,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
 
   constructor(private formbuilder: FormBuilder,
               private rest: RestService,
+              private detectionChange: ChangeDetectorRef,
               private formService: FormService,
               private domandaService: DomandaService) {
     this.log = new Logger('Step-Istruzione');
@@ -111,6 +112,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
        vuoto allora titoli di studio non deve essere popolato
        **/
       if (data.length > 0) {
+        this.detectionChange.markForCheck();
         this.renderTitoli = true;
 
         this.formService.titolo.setValidators([Validators.required]);
@@ -167,6 +169,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
         this.formService.indirizzo.clearValidators();
       }
       this.formService.indirizzo.updateValueAndValidity();
+      this.detectionChange.markForCheck();
     });
 
 
@@ -202,6 +205,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges, OnDestroy {
             this.formService.altroIndirizzo.patchValue(null);
             this.formService.altroIndirizzo.updateValueAndValidity();
           }
+          this.detectionChange.markForCheck();
         });
 
 

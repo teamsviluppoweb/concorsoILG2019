@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
 import { MatStepper} from '@angular/material';
 import {CustomValidators} from '../../../../../shared/validators/customValidators';
@@ -35,11 +35,15 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
 
   constructor(private domandaService: DomandaService,
               private formService: FormService,
+              private detectionChange: ChangeDetectorRef,
               private rest: RestService) {
-    this.log = new Logger('Step Categorie Protette');
+    this.log = new Logger('CATEOGORIE_PROTETTE');
   }
 
   ngOnInit(): void {
+
+    this.log.debug('ngOnInit');
+    this.log.debug('val comune: ', this.formService.comune.value);
 
     if (this.formService.appartenenza.value === 'SI') {
       this.formService.percInvalidita.setValidators(
@@ -116,6 +120,7 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
         this.formService.comune.patchValue('');
 
         this.log.debug(this.formService.comune);
+        this.log.debug('cambiato');
 
         /* Se la domanda è stata già inviata, si fa un mapping per trovare il riferimento al corretto comune scelto*/
         if (this.domandaService.isEditable && this.domandaService.domandaobj.domanda.invaliditaCivile !== null) {
@@ -123,6 +128,8 @@ export class StepCategorieProtetteComponent implements OnInit, OnChanges {
           const comuneSelezionato = this.listaComuni.filter(x => x.codice === codComune)[0];
           this.formService.comune.patchValue(comuneSelezionato);
         }
+
+        this.detectionChange.markForCheck();
       });
 
 
