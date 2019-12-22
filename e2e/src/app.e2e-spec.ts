@@ -11,9 +11,7 @@ describe('workspace-project App', () => {
 
   it('Should display the application form', async () => {
     page.loginWithToken();
-    browser.driver.sleep(1000);
     expect(browser.getCurrentUrl()).toEqual("http://localhost:4200/#/apf/compila");
-    browser.driver.sleep(1000);
   });
 
 

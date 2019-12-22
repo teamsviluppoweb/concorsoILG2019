@@ -29,7 +29,10 @@ describe('workspace-anagrafica', () => {
   });
 
 
-
+  it('Expect data nascita to be 12/08/2011', async () => {
+    const dataNascita = anagrafica.anagraficaForm().dataNascita;
+    expect(dataNascita).toEqual('12/08/2011');
+  });
 
   it('Expect cf to be RSSMRA99D20F205R', async () => {
     const cf = anagrafica.anagraficaForm().codiceFiscale;
@@ -49,6 +52,10 @@ describe('workspace-anagrafica', () => {
   it('Expect mail to be mail@me.com', async () => {
     const email = anagrafica.anagraficaForm().email;
     expect(email).toEqual('mail@me.com');
+  });
+
+  it('Expect to to be able to click next', async () => {
+    const next = element(by.buttonText('Avanti')).first().click();
   });
 
 

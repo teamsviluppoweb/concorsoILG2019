@@ -32,7 +32,7 @@ const app = express();
             codiceFiscale: 'RSSMRA99D20F205R',
             cognome: 'Rossi',
             nome: 'Mario',
-            dataNascita: '20/04/1999',
+            dataNascita: '2011-08-12T20:17:46.384Z',
             comuneNascita: {
                 codice: 'H501',
                 nome: 'Roma',
@@ -167,7 +167,9 @@ app.get('/Riserve', jwtMW /* Using the express jwt MW here */, (req, res) => {
             descrizione: 'Riserva 3',
         }
     ]
-    res.send(riserve);
+    setTimeout(() => {
+        res.send(riserve); 
+    }, 7000);
 });
 
 app.get('/Lingue', jwtMW /* Using the express jwt MW here */, (req, res) => {
@@ -189,7 +191,10 @@ app.get('/Lingue', jwtMW /* Using the express jwt MW here */, (req, res) => {
             descrizione: 'Tedesco',
         }
     ]
-    res.send(riserve);
+    
+    setTimeout(() => {
+        res.send(riserve);
+    }, 5000);
 });
 
 app.get('/Province', jwtMW /* Using the express jwt MW here */, (req, res) => {
