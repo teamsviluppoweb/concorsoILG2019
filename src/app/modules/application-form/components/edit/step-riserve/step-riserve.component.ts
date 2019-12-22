@@ -1,6 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {FormGroup, Validators} from '@angular/forms';
-import {MatStepper} from '@angular/material';
 import {DomandaService} from '../../../../../core/services/domanda.service';
 import {RestService} from '../../../../../core/services/rest.service';
 import {Riserva} from '../../../../../core/models/rest/rest-interface';
@@ -16,11 +15,8 @@ import {FormService} from '../../../../../core/services/form.service';
 })
 export class StepRiserveComponent implements OnInit {
   @Input() form: FormGroup;
-
-
   elencoRiserve: Riserva[];
 
-  @ViewChild('stepper', { static: false }) private myStepper: MatStepper;
 
   constructor(private domandaService: DomandaService,
               private formService: FormService,
