@@ -1,17 +1,15 @@
 <div [formGroup]="form" fxLayout="column">
 
-<!-- TODO: Cambiare value in model -->
-  <p class="loo">Scegli una delle seguenti lingue straniere</p>
-  <div fxFlex.sm="100" fxFlex.xs="100" fxFlex="50" style="margin-bottom: 20px" >
+<!-- TODO: Aggiungere spinner -->
+  <p class="title-action">Scegli una delle seguenti lingue straniere</p>
+  <div fxFlex.sm="100" fxFlex.xs="100" fxFlex="50" style="margin-bottom: 20px" formGroupName="formLingua">
       <mat-button-toggle-group name="fontStyle"
 
                                fxLayout.sm="column"
                                fxLayout.xs="column"
-                               #group="matButtonToggleGroup"
-                               (change)="onValChange(group.value)"
-                               fxLayout="row" [formControl]="getSingleForm('linguaSelezionata')" value="getSingleForm('linguaSelezionata').value">
+                               fxLayout="row" formControlName="linguaSelezionata" [value]="getSingleForm('linguaSelezionata').value">
 
-     <mat-button-toggle  *ngFor="let i of elencoLingue"
+     <mat-button-toggle  *ngFor="let i of ($elencoLingue | async)"
                          [value]="i"
                          fxFlex="25" fxFlex.sm="100" fxFlex.xs="100" >{{i.descrizione}}</mat-button-toggle>
       </mat-button-toggle-group>
@@ -20,6 +18,13 @@
 
   <app-stepper [isValid]="form.controls.formLingua.valid"></app-stepper>
 
+  <ng-template #loading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+
+
 </div>
+
+
 
 
