@@ -1,10 +1,9 @@
-
 <div class="container">
   <div class="form-container">
     <div *ngFor="let blocco of ($dataSet | async)">
-      <h1>{{blocco?.titoloBlocco}}</h1>
+      <h2>{{blocco?.titoloBlocco}}</h2>
 
-      <div *ngIf="blocco?.tipo === formType?.input"  fxLayout.lg="row wrap" fxLayout.xs="column">
+      <div *ngIf="blocco?.tipo === formType?.input" fxLayout="row wrap" fxLayout.xs="column">
         <div *ngFor="let dato of blocco?.dati" [fxFlex]="30" fxFlex.xs="100">
           <mat-form-field appearance="outline" fxFlex>
             <mat-label>{{dato.etichetta}}</mat-label>
@@ -13,8 +12,8 @@
         </div>
       </div>
 
-      <div *ngIf="blocco.tipo === formType.lista" fxLayout="row wrap" fxLayout.xs="column">
-        <ul *ngFor="let dato of blocco.dati" [fxFlex]="100">
+      <div *ngIf="blocco.tipo === formType.lista"fxLayout="row wrap" fxLayout.xs="column">
+        <ul *ngFor="let dato of blocco.dati" fxFlex="100">
           <li fxFlex>{{dato.valore}}</li>
         </ul>
       </div>
