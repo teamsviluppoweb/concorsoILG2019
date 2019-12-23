@@ -125,8 +125,6 @@ export class FormService {
    * Serializza i dati per farli combaciare con quelli del modello json della domanda
    */
   serializeForm() {
-
-
     this.serializeIstruzioneFg();
     this.serializeLingueFg();
     this.serializeTitoliFg();

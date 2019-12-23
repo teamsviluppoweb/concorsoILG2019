@@ -1,190 +1,25 @@
-<mat-card class="modulo">
-  <form [formGroup]="md">
+TODO: Rendere responsive
 
-    <mat-card-title>Ecco il riepilogo della tua domanda</mat-card-title>
-    <br>
+<div class="container">
+  <div class="form-container">
+    <div *ngFor="let blocco of ($dataSet | async)">
+      <h1>{{blocco?.titoloBlocco}}</h1>
 
-    <h3>Anagrafica</h3>
-    <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
+      <div *ngIf="blocco?.tipo === formType?.input"  fxLayout.lg="row wrap" fxLayout.xs="column">
+        <div *ngFor="let dato of blocco?.dati" [fxFlex]="30" fxFlex.xs="100">
+          <mat-form-field appearance="outline" fxFlex>
+            <mat-label>{{dato.etichetta}}</mat-label>
+            <input matInput [placeholder]="dato.etichetta" [value]="dato.valore">
+          </mat-form-field>
+        </div>
+      </div>
 
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-        <mat-label>Nome</mat-label>
-        <input matInput readonly value="mario">
-      </mat-form-field>
-
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-        <mat-label>Cognome</mat-label>
-        <input matInput readonly value="Rossi">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="grow">
-        <mat-label>Codice Fiscale</mat-label>
-        <input matInput readonly value="XS293DSX203DS203">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" fxFlex="auto" fxFlex.sm="grow">
-        <mat-label>Data di Nascita</mat-label>
-        <input matInput readonly value="21/12/1839">
-      </mat-form-field>
-
-    </div>
-
-    <div fxLayout="row wrap" fxLayout.sm="column" fxLayout.xs="column">
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="grow">
-        <mat-label>Nato a</mat-label>
-        <input matInput readonly value="Roma">
-      </mat-form-field>
-
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="grow">
-        <mat-label>Residenza</mat-label>
-        <input matInput readonly value="Roma">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" fxFlex="auto" fxFlex.sm="grow">
-        <mat-label>Via</mat-label>
-        <input matInput readonly value="Via dei cosimi 21">
-      </mat-form-field>
-
-    </div>
-
-    <div fxLayout="row wrap" fxLayout.xs="column">
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-        <mat-label>Telefono</mat-label>
-        <input matInput readonly value="+39 3339993331">
-      </mat-form-field>
-
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-        <mat-label>Email</mat-label>
-        <input matInput readonly value="mario.rossi@gmail.com">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="grow">
-        <mat-label>Pec</mat-label>
-        <input matInput readonly value="pec@pecmail.it">
-      </mat-form-field>
-
-    </div>
-
-    <mat-divider [inset]="true"></mat-divider>
-
-
-    <h3>Istruzione</h3>
-
-    <div fxLayout="row wrap" fxLayout.xs="column">
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-        <mat-label>Istituto Frequentato</mat-label>
-        <input matInput readonly [formControl]="istitutoFrequentato">
-      </mat-form-field>
-
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-        <mat-label>Tipo di diploma conseguito</mat-label>
-        <input [formControl]="tipoDiploma" matInput readonly>
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="grow">
-        <mat-label>Anno conseguimento diploma</mat-label>
-        <input matInput readonly [formControl]="annoDiploma">
-      </mat-form-field>
-
-    </div>
-
-    <div fxLayout="row wrap" fxLayout.xs="column">
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-        <mat-label>Comune Istituto</mat-label>
-        <input matInput readonly [formControl]="comuneIstituto">
-      </mat-form-field>
-
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-        <mat-label>Provincia Istituto</mat-label>
-        <input matInput readonly [formControl]="provinciaIstituto">
-      </mat-form-field>
-
-      <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="grow">
-        <mat-label>Via</mat-label>
-        <input matInput readonly [formControl]="viaIstituto">
-      </mat-form-field>
-
-    </div>
-
-    <mat-divider [inset]="true"></mat-divider>
-
-    <h3>Lingua straniera</h3>
-
-    <div fxLayout="row wrap" fxLayout.xs="column">
-
-      <mat-form-field appearance="outline" fxFlex="auto">
-        <mat-label>Lingua selezionata</mat-label>
-        <input matInput readonly [formControl]="linguaSelezionata">
-      </mat-form-field>
-
-    </div>
-
-    <mat-divider [inset]="true"></mat-divider>
-
-    <div *ngIf="displayTitoli">
-      <h3>Titoli Preferenziali</h3>
-
-      <ul *ngFor="let i of titoliSelezionati.value">
-        <li> {{i.Descrizione}} </li>
-      </ul>
-
-      <div *ngIf="aventeFigli">
-        <p>Numero Figli Selezionati : {{this.numeroFigliSelezionati.value}}</p>
+      <div *ngIf="blocco.tipo === formType.lista" fxLayout="row wrap" fxLayout.xs="column">
+        <ul *ngFor="let dato of blocco.dati" [fxFlex]="100">
+          <li fxFlex>{{dato.valore}}</li>
+        </ul>
       </div>
 
     </div>
-
-    <mat-divider [inset]="true"></mat-divider>
-
-    <div *ngIf="displayRiserve">
-      <h3>Riserve</h3>
-
-      <ul *ngFor="let i of riserveSelezionate.value">
-        <li> {{i.Descrizione}} </li>
-        <br>
-      </ul>
-    </div>
-    <mat-divider [inset]="true"></mat-divider>
-
-    <div *ngIf="displayInvalidita">
-      <h3>Categorie Protette</h3>
-
-      <div fxLayout="row wrap" fxLayout.xs="column">
-
-        <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-          <mat-label>Percentuale Invalidità</mat-label>
-          <input matInput readonly [formControl]="percInvalidita">
-        </mat-form-field>
-
-
-        <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="1 0 auto">
-          <mat-label>Data Certificazione</mat-label>
-          <input matInput readonly [formControl]="dataCertificazione">
-        </mat-form-field>
-
-        <mat-form-field appearance="outline" fxFlex="24" fxFlex.sm="grow">
-          <mat-label>Rilasciato Da</mat-label>
-          <input matInput readonly [formControl]="invaliditaEnte">
-        </mat-form-field>
-
-      </div>
-
-      <ul>
-        <li *ngIf="ausiliProva.value"> Dichiaro di avere diritto ad usufruire di ausili per lo svolgimento delle prove d'esame</li>
-        <li *ngIf="tempiAggiuntiviProva.value">   Dichiaro di avere diritto ad usufruire di eventuali tempi aggiuntivi</li>
-        <li *ngIf="esenzioneProvaSelettiva.value">   Dichiaro di avere diritto, in quanto affetto da invalità uguale o superiore all'80%, a non effettuare l'eventuale prova preselettiva</li>
-      </ul>
-
-    </div>
-  </form>
-
-</mat-card>
+  </div>
+</div>

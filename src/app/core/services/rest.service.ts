@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {
-  Comune, InfoConorso,
+  Comune, DomandaDinamica, InfoConorso,
   Lingua,
   Riserva,
   TitoliTitoloIndirizzo,
@@ -69,6 +69,10 @@ export class RestService {
   @Cacheable()
   getInfoConcorso(): Observable<InfoConorso>  {
     return this.http.get<InfoConorso>(environment.endpoint.infoConcorso);
+  }
+
+  getDomandaDinamica(): Observable<DomandaDinamica[]> {
+    return this.http.get<DomandaDinamica[]>(environment.endpoint.visualizzaDomanda);
   }
 
 }

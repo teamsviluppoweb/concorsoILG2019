@@ -46,3 +46,17 @@ export interface InfoConorso {
   dataFineDomanda: string;
   dataFineConcorso: string;
 }
+
+
+
+export interface DomandaDinamica {
+  titoloBlocco: string;
+  coloreSfondoTitolo: string;
+  tipo: number;
+  dati?: (DatiEntity)[] | null;
+}
+export interface DatiEntity {
+  etichetta?: string | null;
+  valore?: string | null;
+  size: number;
+}
