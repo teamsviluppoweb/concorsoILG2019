@@ -216,6 +216,7 @@ export class StepIstruzioneComponent implements OnInit, OnChanges {
           this.formService.patchFromObject(codComune, this.listaComuni, this.formService.comuneIstituto, 'codice');
 
         }
+        this.detectionChange.markForCheck();
       });
 
   }
