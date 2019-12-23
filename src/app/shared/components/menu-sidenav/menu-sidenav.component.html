@@ -18,7 +18,7 @@
       <mat-list-item fxLayout="column" *ngIf="stato === 1">
         <span class="menu_info_text">ULTIMA MODIFICA:</span>
         <span fxFlex="1 1 auto"></span>
-        <a class="menu_info_text value">{{dataModifica| customDate}}</a>
+        <a class="menu_info_text value">{{dataUltimaModifica| customDate}}</a>
       </mat-list-item>
 
       <mat-list-item fxLayout="column">
@@ -40,18 +40,19 @@
 
 
     <mat-list class="menu_item">
-      <mat-list-item fxLayout="column"  [routerLink]="['/' + siteRoutes.user.madre + '/' + siteRoutes.user.info]" routerLinkActive="router-link-active" class="menu_style">
-        <a class="menu_item_text action">PROFILO</a>
-      </mat-list-item>
-
 
       <mat-list-item *ngIf="stato !== 0" fxLayout="column" [routerLink]="['/' + siteRoutes.user.madre + '/' + siteRoutes.user.visualizzaDomanda]" routerLinkActive="router-link-active" class="menu_style">
         <a class="menu_item_text action">VISUALIZZA DOMANDA</a>
       </mat-list-item>
 
-      <mat-list-item fxLayout="column" [routerLink]="['/' + siteRoutes.apf.madre + '/' + siteRoutes.apf.compilaDomanda]"  routerLinkActive="router-link-active" class="menu_style">
+      <mat-list-item *ngIf="stato !== 2" fxLayout="column" [routerLink]="['/' + siteRoutes.apf.madre + '/' + siteRoutes.apf.compilaDomanda]"  routerLinkActive="router-link-active" class="menu_style">
         <a class="menu_item_text action">{{stato | infoAzioneDomanda}}</a>
       </mat-list-item>
+
+      <mat-list-item *ngIf="stato === 2" fxLayout="column"  [routerLink]="['/' + siteRoutes.user.madre + '/' + siteRoutes.user.info]" routerLinkActive="router-link-active" class="menu_style">
+        <a class="menu_item_text action">VISUALIZZA ESITI</a>
+      </mat-list-item>
+
     </mat-list>
 
   </mat-nav-list>
