@@ -4,6 +4,7 @@ import {DomandaCandidatoComponent} from './components/domanda-candidato/domanda-
 import {globalRoutes} from '../../shared/routes/global-routes';
 import {VisualizzaDomandaGuard} from '../../core/guards';
 import {EsitiComponent} from './components/esiti/esiti.component';
+import {VisualizzaEsitiGuard} from '../../core/guards/visualizza-esiti.guard';
 export const routes: Routes = [
   {
     path: '',
@@ -17,6 +18,7 @@ export const routes: Routes = [
   },
   {
     path:  globalRoutes.user.esiti,
+    canActivate: [VisualizzaEsitiGuard],
     component: EsitiComponent
   }
 ];
