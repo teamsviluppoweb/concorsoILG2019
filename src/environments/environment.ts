@@ -24,6 +24,7 @@ export const environment = {
     infoConcorso: '//webpc.dipvvf.it:8020/info/',
     pathSpidLogin: 'https://sso.vigilfuoco.it/cas-test/login?service=https://localhost:8080/testjwt/',
     pathSpidLogout: 'https://sso.vigilfuoco.it/cas-test/logout?service=https://localhost:8080/testjwt/',
-    visualizzaDomanda: '//webpc.dipvvf.it:8020/visualizzadomanda'
+    visualizzaDomanda: '//webpc.dipvvf.it:8020/visualizzadomanda',
+    visualizzaEsiti: '//webpc.dipvvf.it:8020/VisualizzaEsiti'
   }
 };

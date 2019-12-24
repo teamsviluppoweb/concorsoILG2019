@@ -6,6 +6,6 @@ export const globalRoutes = {
   user: {
     madre: 'user',
     visualizzaDomanda: 'domanda',
-    info: 'info'
+    esiti: 'esiti'
   }
 };

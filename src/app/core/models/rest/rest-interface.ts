@@ -47,8 +47,6 @@ export interface InfoConorso {
   dataFineConcorso: string;
 }
 
-
-
 export interface DomandaDinamica {
   titoloBlocco: string;
   coloreSfondoTitolo: string;
@@ -59,4 +57,32 @@ export interface DatiEntity {
   etichetta?: string | null;
   valore?: string | null;
   size: number;
+}
+
+export interface Esito {
+  codiceFiscale: string;
+  cognome: string;
+  nome: string;
+  titoloConcorso: string;
+  righeEsiti?: (RigheEsitiEntity)[] | null;
+}
+export interface RigheEsitiEntity {
+  dataProva: string;
+  provaTipo: ProvaTipoOrProvaEsito;
+  sessione: number;
+  provaEsito: ProvaTipoOrProvaEsito;
+  punteggio: string;
+  linkAllegati?: (string)[] | null;
+  assenzaMalattia: AssenzaMalattia;
+}
+export interface ProvaTipoOrProvaEsito {
+  id: number;
+  descrizione: string;
+}
+export interface AssenzaMalattia {
+  dataInizioMalattia: string;
+  giorniCertificati: number;
+  note: string;
+  numeroProtocollo: string;
+  dataProtocollo: string;
 }

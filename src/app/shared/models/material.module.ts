@@ -27,6 +27,7 @@ import {
   MatSidenavModule,
   MatProgressSpinnerModule,
    MatSnackBarModule,
+  MatTableModule,
 } from '@angular/material';
 
 @NgModule({
@@ -62,6 +63,7 @@ import {
     MatListModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatTableModule,
   ],
   exports: [
     MatFormFieldModule,
@@ -95,6 +97,7 @@ import {
     MatListModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
+    MatTableModule,
   ],
 })
 

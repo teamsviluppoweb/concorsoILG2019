@@ -19,10 +19,8 @@ export class VisualizzaDomandaGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.domanda.getDomanda().pipe(
         map((domanda: DomandaObj) => {
-            if (domanda.domanda.stato === 1 || domanda.domanda.stato === 2) {
-              return true;
-            }
-            return false;
+            return domanda.domanda.stato === 1 || domanda.domanda.stato === 2;
+
           }
         ),
         catchError(

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {
-  Comune, DomandaDinamica, InfoConorso,
+  Comune, DomandaDinamica, Esito, InfoConorso,
   Lingua,
   Riserva,
   TitoliTitoloIndirizzo,
@@ -73,6 +73,10 @@ export class RestService {
 
   getDomandaDinamica(): Observable<DomandaDinamica[]> {
     return this.http.get<DomandaDinamica[]>(environment.endpoint.visualizzaDomanda);
+  }
+
+  getEsitiDinamici(): Observable<Esito> {
+    return this.http.get<Esito>(environment.endpoint.visualizzaEsiti);
   }
 
 }
